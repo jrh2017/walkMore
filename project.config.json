@@ -13,7 +13,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.2.4",
 	"appid": "wxe28bb30028ed5d17",
-	"projectname": "mengnan",
+	"projectname": "walkMore",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
@@ -24,13 +24,78 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 9,
+			"list": [
+				{
+					"id": -1,
+					"name": "热力币明细",
+					"pathName": "pages/heatMoney/index",
+					"query": ""
+				},
+				{
+					"id": 1,
+					"name": "商品详情",
+					"pathName": "pages/detail/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "签到详情",
+					"pathName": "pages/signIn/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "好友列表",
+					"pathName": "pages/friendList/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "编辑地址",
+					"pathName": "pages/address/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "订单详情",
+					"pathName": "pages/order/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "兑换成功",
+					"pathName": "pages/success/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "我的",
+					"pathName": "pages/my/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "规则说明",
+					"pathName": "pages/rule/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "设置",
+					"pathName": "pages/set/index",
+					"query": ""
+				}
+			]
 		}
 	}
 }

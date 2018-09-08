@@ -1,0 +1,69 @@
+/* pages/rule/index.wxss */
+.container{
+  align-items: flex-start;
+  color:#666;
+  font-size:28rpx;
+}
+.ruleBg{
+  width:100%;
+  height:240rpx;
+}
+.head{
+  width:240rpx;
+  height:60rpx;
+}
+.what{
+  width:648rpx;
+  margin:26rpx 0 46rpx 50rpx;
+}
+.tit{
+  color:#333;
+  margin:16rpx 0 3rpx 0;
+}
+.step{
+  width:602rpx;
+  margin-left:94rpx;
+}
+.detail{
+  width:620rpx;
+  margin-left:94rpx;
+}
+.dis{
+  display: flex;
+  align-items: center;
+}
+.round{
+  width:24rpx;
+  height:24rpx;
+  background:#FBE64D;
+  border-radius: 50%;
+  margin:12rpx 10rpx 0 60rpx;
+  z-index: 10;
+}
+.xianOne{
+  background:#E6E6E6;
+  width:1rpx;
+  height:468rpx;
+  position:absolute;
+  bottom:336rpx;
+  left:72rpx;
+}
+
+.item{
+  align-items: flex-start;
+}
+.mg{
+  margin:20rpx 0 0 -2rpx;
+}
+.bom{
+  margin-top:28rpx;
+}
+.star{
+  margin:30rpx 10rpx 60rpx 70rpx;
+}
+.foot{
+ color: #B3B3B3;
+}
+.last{
+  margin:32rpx 0 60rpx 0;
+}

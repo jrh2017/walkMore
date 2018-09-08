@@ -1,0 +1,52 @@
+<!--pages/my/index.wxml-->
+<view class='container'>
+  <view class='header'>
+    <image src='../../imgs/myBg.png' class='myBg'></image>
+    <open-data type="userAvatarUrl" class='ava abs'></open-data>
+    <open-data type="userNickName" class='nickname abs'></open-data>
+    <view class='addUp abs'>累计签到{{day}}天</view>
+  </view>
+  <view class='manage'>
+    <view class='temp'>
+      <view style='margin-left:20rpx;'>
+        <button class='btn' plain='true' open-type="getUserInfo" bindgetuserinfo="order">
+          <image src='../../imgs/order.png' class='icon'></image>
+          <view class='font seat'>订单管理</view>
+        </button>
+      </view>
+      <view class='xian'></view>
+      <view>
+        <button class='btn' plain='true' open-type="getUserInfo" bindgetuserinfo="hotMoney">
+          <image src='../../imgs/rlb.png' class='icon'></image>
+          <view class='font seat'>热力币</view>
+        </button>
+      </view>
+      <view class='xian'></view>
+      <view style='margin-right:20rpx;'>
+        <button class='btn' plain='true' open-type="getUserInfo" bindgetuserinfo="analysis">
+          <image src='../../imgs/health.png' class='icon'></image>
+          <view class='font seat'>健康测评</view>
+        </button>
+      </view>
+    </view>
+    <view class='content'>
+      <view class='dis'>
+        <image class='icsm' src='../../imgs/addBig.png'></image>
+        <button class='btn btnAdd' plain='true' open-type="getUserInfo" bindgetuserinfo="address">
+          <view class='font wid '>地址管理</view>
+        </button>
+        <image src='../../imgs/arrow.png' class='arrow'></image>
+      </view>
+      <view class='dis'>
+        <image class='icsm' src='../../imgs/rule.png'></image>
+        <view class='font wid' catchtap='rule'>规则说明</view>
+        <image src='../../imgs/arrow.png' class='arrow'></image>
+      </view>
+      <view class='dis'>
+        <image class='icsm' src='../../imgs/set.png'></image>
+        <view class='font wid border' catchtap='setting'>设置</view>
+        <image src='../../imgs/arrow.png' class='arrow'></image>
+      </view>
+    </view>
+  </view>
+</view>

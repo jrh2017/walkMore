@@ -1,0 +1,48 @@
+/* pages/set/index.wxss */
+.temp{
+  width:calc(100% - 60rpx);
+  height:204rpx;
+  background:#fff;
+  display: flex;
+  margin-top:30rpx;
+  align-items: center;
+}
+
+.cor{
+  color:#333;
+}
+.size{
+  font-size:28rpx;
+}
+.tit{
+  font-size:36rpx;
+  font-weight: bold;
+  margin-bottom:10rpx;
+}
+.icon{
+  width:80rpx;
+  height:80rpx;
+}
+.wid{
+  width:438rpx;
+}
+.xian{
+  display: inline-block;
+  width:6rpx;
+  height:30rpx;
+  background:#47A7FE;
+  border-radius: 3rpx;
+}
+.con{
+  margin:0 50rpx 0 30rpx;
+}
+.ico{
+  border-left:1rpx solid #E6E8F0;
+  padding-left:50rpx;
+}
+.already{
+  color:#CCC;
+}
+.noready{
+  color:#47A7FE;
+}

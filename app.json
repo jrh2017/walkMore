@@ -1,37 +1,42 @@
 {
   "pages": [
-    "pages/login/index",
     "pages/index/index",
-    "pages/step/index",
+    "pages/login/index",
     "pages/analysis/index",
     "pages/my/index",
-    "pages/weight/index"
+    "pages/heatMoney/index",
+    "pages/friendList/index",
+    "pages/detail/index",
+    "pages/signIn/index",
+    "pages/order/index",
+    "pages/address/index",
+    "pages/success/index",
+    "pages/rule/index",
+    "pages/set/index"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#19b4f2",
-    "navigationBarTitleText": "AI健康圈",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#19b4f2",
-    "enablePullDownRefresh": true,
-    "onReachBottomDistance": true
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "走多多",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fff"
   },
   "tabBar": {
-    "selectedColor": "#19b4f2",
+    "color":"#B2B2B2",
+    "selectedColor": "#333333",
     "list": [
       {
         "pagePath": "pages/index/index",
+        "text": "首页",
         "iconPath": "./imgs/index.png",
-        "selectedIconPath": "./imgs/index_selected.png",
-        "text": "首页"
+        "selectedIconPath": "./imgs/index_selected.png"
       },
       {
-        "pagePath":"pages/my/index",
+        "pagePath": "pages/my/index",
+        "text": "我的",
         "iconPath": "./imgs/my.png",
-        "selectedIconPath": "./imgs/my_selected.png",
-        "text": "我的"
+        "selectedIconPath": "./imgs/my_selected.png"
       }
-       
     ]
   }
 }
