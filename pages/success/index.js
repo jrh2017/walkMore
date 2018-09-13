@@ -6,7 +6,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    detail: {
+      intro: '24k纯金10kg项链',
+      only: 9,
+      price: 1999,
+      yprice: 998,
+    },
   },
 
   /**

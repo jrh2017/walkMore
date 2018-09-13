@@ -1,2 +1,64 @@
 <!--pages/heatMoney/index.wxml-->
-<text>pages/heatMoney/index.wxml</text>
+<view class='container'>
+  <block wx:if="{{haveMoney}}">
+    <view class='head'>
+      <image src='../../imgs/rlbBg.png' class='rlbBg'></image>
+      <view class='dis current'>
+        <view class='flex'>
+          <view class='tit'>当前热力币</view>
+          <view class='num'>199</view>
+        </view>
+        <view class='xian'></view>
+        <view class='flex'>
+          <view class='tit'>今日获得热力币</view>
+          <view class='num'>18</view>
+        </view>
+      </view>
+    </view>
+    <button open-type='share' class='primary btnYq' plain='true'>邀请好友得热力币</button>
+    <view class='date' wx:for="{{day}}" wx:key="{{index}}" data-index="{{index}}">
+      <view class='dis'>
+        <view class='line'></view>
+        <view class='day'>2018-08-22</view>
+      </view>
+      <view class='layout'>
+        <view class='dis detail {{index==list.length-1?"border":""}}' wx:for="{{list}}" wx:key="{{index}}" data-index='{{index}}'>
+          <view>
+            <view class='tit'>{{detail.content}}</view>
+            <view class='time'>21:21:22</view>
+          </view>
+          <block wx:if="{{false}}">
+            <view class='sum' style='color:#FF5959'>{{detail.price}}</view>
+          </block>
+          <block wx:else>
+            <view class='sum' style='color:#47A7FE'>+45</view>
+          </block>
+        </view>
+      </view>
+    </view>
+    <view class='foot'>
+      <text class='string'></text>
+      <text class='noMore'>没有更多了</text>
+      <text class='string'></text>
+    </view>
+  </block>
+  <block wx:else>
+    <view class='head'>
+      <image src='../../imgs/rlbBg.png' class='rlbBg'></image>
+      <view class='dis current'>
+        <view class='flex'>
+          <view class='tit'>当前热力币</view>
+          <view class='num'>199</view>
+        </view>
+        <view class='xian'></view>
+        <view class='flex'>
+          <view class='tit'>今日获得热力币</view>
+          <view class='num'>18</view>
+        </view>
+      </view>
+    </view>
+     <button open-type='share' class='primary btnYq' plain='true'>邀请好友得热力币</button>
+    <image src='../../imgs/moneyBg.png' class='moneyBg'></image>
+    <view class='yige'>暂无兑换记录</view>
+  </block>
+</view>

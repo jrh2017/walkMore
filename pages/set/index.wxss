@@ -46,3 +46,20 @@
 .noready{
   color:#47A7FE;
 }
+.btnShou{
+  position: relative;
+  bottom:50rpx;
+}
+.imgShou{
+  position: relative;
+  top:-5rpx;
+}
+.btn{
+  height:120rpx;
+}
+.btn[plain]{
+  border:none;
+  border-radius: 0;
+  margin:0;
+  padding:0
+}

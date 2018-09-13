@@ -4,13 +4,17 @@
   color:#666;
   font-size:28rpx;
 }
+image{
+  z-index: 10;
+}
 .ruleBg{
   width:100%;
   height:240rpx;
 }
 .head{
-  width:240rpx;
-  height:60rpx;
+  width:250rpx;
+  height:70rpx;
+  margin-left:30rpx;
 }
 .what{
   width:648rpx;
@@ -18,7 +22,7 @@
 }
 .tit{
   color:#333;
-  margin:16rpx 0 3rpx 0;
+  margin:15rpx 0 4rpx 0;
 }
 .step{
   width:602rpx;
@@ -37,7 +41,7 @@
   height:24rpx;
   background:#FBE64D;
   border-radius: 50%;
-  margin:12rpx 10rpx 0 60rpx;
+  margin:8rpx 10rpx 0 60rpx;
   z-index: 10;
 }
 .xianOne{
@@ -45,7 +49,7 @@
   width:1rpx;
   height:468rpx;
   position:absolute;
-  bottom:336rpx;
+  bottom:92rpx;
   left:72rpx;
 }
 
@@ -56,14 +60,22 @@
   margin:20rpx 0 0 -2rpx;
 }
 .bom{
-  margin-top:28rpx;
+  margin-top:29rpx;
 }
 .star{
-  margin:30rpx 10rpx 60rpx 70rpx;
+  margin:9rpx 10rpx 70rpx 60rpx;
+  font-size:48rpx;
 }
 .foot{
  color: #B3B3B3;
 }
 .last{
   margin:32rpx 0 60rpx 0;
+}
+.rela{
+  position: relative;
+}
+.two{
+  height:340rpx;
+  bottom:33rpx;
 }

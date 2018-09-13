@@ -1,6 +1,6 @@
 //app.js
 App({
-  onLaunch: function (options) {
+  onLaunch: function(options) {
     // const updateManager = wx.getUpdateManager()
     // updateManager.onCheckForUpdate(function (res) {
     //   // 请求完新版本信息的回调
@@ -28,16 +28,16 @@ App({
 
     // this.globalData.scene = options.scene;
   },
-  onShow: function (options) {
+  onShow: function(options) {
     this.globalData.scene = options.scene;
   },
-  onRun: function (cb) {
+  onRun: function(cb) {
     var that = this;
     wx.getSetting({
       success(res) {
         if (!res.authSetting['scope.werun']) {
           that.globalData.isOpenWXRun = false;
-        } else {
+        } else{
           if (!wx.getStorageSync('session')) {
             that.globalData.isOpenWXRun = false;
           } else {
@@ -54,7 +54,8 @@ App({
                   header: {
                     'content-type': 'application/json'
                   },
-                  success: function (res) {
+                  success: function(res) {
+                    console.log(res)
                     if (res.data.status == 1) {
                       that.globalData.isOpenWXRun = true;
                       that.globalData.wxRunData = res.data;
@@ -65,7 +66,7 @@ App({
                         success: res => {
                           wx.getUserInfo({
                             withCredentials: true,
-                            success: function (res_user) {
+                            success: function(res_user) {
                               wx.request({
                                 url: that.globalData.base_url + 'index.php/wechat/login/',
                                 data: {
@@ -77,7 +78,7 @@ App({
                                 header: {
                                   'content-type': 'application/json'
                                 },
-                                success: function (res) {
+                                success: function(res) {
                                   that.globalData.userInfo = res.data.userinfo;
                                   wx.setStorageSync('session', res.data.hash);
                                   wx.setStorageSync('openid', res.data.openid);
@@ -101,10 +102,10 @@ App({
       }
     })
   },
-  onLogin: function (cb) {
+  onLogin: function(cb) {
     var that = this;
     wx.checkSession({
-      success: function (res) {
+      success: function(res) {
         if (wx.getStorageSync('openid')) {
           that.onRefresh(cb);
         } else {
@@ -113,20 +114,20 @@ App({
               if (res.code) {
                 wx.getUserInfo({
                   withCredentials: true,
-                  success: function (res_user) {
-                    console.log(11,res_user)
+                  success: function(res_user) {
+                    console.log(11, res_user)
                     wx.request({
                       url: that.globalData.base_url + 'index.php/wechat/login/',
                       data: {
                         code: res.code,
                         encryptedData: res_user.encryptedData,
-                        iv:res_user.iv
+                        iv: res_user.iv
                       },
                       method: 'GET',
                       header: {
                         'content-type': 'application/json'
                       },
-                      success: function (res) {
+                      success: function(res) {
                         console.log(3, res)
                         that.globalData.userInfo = res.data.userinfo;
                         wx.setStorageSync('session', res.data.hash);
@@ -136,7 +137,7 @@ App({
                       }
                     })
                   },
-                  fail: function (e) {
+                  fail: function(e) {
                     typeof cb == "function" && cb(false)
                     // wx.showModal({
                     //   title: '警告1',
@@ -155,7 +156,7 @@ App({
                 console.log('获取用户登录态失败！' + res.errMsg)
               }
             },
-            fail: function (e) {
+            fail: function(e) {
               //  typeof cb == "function" && cb(false)
               //  wx.showModal({
               //    title: '警告',
@@ -173,13 +174,13 @@ App({
           })
         }
       },
-      fail: function () {
+      fail: function() {
         wx.login({
           success: res => {
             if (res.code) {
               wx.getUserInfo({
                 withCredentials: true,
-                success: function (res_user) {
+                success: function(res_user) {
                   wx.request({
                     url: that.globalData.base_url + 'index.php/wechat/login/',
                     data: {
@@ -191,7 +192,7 @@ App({
                     header: {
                       'content-type': 'application/json'
                     },
-                    success: function (res) {
+                    success: function(res) {
                       that.globalData.userInfo = res.data.userinfo;
                       wx.setStorageSync('session', res.data.hash);
                       wx.setStorageSync('openid', res.data.openid);
@@ -200,7 +201,7 @@ App({
                     }
                   })
                 },
-                fail: function (e) {
+                fail: function(e) {
                   typeof cb == "function" && cb(false)
                   // wx.showModal({
                   //   title: '警告111111',
@@ -234,10 +235,10 @@ App({
       }
     })
   },
-  onRefresh: function (cb) {
+  onRefresh: function(cb) {
     var that = this;
     wx.checkSession({
-      success: function (res) {
+      success: function(res) {
         //that.onRun();
         if (!that.globalData.userInfo) {
           if (wx.getStorageSync('openid')) {
@@ -250,7 +251,7 @@ App({
               header: {
                 'content-type': 'application/json'
               },
-              success: function (res) {
+              success: function(res) {
                 that.globalData.userInfo = res.data.userinfo;
                 typeof cb == "function" && cb(that.globalData.userInfo)
               }
@@ -262,7 +263,7 @@ App({
           typeof cb == "function" && cb(that.globalData.userInfo)
         }
       },
-      fail: function (res) {
+      fail: function(res) {
         that.onLogin(cb);
       },
     })
@@ -283,17 +284,17 @@ App({
 
 
   // },
-  onBmi: function (height, weight) {
+  onBmi: function(height, weight) {
     return (weight / ((height * height) / 10000)).toFixed(1);
   },
-  onBf: function (height, weight, age, sex) {
+  onBf: function(height, weight, age, sex) {
     if (sex == 2) {
       sex = 0;
     }
     var bmi = (weight / ((height * height) / 10000)).toFixed(1);
     return (1.2 * bmi + 0.23 * age - 5.4 - 10.8 * sex).toFixed(1);
   },
-  onBmr: function (height, weight, age, sex) {
+  onBmr: function(height, weight, age, sex) {
     if (sex == 2) {
       sex = 0;
     }

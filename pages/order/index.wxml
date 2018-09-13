@@ -1,2 +1,38 @@
 <!--pages/order/index.wxml-->
-<text>pages/order/index.wxml</text>
+<view class='container'>
+  <label wx:for="{{xian}}" wx:key="{{index}}" data-index='{{index}}'>
+    <view class='xian' style='top:{{top}}'></view>
+  </label>
+  <view class='order' wx:for="{{detail}}" wx:key="{{index}}" data-index="{{index}}">
+    <view class='dis'>
+      <view class='yuan'></view>
+      <view class='date'>2018-08-21 09:09:05</view>
+    </view>
+    <view class='temp'>
+      <image src='../../imgs/orderDe.png' class='orderDe'></image>
+      <view class='dispo pos'>
+        <view class='number'>订单编号：2018082905</view>
+        <block wx:if='{{false}}'>
+          <view class='state'>待发货</view>
+        </block>
+        <block>
+          <view class='dis cc'>
+            <view class='aa'>已发货</view>
+            <view class='duan'></view>
+            <view class='aa'>订单详情</view>
+          </view>
+        </block>
+      </view>
+      <view>
+        <image src='../../imgs/ava.jpg' class='pos goods'></image>
+      </view>
+      <view class='pos tit'>24K纯金10kg项链</view>
+      <view class='pos jiage'>
+        <image src='../../imgs/rb.png' class='rb'></image>
+        <text class='price'>1999</text>
+        <text class='yprice'>原价￥998</text>
+      </view>
+    </view>
+  </view>
+  <view class='kong'></view>
+</view>

@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 9,
+			"current": 13,
 			"list": [
 				{
 					"id": -1,
@@ -49,19 +49,13 @@
 				},
 				{
 					"id": -1,
-					"name": "签到详情",
-					"pathName": "pages/signIn/index",
-					"query": ""
-				},
-				{
-					"id": -1,
 					"name": "好友列表",
 					"pathName": "pages/friendList/index",
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "编辑地址",
+					"id": 4,
+					"name": "地址管理",
 					"pathName": "pages/address/index",
 					"query": ""
 				},
@@ -93,6 +87,36 @@
 					"id": -1,
 					"name": "设置",
 					"pathName": "pages/set/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "编辑地址",
+					"pathName": "pages/editAdd/index",
+					"query": ""
+				},
+				{
+					"id": 11,
+					"name": "快递详情",
+					"pathName": "pages/logistics/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "编辑个人信息",
+					"pathName": "pages/person/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "登录",
+					"pathName": "pages/login/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "健康分析",
+					"pathName": "pages/analysis/index",
 					"query": ""
 				}
 			]

@@ -1,2 +1,58 @@
 <!--pages/success/index.wxml-->
-<text>pages/success/index.wxml</text>
+<view class='container'>
+  <image src='../../imgs/dhcg.png' class='dhcg'></image>
+  <view class='receiver'>
+    <view class='othDis'>
+      <view class='xian'></view>
+      <view class='tit'>收货信息</view>
+    </view>
+    <view>
+      <view class='mg'>
+        <image src='../../imgs/name.png' class='icon left'></image>
+        <text class='font cor pos'>王总监</text>
+        <image src='../../imgs/phone.png' class='icon long'></image>
+        <text class='font cor pos'>8208208820</text>
+      </view>
+      <view class='mgs'>
+        <image src='../../imgs/add.png' class='icon left alone'></image>
+        <text class='font cor con'>浙江省温州市鹿城区新城街道998号登新公寓100栋100号100楼100号房</text>
+      </view>
+    </view>
+  </view>
+  <view class='receiver order'>
+    <view class='display'>
+      <view class='dis'>
+        <view class='xian'></view>
+        <view class='tit'>订单信息</view>
+      </view>
+      <view class='wait'>待发货</view>
+    </view>
+    <view class='dis dbh'>
+      <image src='../../imgs/orderMes.png' class='icon'></image>
+      <view class='font mgf'>订单编号：2018082905</view>
+    </view>
+    <view class='dis dbh'>
+      <image src='../../imgs/time.png' class='icon'></image>
+      <view class='font mgf'>下单时间：2018-08-21 09:09:09</view>
+    </view>
+  </view>
+  <view class='receiver commodity'>
+    <view class='othDis'>
+      <view class='xian'></view>
+      <view class='tit'>商品信息</view>
+    </view>
+    <view class='dis'>
+      <view>
+        <image src='../../imgs/cpu.png' class='img'></image>
+      </view>
+      <view>
+        <view class='font'>{{detail.intro}}</view>
+        <view class='through'>原价{{detail.yprice}}</view>
+        <view>
+          <image src='../../imgs/rb.png' class='rb'></image>
+          <text class='price'>{{detail.price}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

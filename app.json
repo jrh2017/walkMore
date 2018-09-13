@@ -7,12 +7,14 @@
     "pages/heatMoney/index",
     "pages/friendList/index",
     "pages/detail/index",
-    "pages/signIn/index",
     "pages/order/index",
     "pages/address/index",
     "pages/success/index",
     "pages/rule/index",
-    "pages/set/index"
+    "pages/set/index",
+    "pages/editAdd/index",
+    "pages/logistics/index",
+    "pages/person/index"
   ],
   "window": {
     "backgroundTextStyle": "dark",

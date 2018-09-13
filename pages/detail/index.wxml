@@ -1,2 +1,92 @@
 <!--pages/detail/index.wxml-->
-<text>pages/detail/index.wxml</text>
+<view class='container'>
+  <image src='../../imgs/ava.jpg' class='detailBg'></image>
+  <view class='diss'>
+    <view class='primary postage'>包邮</view>
+    <view class='tit'>美国进口24K纯金10kg项链</view>
+    <view class='only'>剩余9件</view>
+  </view>
+  <view class='diss'>
+    <view>
+      <image src='../../imgs/rb.png' class='rb'></image>
+      <text class='price'>1999</text>
+    </view>
+    <view class='yprice'>原价￥998</view>
+    <view wx:if="{{openid}}">
+      <button open-type='share' plain='true' class='free'>
+        邀请好友免费兑换
+      </button>
+    </view>
+    <view wx:else>
+      <button open-type='getUserInfo' plain='true' class='free' bindgetuserinfo="authorizeNow">
+        邀请好友免费兑换
+      </button>
+    </view>
+  </view>
+  <view class='intro'>
+    <view class='title'>
+      <image src='../../imgs/fh.png' class='fhimg'></image>
+      <text class='fh'>发货说明</text>
+    </view>
+    <view class='display'>
+      <view class='yuan'></view>
+      <view class='cons'>该商品以下地区暂不发货：新疆、西藏、青海、宁夏、甘肃、内蒙古； </view>
+    </view>
+    <view class='display'>
+      <view class='yuan'></view>
+      <view class='cons'>兑换成功且提交订单信息后，3个工作日内发货（节假日顺延）；</view>
+    </view>
+    <view class='display'>
+      <view class='yuan'></view>
+      <view class='cons'>兑换商品前,请先确认收货信息无误,如因地址或手机号码填写错误，导致无法收到商品,走多多不会补寄商品，另免费兑换的商品不可退换货。
+      </view>
+    </view>
+  </view>
+  <block wx:if="{{true}}">
+    <view class='primary freeDh' bindtap='freExchange'>免费兑换商品</view>
+  </block>
+  <block wx:if="{{false}}">
+    <button class='freeDh noEnough' open-type='share' plain='true'>热力币不足，邀请好友得热力币</button>
+  </block>
+  <block wx:if="{{false}}">
+    <view class='freeDh once'>每位用户仅可兑换1次</view>
+  </block>
+  <view class='dikuang {{isHaveAdd?"":"smdi"}}' hidden='{{foot}}' catchtouchmove="ture">
+   <view class="mask"></view>
+    <view class='header'>
+      <text class='line'></text>
+      <text class='center'>确认兑换商品</text>
+      <text class='line'></text>
+      <view class='kong'></view>
+    </view>
+    <view class='dis'>
+      <view>
+        <image src='../../imgs/cpu.png' class='img'></image>
+      </view>
+      <view>
+        <view class='introduce'>{{detail.intro}}</view>
+        <view class='through'>原价{{detail.yprice}}</view>
+        <view>
+          <image src='../../imgs/rb.png' class='rb'></image>
+          <text class='price'>{{detail.price}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{isHaveAdd}}">
+      <view class='mg'>
+        <image src='../../imgs/name.png' class='icon left'></image>
+        <text class='font cor pos'>王总监</text>
+        <image src='../../imgs/phone.png' class='icon long'></image>
+        <text class='font cor pos'>8208208820</text>
+      </view>
+      <view class='mgs'>
+        <image src='../../imgs/add.png' class='icon left alone'></image>
+        <text class='font cor con'>浙江省温州市鹿城区新城街道998号登新公寓100栋100号100楼100号房</text>
+      </view>
+    </view>
+    <view wx:else>
+      <view class='please' bindtap='goAdd'>您还没有填写收货地址，请点击填写</view>
+    </view>
+    <view class='primary freeDh' bindtap='affirm'>确认</view>
+  </view>
+</view>

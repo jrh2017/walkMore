@@ -1,0 +1,37 @@
+<!--pages/logistics/index.wxml-->
+<view class='container'>
+  <view class='header'>
+    <view class='dis'>
+      <view class='display'>
+        <view class='xian'></view>
+        <view class='tit'>物流信息</view>
+      </view>
+      <view class='state'>已发货</view>
+    </view>
+    <view class='display mg'>
+      <image src='../../imgs/express.png' class='icon'></image>
+      <view class='font mf'>快递单号：</view>
+      <view class='font'>201808290520180829</view>
+    </view>
+    <view class='display mg'>
+      <image src='../../imgs/car.png' class='icon'></image>
+      <view class='font mf'>物流公司：</view>
+      <view class='font'>顺丰</view>
+    </view>
+  </view>
+  <view class='content'>
+    <view class='display fllow'>
+      <view class='xian'></view>
+      <view class='tit'>物流信息</view>
+    </view>
+    <view class='line' wx:for="{{line}}" wx:key="{{index}}"></view>
+    <view class='detail' wx:for="{{order}}" wx:key='{{index}}' data-index='{{index}}'>
+      <view class='display'>
+        <view class='round {{index==0?"cor":""}}'></view>
+        <view class='time'>2018-08-21 09:09:05</view>
+      </view>
+      <view class='concrete font'>快递已由骆家庄一区254号快递服务中心菜鸟驿站代收，请及时取件。</view>
+    </view>
+    <view class='kong'></view>
+  </view>
+</view>

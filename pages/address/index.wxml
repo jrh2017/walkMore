@@ -1,2 +1,26 @@
 <!--pages/address/index.wxml-->
-<text>pages/address/index.wxml</text>
+<view class='container'>
+  <block wx:if="{{isHaveAddress}}">
+    <image src='../../imgs/addBg.png' class='bg'></image>
+    <view class='font letter'>您还没有收货地址</view>
+    <view class='font'>赶紧点击下方按钮添加地址吧</view>
+    <view class='com primary' bindtap='editAddress'>立即添加</view>
+  </block>
+  <block wx:else>
+    <view class='message'>
+      <image class='icon edit' src='../../imgs/edit.png' bindtap='goEdit'></image>
+      <view class='mg'>
+        <image src='../../imgs/name.png' class='icon left'></image>
+        <text class='font cor pos'>王总监</text>
+        <image src='../../imgs/phone.png' class='icon long'></image>
+        <text class='font cor pos'>8208208820</text>
+      </view>
+      <view class='mgs'>
+        <image src='../../imgs/add.png' class='icon left alone'></image>
+        <text class='font cor con'>浙江省温州市鹿城区新城街道998号登新公寓100栋100号100楼100号房</text>
+      </view>
+    </view>
+    <view class='dikuang pos bom'></view>
+    <view class='dikuang sm pos '></view>
+  </block>
+</view>

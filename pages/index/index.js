@@ -9,7 +9,8 @@ Page({
     step: 12345,
     money: 998.99,
     fourRound: [0, 1, 2, 3],
-    friendArr: ['../../imgs/ava.jpg', '../../imgs/ava.jpg', ],
+    week: ['周一', '周二', '周三', '周四', '周五', '周六', '周日', ],
+    friendArr: ['../../imgs/ava.jpg', '../../imgs/ava.jpg', '../../imgs/ava.jpg', '../../imgs/ava.jpg', ],
     wares: [0, 1, 2, 3],
     detail: {
       intro: '24k纯金10kg项链',
@@ -18,15 +19,18 @@ Page({
       yprice: 998,
     },
     isChange: 1,
-    authorize: false,
     noEnough: true,
-    enough: true,
+    register: true,
+    result: true,
+    look: true,
+    perMessage: true,
     haveAdd: false,
     userInfo: {
       add: "浙江省温州市鹿城区新城街道998号登新公寓100栋100号18楼555号房",
       phone: '8208208820',
       name: '王总监'
-    }
+    },
+    openid: '',
   },
 
   /**
@@ -42,20 +46,26 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    if (wx.getStorageSync('openid')) {
-      this.setData({
-        authorize: true,
-      })
-    }
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    var that = this;
+    if (wx.getStorageSync('openid')) {
+      that.setData({
+        openid: true
+      })
+    } else {
+      that.setData({
+        openid: false
+      })
+    }
   },
   analysis: function(e) {
+
     if (wx.getStorageSync('openid')) {
       wx.navigateTo({
         url: '/pages/analysis/index',
@@ -68,26 +78,29 @@ Page({
         })
       }
     }
+    this.setData({
+      look: false,
+    })
 
   },
   authorizeNow: function(e) {
-    console.log(e)
-    var that = this;
     app.onLogin();
-    that.setData({
-      authorize: true,
-    })
+    if (e.detail.errMsg == "getUserInfo:ok") {
+      this.setData({
+        openid: true,
+      })
+    }
   },
   goSign: function(e) {
     if (wx.getStorageSync('openid')) {
-      wx.navigateTo({
-        url: '/pages/signIn/index',
+      this.setData({
+        register: false
       })
     } else {
       app.onLogin();
       if (e.detail.errMsg == "getUserInfo:ok") {
-        wx.navigateTo({
-          url: '/pages/signIn/index',
+        this.setData({
+          register: false,
         })
       }
     }
@@ -108,19 +121,10 @@ Page({
     }
 
   },
-  onGetUserInfo: function(e) {
-    if (wx.getStorageSync('openid')) {
-      wx.navigateTo({
-        url: '/pages/detail/index',
-      })
-    } else {
-      app.onLogin();
-      if (e.detail.errMsg == "getUserInfo:ok") {
-        wx.navigateTo({
-          url: '/pages/detail/index',
-        })
-      }
-    }
+  onDetail: function(e) {
+    wx.navigateTo({
+      url: '/pages/detail/index',
+    })
   },
 
   lookFriend: function() {
@@ -141,20 +145,24 @@ Page({
         title: '提示',
         content: '花费19969步兑换19.67个热力币',
         success: function(res) {
-          setTimeout(function() {
-            while (step > 0) {
-              step -= 100;
-              that.setData({
-                step: step
-              })
-              if (step <= 0) {
+          if (res.confirm) {
+            setTimeout(function() {
+              while (step > 0) {
+                step -= 100;
                 that.setData({
-                  step: 0
+                  step: step
                 })
-                return
+                if (step <= 0) {
+                  that.setData({
+                    step: 0
+                  })
+                  return
+                }
               }
-            }
-          }, 1000);
+            }, 1000);
+          } else if (res.cancel) {
+            return
+          }
         }
       })
     } else {
@@ -162,51 +170,64 @@ Page({
     }
 
   },
-
-  goChange: function() {
+  lingqu: function() {
+    wx.showModal({
+      title: '提示',
+      content: '领取成功',
+      showCancel: false
+    })
+  },
+  goChange: function(e) {
     var that = this;
-    var money = Number(that.data.money);
-    var price = Number(that.data.detail.price);
-    if (money < price) {
-      that.setData({
-        noEnough: false,
-      })
+    if (wx.getStorageSync('openid')) {
+      var money = Number(that.data.money);
+      var price = Number(that.data.detail.price);
+      if (money < price) {
+        that.setData({
+          noEnough: false,
+        })
+      } else {
+        wx.navigateTo({
+          url: '/pages/detail/index',
+        })
+      }
     } else {
-      that.setData({
-        enough: false
-      })
+      app.onLogin();
     }
   },
-  confirm: function() {
-    var that = this;
-    var haveAdd = that.data.haveAdd;
-    if (haveAdd) {
-      wx.navigateTo({
-        url: '/pages/success/index',
-      })
-    } else {
-      wx.showModal({
-        title: '提示',
-        content: '地址未填写',
-        showCancel: false,
-        confirmText: '去填写',
-        success: function(res) {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/address/index',
-            })
-          }
-        }
-      })
+  wsMessage: function() {
+    this.setData({
+      result: true,
+      perMessage: false,
+    })
+  },
+  wsResult: function(e) {
+    console.log(e);
+    let gender = Number.parseInt(e.detail.value.gender) + 1;
+    let age = e.detail.value.age;
+    let height = e.detail.value.height;
+    let weight = e.detail.value.weight;
+    wx.request({
+      // url: app.globalData.base_url + 'wechat/save_info',
+      data: {
+        sex: gender,
+        age: age,
+        height: height,
+        weight: weight,
+      },
+      success: function(res) {
 
-    }
+      }
+
+    })
   },
   hideHandle: function() {
     var that = this;
     that.setData({
       noEnough: true,
-      enough: true,
-      authorize: true,
+      register: true,
+      result: true,
+      perMessage: true,
     })
   },
   /**
@@ -214,5 +235,5 @@ Page({
    */
   onShareAppMessage: function() {
 
-  }
+  },
 })
