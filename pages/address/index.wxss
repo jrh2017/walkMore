@@ -66,6 +66,10 @@
   position: relative;
   bottom:6rpx;
 }
+.posi{
+  position: relative;
+  bottom:20rpx;
+}
 .dikuang{
   width:630rpx;
   height:94rpx;
@@ -80,4 +84,7 @@
 .sm{
   width:570rpx;
   bottom:150rpx;
+}
+.new{
+  padding-left:87rpx;
 }

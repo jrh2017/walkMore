@@ -1,38 +1,51 @@
 <!--pages/order/index.wxml-->
 <view class='container'>
-  <label wx:for="{{xian}}" wx:key="{{index}}" data-index='{{index}}'>
-    <view class='xian' style='top:{{top}}'></view>
-  </label>
-  <view class='order' wx:for="{{detail}}" wx:key="{{index}}" data-index="{{index}}">
-    <view class='dis'>
-      <view class='yuan'></view>
-      <view class='date'>2018-08-21 09:09:05</view>
+  <block wx:if="{{state==1}}">
+    <label wx:for="{{top}}" wx:key="{{index}}" data-index='{{index}}'>
+      <view class='xian' style='top:{{item}}rpx'></view>
+    </label>
+    <view class='order' wx:for="{{order}}" wx:key="{{index}}" data-index="{{index}}">
+      <view class='dis'>
+        <view class='yuan'></view>
+        <view class='date'>{{item.timeline}}</view>
+      </view>
+      <view class='temp'>
+        <image src='../../imgs/orderDe.png' class='orderDe'></image>
+        <view class='dispo pos'>
+          <view class='number'>订单编号：{{item.order_sn}}</view>
+          <block wx:if='{{item.order_state==1}}'>
+            <view class='state'>待发货</view>
+          </block>
+          <block wx:if='{{item.order_state==0}}'>
+            <view class='dis ' bindtap='logistics' data-id="{{item.id}}">
+              <view class='aa'>已发货</view>
+              <view class='duan'></view>
+              <view class='aa'>快递详情</view>
+            </view>
+          </block>
+          <block wx:if='{{item.order_state==2}}'>
+            <view class='dis'  bindtap='logistics' data-id="{{item.id}}">
+              <view class='aa'>已收货</view>
+              <view class='duan'></view>
+              <view class='aa'>快递详情</view>
+            </view>
+          </block>
+        </view>
+        <view>
+          <image src='{{item.photo}}' class='pos goods'></image>
+        </view>
+        <view class='pos tit'>{{item.title}}</view>
+        <view class='pos jiage'>
+          <image src='../../imgs/rb.png' class='rb'></image>
+          <text class='price'>{{item.currency}}</text>
+          <text class='yprice'>原价￥{{item.price}}</text>
+        </view>
+      </view>
     </view>
-    <view class='temp'>
-      <image src='../../imgs/orderDe.png' class='orderDe'></image>
-      <view class='dispo pos'>
-        <view class='number'>订单编号：2018082905</view>
-        <block wx:if='{{false}}'>
-          <view class='state'>待发货</view>
-        </block>
-        <block>
-          <view class='dis cc'>
-            <view class='aa'>已发货</view>
-            <view class='duan'></view>
-            <view class='aa'>订单详情</view>
-          </view>
-        </block>
-      </view>
-      <view>
-        <image src='../../imgs/ava.jpg' class='pos goods'></image>
-      </view>
-      <view class='pos tit'>24K纯金10kg项链</view>
-      <view class='pos jiage'>
-        <image src='../../imgs/rb.png' class='rb'></image>
-        <text class='price'>1999</text>
-        <text class='yprice'>原价￥998</text>
-      </view>
-    </view>
-  </view>
-  <view class='kong'></view>
+    <view class='kong'></view>
+  </block>
+  <block wx:else>
+    <image src='../../imgs/orderBg.png' class='orderBg'></image>
+    <view class='zan'>暂无订单详情</view>
+  </block>
 </view>

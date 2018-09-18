@@ -8,20 +8,20 @@ Page({
   data: {
     openid: '',
     foot: true,
-    detail: {
-      intro: '24k纯金10kg项链',
-      only: 9,
-      price: 1999,
-      yprice: 998,
-    },
-    isHaveAdd: true,
+    goods_id:'',
+    button_state:'',
+    addinfo_state:'',
+    goods:'',
+    addinfo:'',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    this.setData({
+      goods_id:options.id
+    })
   },
 
 
@@ -31,6 +31,7 @@ Page({
    */
   onShow: function() {
     var that = this;
+    var goods_id = that.data.goods_id;
     if (wx.getStorageSync('openid')) {
       that.setData({
         openid: true
@@ -40,6 +41,26 @@ Page({
         openid: false
       })
     }
+    wx.request({
+      url: app.globalData.base_url + '/goods_detail',
+      data: {
+        goods_id: goods_id,
+        openid: wx.getStorageSync('openid')
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          goods:res.data.goods,
+          addinfo:res.data.addinfo,
+          addinfo_state:res.data.addinfo_state,
+          button_state:res.data.button_state,
+        })
+      }
+    })
   },
   authorizeNow: function(e) {
     app.onLogin();
@@ -50,29 +71,56 @@ Page({
     }
   },
   freExchange: function(e) {
-    wx.navigateTo({
-      url: '/pages/success/index',
-    })
+    var that=this;
+    if (that.data.goods.num<=0){
+      wx.showModal({
+        title: '提示',
+        content: '商品已兑换完',
+        showCancel: false
+      })
+      return
+    }else{
+      that.setData({
+        foot:false,
+      })
+    }
+  
   },
   affirm: function(e) {
     var that = this;
-    var isHaveAdd = that.data.isHaveAdd;
-    if (isHaveAdd) {
-      console.log('确认兑换商品')
-      that.setData({
-        foot:true,
-      })
-      wx.navigateTo({
-        url: '/pages/success/index',
-      })
-    } else {
-      wx.showModal({
-        title: '提示',
-        content: '收货地址未填写',
-        showCancel: false,
-        success: function(res) {}
-      })
-    }
+    var goods_id = that.data.goods_id;
+    var addinfo_state = that.data.addinfo_state;
+    wx.request({
+      url: app.globalData.base_url + '/duihuan_goods',
+      data: {
+        goods_id: goods_id,
+        openid: wx.getStorageSync('openid')
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res)
+        const orderId=res.data.order_id;
+        if (addinfo_state == 1) {
+          that.setData({
+            foot: true,
+          })
+          wx.navigateTo({
+            url: '/pages/success/index?orderId=' + orderId,
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '收货地址未填写',
+            showCancel: false,
+            success: function (res) { }
+          })
+        }
+      }
+    })
+
   },
   goAdd: function() {
     wx.navigateTo({

@@ -4,7 +4,7 @@
     <image src='../../imgs/myBg.png' class='myBg'></image>
     <open-data type="userAvatarUrl" class='ava abs'></open-data>
     <open-data type="userNickName" class='nickname abs'></open-data>
-    <view class='addUp abs'>累计签到{{day}}天</view>
+    <view class='addUp abs'>累计签到{{days}}天</view>
   </view>
   <view class='manage'>
     <view class='temp'>

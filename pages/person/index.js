@@ -21,16 +21,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: {
-      gender: '',
-      age: '',
-      height: '',
-      weight: '',
-    },
+    userInfo:'',
     genderArray: ['男', '女'],
     ageArr: ageArr,
     heightArr: heightArr,
     weightArr: weightArr,
+    stype:'',
   },
 
   /**
@@ -45,24 +41,51 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    var that=this;
+    wx.request({
+      url: app.globalData.base_url + '/get_test_info',
+      data: {
+        openid: wx.getStorageSync('openid')
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          stype:res.data.type,
+          userInfo:res.data.userinfo,
+        })
+      }
+    })
   },
   personHandle: function (e) {
     console.log(e)
-    let gender = Number.parseInt(e.detail.value.gender) + 1;
+    var that=this;
+    var userInfo = that.data.userInfo;
+    if (userInfo.gender > 0) {
+      var gender = userInfo.gender;
+    } else {
+      var gender = e.detail.value.gender + 1;
+    }
+    gender = gender === 1 ? "男" : "女";
     let age=e.detail.value.age;
     let height = e.detail.value.height;
     let weight = e.detail.value.weight;
+    var id = userInfo.test_log_id;
+    var stype=that.data.stype;
     wx.request({
-      // url: app.globalData.base_url + 'wechat/save_info',
+      url: app.globalData.base_url + '/edit_info',
       data: {
-        sex: gender,
+        test_log_id:id,
+        type_id:stype,
+        gender: gender,
         age: age,
         height: height,
         weight: weight,
+        openid: wx.getStorageSync('openid')
       },
       success: function (res) {
-        
+        wx.navigateTo({
+          url: '/pages/analysis/index?'
+        })
       }
 
     })

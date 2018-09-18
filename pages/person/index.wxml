@@ -35,7 +35,7 @@
           </view>
         </view>
       </picker>
-      <picker bindchange="pickHeight" name='height' value='{{userInfo.height}}' range="{{heightArr}}">
+      <picker bindchange="pickHeight" name='height' value='{{userInfo.height}}' range="{{heightArr}}" hidden='{{stype==1}}'>
         <view class="section">
           <view class='wrapper'>
             <view>
@@ -49,7 +49,7 @@
           </view>
         </view>
       </picker>
-      <picker bindchange="pickWeight" name='weight' value='{{userInfo.weight}}' range="{{weightArr}}">
+      <picker bindchange="pickWeight" name='weight' value='{{userInfo.weight}}' range="{{weightArr}}" hidden='{{stype==1||stype==3}}'>
         <view class="section bor">
           <view class='wrapper'>
             <view>

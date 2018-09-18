@@ -24,6 +24,8 @@
   text-align: center;
   border-radius: 18rpx;
   font-weight: normal;
+  align-self: center;
+  margin-right:10rpx;
 }
 
 .tit {
@@ -51,12 +53,16 @@
   position: relative;
   bottom: 3rpx;
 }
+.buju{
+  display: flex;
+  align-items: center;
+}
 
 .yprice {
   font-size: 24rpx;
   color: #b3b3b3;
   text-decoration: line-through;
-  margin-right: 188rpx;
+  margin-left:26rpx;
 }
 
 .free {

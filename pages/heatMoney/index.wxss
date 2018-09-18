@@ -101,9 +101,6 @@
   font-size: 36rpx;
 }
 
-.border {
-  border: none;
-}
 .foot{
   margin-bottom:40rpx;
 }

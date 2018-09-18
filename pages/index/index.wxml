@@ -17,7 +17,7 @@
       </button>
     </view>
     <view class='fg'>
-      <button class='btnAnalysis qd abs' plain='true' open-type="getUserInfo" bindgetuserinfo="lingqu">
+      <button class='btnAnalysis qd abs' plain='true' open-type="getUserInfo" bindgetuserinfo="lingqu" hidden='{{is_new==1}}'>
         <image src='../../imgs/qd.png' class='qd'></image>
       </button>
       <image src='../../imgs/main.png' class='main abs'></image>
@@ -25,7 +25,7 @@
       <view class='num abs cor'>{{step}}</view>
       <view class='clear abs size'>每日24点清零</view>
     </view>
-    <button open-type="getUserInfo" bindgetuserinfo="exchange" plain='true' class='btnClick clickDh primary'>点击兑换热力币</button>
+    <button open-type="getUserInfo" bindgetuserinfo="exchange" plain='true' class='btnClick clickDh primary' hover-class='none'>点击兑换热力币</button>
     <button class='btnAnalysis sign' plain='true' open-type="getUserInfo" bindgetuserinfo="goSign">
       <view class='signIn'>签到</view>
     </button>
@@ -33,30 +33,30 @@
     <view class='xian'></view>
     <view class='friend'>
       <block wx:if="{{friendArr[0]}}">
-        <image class='friAvatar' src='{{friendArr[0]}}'></image>
+        <image class='friAvatar' src='{{friendArr[0].avatarurl}}'></image>
       </block>
       <block wx:else>
         <view class='friAvatar'></view>
       </block>
       <block wx:if="{{friendArr[1]}}">
-        <image class='friAvatar' src='{{friendArr[1]}}'></image>
+        <image class='friAvatar' src='{{friendArr[1].avatarurl}}'></image>
       </block>
       <block wx:else>
         <view class='friAvatar'></view>
       </block>
       <block wx:if="{{friendArr[2]}}">
-        <image class='friAvatar' src='{{friendArr[2]}}'></image>
+        <image class='friAvatar' src='{{friendArr[2].avatarurl}}'></image>
       </block>
       <block wx:else>
         <view class='friAvatar'></view>
       </block>
       <block wx:if="{{friendArr[3]}}">
-        <image class='friAvatar' src='{{friendArr[3]}}'></image>
+        <image class='friAvatar' src='{{friendArr[3].avatarurl}}'></image>
       </block>
       <block wx:else>
         <view class='friAvatar'></view>
       </block>
-      <view class='share' wx:if="{{openid}}">
+      <view class='share' wx:if="{{isHaveopenid}}">
         <button open-type='share' plain='true' class='share'>
           <image src='../../imgs/jia.png' class='friAvatar'></image>
         </button>
@@ -73,21 +73,21 @@
     <view class='wares cor'>
       <text class='xx'></text> 商品兑换
     </view>
-    <view wx:for="{{wares}}" wx:key="{{index}}" data-index="{{index}}">
+    <view wx:for="{{goods}}" wx:key="{{index}}" data-index="{{index}}">
       <view class='wareDetail'>
-        <image src='../../imgs/cpu.png' class='goods' catchtap='onDetail'></image>
+        <image src='{{item.photo}}' class='goods' catchtap='onDetail' data-id="{{item.goods_id}}"></image>
         <view style='margin:32rpx 0 0 30rpx;'>
-          <view class='size cor' catchtap='onDetail'>{{detail.intro}}</view>
-          <view class='only' catchtap='onDetail'>剩余{{detail.only}}件</view>
-          <view style='padding:45rpx 0 20rpx 0;' catchtap='onDetail'>
+          <view class='size cor'>{{item.title}}</view>
+          <view class='only'>剩余{{item.num}}件</view>
+          <view style='padding:45rpx 0 20rpx 0;'>
             <image src='../../imgs/rb.png' class='rb'></image>
-            <text class='price'>{{detail.price}}</text>
-            <text class='yprice'>原价￥{{detail.yprice}}</text>
+            <text class='price'>{{item.currency}}</text>
+            <text class='yprice'>原价￥{{item.price}}</text>
           </view>
-          <block wx:if="{{isChange==1}}">
-            <button class='change cor size' plain='true' open-type="getUserInfo" bindgetuserinfo="goChange">兑换</button>
+          <block wx:if="{{item.state==0}}">
+            <button class='change cor size' plain='true' data-price="{{item.price}}" data-id="{{item.goods_id}}" open-type="getUserInfo" bindgetuserinfo="goChange" hover-class='none'>兑换</button>
           </block>
-          <block wx:if="{{isChange==2}}">
+          <block wx:if="{{item.state==1}}">
             <view class='change cor size ischange'>已兑换</view>
           </block>
         </view>
@@ -102,13 +102,13 @@
         </view>
         <view class='disDia'>
           <view>
-            <image src='../../imgs/cpu.png' class='comm'></image>
+            <image src='{{goods_detail.photo}}' class='comm'></image>
           </view>
           <view style='margin-top:50rpx;'>
-            <view class='introDialog cor'>{{detail.intro}}</view>
+            <view class='introDialog cor'>{{goods_detail.title}}</view>
             <view style='margin-top:90rpx;'>
               <image src='../../imgs/rb.png' class='rb'></image>
-              <text class='price'>{{detail.price}}</text>
+              <text class='price'>{{goods_detail.price}}</text>
             </view>
           </view>
         </view>
@@ -125,7 +125,7 @@
       </view>
       <image src='../../imgs/delete.png' class='delete' bindtap='hideHandle'></image>
     </view>
-    <view class="dialog" hidden="{{result}}" catchtouchmove="ture">
+    <view class="dialog" hidden="{{measure}}" catchtouchmove="ture">
       <view class="mask" bindtap='hideHandle'></view>
       <view class="condition">
         <view class='title'>
@@ -153,10 +153,23 @@
             </view>
             <image src='../../imgs/heightBg.png' class='ka'></image>
           </view>
-          <view class='btnYq cor ws' bindtap='wsMessage'>完善信息查看健康测评</view>
+          <view class='btnYq cor ws' bindtap='wsMessage'>健康测评</view>
         </view>
       </view>
       <image src='../../imgs/delete.png' class='delete wsde' bindtap='hideHandle'></image>
+    </view>
+    <view class="dialog" hidden="{{zanwu}}" catchtouchmove="ture">
+      <view class="mask" bindtap='hideHandle'></view>
+      <view class="condition">
+        <view class='title'>
+          <image src='../../imgs/title.png' class='title'></image>
+          <view class='abs cor tit'>测量结果</view>
+        </view>
+        <image src='../../imgs/zanwu.png' class='zanwu'></image>
+        <view class='cor size wu'>暂无称重结果</view>
+        <view class='btnYq cor ws' style='margin-bottom:40rpx;' bindtap='wsMessage'>健康测评</view>
+      </view>
+      <image src='../../imgs/delete.png' class='delete wude' bindtap='hideHandle'></image>
     </view>
     <view class="dialog" hidden="{{perMessage}}" catchtouchmove="ture">
       <view class="mask" bindtap='hideHandle'></view>
@@ -173,14 +186,14 @@
                   <view class='duan'></view>
                   <view class='cor size'>体重</view>
                 </view>
-                <block wx:if="{{false}}">
-                  <view class='kg'>500kg</view>
-                </block>
-                <block wx:else>
-                  <view>
-                    <input class='kg' name='weight' placeholder='请输入你的体重' placeholder-class='place' />
-                  </view>
-                </block>
+                <picker bindchange="pickWeight" name='weight' class='pick' value='{{userInfo.weight}}' range="{{weightArr}}">
+                  <block wx:if="{{userInfo.weight>0}}">
+                    <view class='kg'>{{userInfo.weight}}kg</view>
+                  </block>
+                  <block wx:else>
+                    <view class='place mts'>请输入你的体重</view>
+                  </block>
+                </picker>
               </view>
               <image src='../../imgs/weightBg.png' class='ka'></image>
             </view>
@@ -190,14 +203,14 @@
                   <view class='duan'></view>
                   <view class='cor size'>身高</view>
                 </view>
-                <block wx:if="{{false}}">
-                  <view class='kg'>190cm</view>
-                </block>
-                <block wx:else>
-                  <view>
-                    <input class='kg' name='height' placeholder='请输入你的身高' placeholder-class='place' />
-                  </view>
-                </block>
+                <picker bindchange="pickHeight" name='height' class='pick' value='{{userInfo.height}}' range="{{heightArr}}">
+                  <block wx:if="{{userInfo.height>0}}">
+                    <view class='kg'>{{userInfo.height}}cm</view>
+                  </block>
+                  <block wx:else>
+                    <view class='place mts'>请输入你的身高</view>
+                  </block>
+                </picker>
               </view>
               <image src='../../imgs/heightBg.png' class='ka'></image>
             </view>
@@ -207,9 +220,17 @@
                   <view class='duan'></view>
                   <view class='cor size'>性别</view>
                 </view>
-                <view>
-                  <input class='kg' name='gender' placeholder='请输入你的性别' placeholder-class='place' />
-                </view>
+                <picker bindchange="pickGender" class='pick' name="gender" value="{{index}}" range="{{genderArray}}">
+                  <block wx:if="{{userInfo.gender==1}}">
+                    <view class='kg'>男</view>
+                  </block>
+                  <block wx:elif="{{userInfo.gender==2}}">
+                    <view class='kg'>女</view>
+                  </block>
+                  <block wx:else>
+                    <view class='place mts'>请输入你的性别</view>
+                  </block>
+                </picker>
               </view>
               <image src='../../imgs/genderBg.png' class='ka'></image>
             </view>
@@ -219,9 +240,14 @@
                   <view class='duan'></view>
                   <view class='cor size'>年龄</view>
                 </view>
-                <view>
-                  <input class='kg' name='age' placeholder='请输入你的年龄' placeholder-class='place' />
-                </view>
+                <picker bindchange="pickAge" name='age' class='pick' value='{{userInfo.age}}' range="{{ageArr}}">
+                  <block wx:if="{{userInfo.age>0}}">
+                    <view class='kg'>{{userInfo.age}}岁</view>
+                  </block>
+                  <block wx:else>
+                    <view class='place mts'>请输入你的年龄</view>
+                  </block>
+                </picker>
               </view>
               <image src='../../imgs/ageBg.png' class='ka'></image>
             </view>
@@ -236,15 +262,15 @@
       <view class="condition wg">
         <view class='qdHead'>
           <image src='../../imgs/qdBg.png' class='qdBg'></image>
-          <view class='money'>3</view>
+          <view class='money'>{{count_day}}</view>
         </view>
         <view class='footer'>
           <view class='week'>
             <view wx:for="{{week}}" wx:key="{{index}}" data-index="{{index}}">
-              <view class='size days'>{{item}}</view>
-              <view class='jiabi'>
+              <view class='size days'>{{item.week}}</view>
+              <view class='jiabi {{item.text=="未签到"?"gray":item.text=="?"?"bai":""}}'>
                 <image src='../../imgs/rbig.png' class='rbig'></image>
-                <view class='days jia'>+1</view>
+                <view class='days jia'>{{item.text}}</view>
               </view>
             </view>
           </view>

@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    day:4,
+    days:4,
   },
 
   /**
@@ -27,7 +27,23 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    const that=this;
+    wx.request({
+      url: app.globalData.base_url + '/my',
+      data: {
+        openid: wx.getStorageSync('openid')
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          days:res.data.res.days,
+        })
+      }
+    })
   },
 
   order:function(e){

@@ -6,9 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    detail:[0,1,2],
-    xian:[0,1],
-    top:'446rpx'
+    top:'',
+    state:'',
+    order:'',
   },
 
   /**
@@ -18,52 +18,35 @@ Page({
   
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    var that=this;
+    wx.request({
+      url: app.globalData.base_url + '/order_list',
+      data: {
+        openid: wx.getStorageSync('openid')
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          state:res.data.state
+        })
+        if(res.data.state==1){
+          that.setData({
+            order:res.data.res,
+            top:res.data.top
+          })
+        }
+      }
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
+  logistics:function(e){
+    var orderId = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '/pages/logistics/index?orderId='+orderId,
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
 })

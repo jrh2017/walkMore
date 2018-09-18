@@ -44,7 +44,7 @@ App({
             wx.getWeRunData({
               success(res) {
                 wx.request({
-                  url: that.globalData.base_url + 'index.php/wechat/wxrun/1/',
+                  url: that.globalData.base_url + '/wxrun',
                   data: {
                     encryptedData: encodeURIComponent(res.encryptedData),
                     iv: encodeURIComponent(res.iv),
@@ -68,7 +68,7 @@ App({
                             withCredentials: true,
                             success: function(res_user) {
                               wx.request({
-                                url: that.globalData.base_url + 'index.php/wechat/login/',
+                                url: that.globalData.base_url + '/login',
                                 data: {
                                   code: res.code,
                                   encryptedData: encodeURIComponent(res_user.encryptedData),
@@ -115,9 +115,8 @@ App({
                 wx.getUserInfo({
                   withCredentials: true,
                   success: function(res_user) {
-                    console.log(11, res_user)
                     wx.request({
-                      url: that.globalData.base_url + 'index.php/wechat/login/',
+                      url: that.globalData.base_url + '/login',
                       data: {
                         code: res.code,
                         encryptedData: res_user.encryptedData,
@@ -173,6 +172,7 @@ App({
 
           })
         }
+     
       },
       fail: function() {
         wx.login({
@@ -182,7 +182,7 @@ App({
                 withCredentials: true,
                 success: function(res_user) {
                   wx.request({
-                    url: that.globalData.base_url + 'index.php/wechat/login/',
+                    url: that.globalData.base_url + '/login',
                     data: {
                       code: res.code,
                       encryptedData: res_user.encryptedData,
@@ -193,6 +193,7 @@ App({
                       'content-type': 'application/json'
                     },
                     success: function(res) {
+                      console.log('fail',res)
                       that.globalData.userInfo = res.data.userinfo;
                       wx.setStorageSync('session', res.data.hash);
                       wx.setStorageSync('openid', res.data.openid);
@@ -234,6 +235,8 @@ App({
         })
       }
     })
+
+
   },
   onRefresh: function(cb) {
     var that = this;
@@ -243,7 +246,7 @@ App({
         if (!that.globalData.userInfo) {
           if (wx.getStorageSync('openid')) {
             wx.request({
-              url: that.globalData.base_url + 'index.php/wechat/login_info/',
+              url: that.globalData.base_url + '/login_info',
               data: {
                 openid: wx.getStorageSync('openid'),
               },
@@ -269,45 +272,8 @@ App({
     })
 
   },
-  // toAuthorize: function (cb) {
-
-  //   const that = this;
-  //   wx.openSetting({
-  //     success: (res) => {
-  //       if (res.authSetting["scope.userInfo"]) {
-  //         that.onLogin(cb);
-  //       }
-  //     }, fail: function (res) {
-
-  //     }
-  //   })
-
-
-  // },
-  onBmi: function(height, weight) {
-    return (weight / ((height * height) / 10000)).toFixed(1);
-  },
-  onBf: function(height, weight, age, sex) {
-    if (sex == 2) {
-      sex = 0;
-    }
-    var bmi = (weight / ((height * height) / 10000)).toFixed(1);
-    return (1.2 * bmi + 0.23 * age - 5.4 - 10.8 * sex).toFixed(1);
-  },
-  onBmr: function(height, weight, age, sex) {
-    if (sex == 2) {
-      sex = 0;
-    }
-    var bmr = null;
-    if (sex === 0) {
-      bmr = (655.1 + (9.56 * weight) + (1.85 * height) - (4.86 * age)).toFixed(1);
-    } else {
-      bmr = (66.5 + (13.7 * weight) + (5 * height) - (6.8 * age)).toFixed(1);
-    }
-    return bmr;
-  },
   globalData: {
-    base_url: "https://www.mnancheng.cn/",
+    base_url: "https://www.mnancheng.com/admin/wechat",
     isOpenWXRun: null,
     wxRunData: null,
     userInfo: null,

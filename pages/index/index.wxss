@@ -8,7 +8,7 @@
 }
 .header {
   width: 100%;
-  height: 746rpx;
+  min-height: 700rpx;
   background: #fff;
   box-shadow: 0 6rpx 10rpx 0 rgba(71, 167, 254, 0.1) inset,
                 0 6rpx 10rpx 0 rgba(71, 167, 254, 0.1);
@@ -39,7 +39,7 @@
   position: absolute;
   top:56rpx;
   right:26rpx;
-  z-index: 100;
+  z-index: 1;
 }
 .sos{
   width:200rpx;
@@ -163,7 +163,7 @@
   color: #47a7fe;
   font-size: 24rpx;
   text-align: center;
-  margin-top: 12rpx;
+  margin: 14rpx 0 26rpx 0;
 }
 .share{
   width: 80rpx;
@@ -500,8 +500,8 @@
   left:60rpx;
 }
 .ws{
-  width:480rpx;
-  margin:32rpx 0 0 55rpx;
+  width:530rpx;
+  margin:32rpx 0 0 30rpx;
   text-align: center;
 }
 .wsde{
@@ -511,11 +511,37 @@
   bottom:-18rpx;
 }
 .ckjk{
-  width:380rpx;
+  width:530rpx;
   margin-top:22rpx;
   margin-bottom:0;
+}
+.mts{
+  margin-top:6rpx;
 }
 .place{
   color:#B3B3B3;
   font-size:28rpx;
+}
+.pick{
+  width:320rpx;
+  height:50rpx;
+}
+.zanwu{
+  width:590rpx;
+  height:240rpx;
+  margin-top:50rpx;
+}
+.wu{
+  margin-top:38rpx;
+  width:100%;
+  text-align: center;
+}
+.wude{
+  bottom:100rpx;
+}
+.gray{
+  background:#CCC;
+}
+.bai{
+  background:#FFF;
 }

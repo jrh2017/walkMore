@@ -8,10 +8,10 @@
         <view class='xian'></view>
       </view>
       <view class='dis intro {{index===friendList.length-1?"lastOne":""}}'>
-        <image src='../../imgs/ava.jpg' class='avatar'></image>
-        <view class='nickname'>王总监</view>
+        <image src='{{item.avatarurl}}' class='avatar'></image>
+        <view class='nickname'>{{item.nickname}}</view>
       </view>
     </view>
   </view>
-  <button open-type='share' class='btn' plain='true'>邀请更多好友</button>
+  <button open-type='share' class='btn' plain='true' hover-class='none'>邀请更多好友</button>
 </view>

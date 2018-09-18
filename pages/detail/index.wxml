@@ -1,17 +1,21 @@
 <!--pages/detail/index.wxml-->
 <view class='container'>
-  <image src='../../imgs/ava.jpg' class='detailBg'></image>
+  <image src='{{goods.imgs}}' class='detailBg'></image>
   <view class='diss'>
-    <view class='primary postage'>包邮</view>
-    <view class='tit'>美国进口24K纯金10kg项链</view>
-    <view class='only'>剩余9件</view>
+    <view class='buju'>
+      <view class='primary postage'>包邮</view>
+      <view class='tit'>{{goods.title}}</view>
+    </view>
+    <view class='only'>剩余{{goods.num}}件</view>
   </view>
   <view class='diss'>
-    <view>
-      <image src='../../imgs/rb.png' class='rb'></image>
-      <text class='price'>1999</text>
+    <view class='buju'>
+      <view>
+        <image src='../../imgs/rb.png' class='rb'></image>
+        <text class='price'>{{goods.currency}}</text>
+      </view>
+      <view class='yprice'>原价￥{{goods.price}}</view>
     </view>
-    <view class='yprice'>原价￥998</view>
     <view wx:if="{{openid}}">
       <button open-type='share' plain='true' class='free'>
         邀请好友免费兑换
@@ -42,17 +46,17 @@
       </view>
     </view>
   </view>
-  <block wx:if="{{true}}">
-    <view class='primary freeDh' bindtap='freExchange'>免费兑换商品</view>
-  </block>
-  <block wx:if="{{false}}">
+  <block wx:if="{{button_state==0}}">
     <button class='freeDh noEnough' open-type='share' plain='true'>热力币不足，邀请好友得热力币</button>
   </block>
-  <block wx:if="{{false}}">
+  <block wx:if="{{button_state==1}}">
+    <view class='primary freeDh' bindtap='freExchange'>免费兑换商品</view>
+  </block>
+  <block wx:if="{{button_state==2}}">
     <view class='freeDh once'>每位用户仅可兑换1次</view>
   </block>
-  <view class='dikuang {{isHaveAdd?"":"smdi"}}' hidden='{{foot}}' catchtouchmove="ture">
-   <view class="mask"></view>
+  <view class='dikuang {{addinfo_state==0?"smdi":""}}' hidden='{{foot}}' catchtouchmove="ture">
+    <view class="mask"></view>
     <view class='header'>
       <text class='line'></text>
       <text class='center'>确认兑换商品</text>
@@ -61,27 +65,28 @@
     </view>
     <view class='dis'>
       <view>
-        <image src='../../imgs/cpu.png' class='img'></image>
+        <image src='{{goods.imgs}}' class='img'></image>
       </view>
       <view>
-        <view class='introduce'>{{detail.intro}}</view>
-        <view class='through'>原价{{detail.yprice}}</view>
+        <view class='introduce'>{{goods.title}}</view>
+        <view class='through'>原价{{goods.price}}</view>
         <view>
           <image src='../../imgs/rb.png' class='rb'></image>
-          <text class='price'>{{detail.price}}</text>
+          <text class='price'>{{goods.currency}}</text>
         </view>
       </view>
     </view>
-    <view wx:if="{{isHaveAdd}}">
+    <view wx:if="{{addinfo_state==1}}">
       <view class='mg'>
         <image src='../../imgs/name.png' class='icon left'></image>
-        <text class='font cor pos'>王总监</text>
+        <text class='font cor pos'>{{addinfo.name}}</text>
         <image src='../../imgs/phone.png' class='icon long'></image>
-        <text class='font cor pos'>8208208820</text>
+        <text class='font cor pos'>{{addinfo.phone}}</text>
       </view>
       <view class='mgs'>
-        <image src='../../imgs/add.png' class='icon left alone'></image>
-        <text class='font cor con'>浙江省温州市鹿城区新城街道998号登新公寓100栋100号100楼100号房</text>
+        <image src='../../imgs/add.png' class='icon left'></image>
+        <text class='font cor con pos'>{{addinfo.address}}</text>
+        <text class='font cor con new posi'>{{addinfo.detail_address}}</text>
       </view>
     </view>
     <view wx:else>

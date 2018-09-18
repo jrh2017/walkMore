@@ -1,6 +1,6 @@
 <!--pages/address/index.wxml-->
 <view class='container'>
-  <block wx:if="{{isHaveAddress}}">
+  <block wx:if="{{state==0}}">
     <image src='../../imgs/addBg.png' class='bg'></image>
     <view class='font letter'>您还没有收货地址</view>
     <view class='font'>赶紧点击下方按钮添加地址吧</view>
@@ -11,13 +11,14 @@
       <image class='icon edit' src='../../imgs/edit.png' bindtap='goEdit'></image>
       <view class='mg'>
         <image src='../../imgs/name.png' class='icon left'></image>
-        <text class='font cor pos'>王总监</text>
+        <text class='font cor pos'>{{msg.name}}</text>
         <image src='../../imgs/phone.png' class='icon long'></image>
-        <text class='font cor pos'>8208208820</text>
+        <text class='font cor pos'>{{msg.phone}}</text>
       </view>
       <view class='mgs'>
-        <image src='../../imgs/add.png' class='icon left alone'></image>
-        <text class='font cor con'>浙江省温州市鹿城区新城街道998号登新公寓100栋100号100楼100号房</text>
+        <image src='../../imgs/add.png' class='icon left'></image>
+        <text class='font cor con pos'>{{msg.address}}</text>
+        <text class='font cor con new posi'>{{msg.detail_address}}</text>
       </view>
     </view>
     <view class='dikuang pos bom'></view>

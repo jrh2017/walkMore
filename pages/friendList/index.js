@@ -6,14 +6,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-    friendList:[0,1,2,3,4,5,6,]
+    friendList:'',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    var that = this;
+    wx.request({
+      url: app.globalData.base_url + '/more_friends',
+      data: {
+        openid: wx.getStorageSync('openid')
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          friendList: res.data.res,
+        })
+      }
+    })
   },
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
@@ -25,7 +37,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+ 
   },
 
   /**

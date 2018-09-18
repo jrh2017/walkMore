@@ -18,12 +18,14 @@ input,textarea,picker{
   color:#333;
   font-size: 28rpx;
   background:#EBECF0;
+  border-radius: 10rpx;
 }
 .picker{
   width:574rpx;
   height:44rpx;
   background:#EBECF0;
   padding:10rpx 0 0 10rpx;
+  border-radius: 10rpx;
 }
 picker{
   margin-left:10rpx;

@@ -9,13 +9,14 @@
     <view>
       <view class='mg'>
         <image src='../../imgs/name.png' class='icon left'></image>
-        <text class='font cor pos'>王总监</text>
+        <text class='font cor pos'>{{addinfo.name}}</text>
         <image src='../../imgs/phone.png' class='icon long'></image>
-        <text class='font cor pos'>8208208820</text>
+        <text class='font cor pos'>{{addinfo.phone}}</text>
       </view>
       <view class='mgs'>
-        <image src='../../imgs/add.png' class='icon left alone'></image>
-        <text class='font cor con'>浙江省温州市鹿城区新城街道998号登新公寓100栋100号100楼100号房</text>
+        <image src='../../imgs/add.png' class='icon left'></image>
+        <text class='font cor con pos'>{{addinfo.address}}</text>
+        <text class='font cor con new posi'>{{addinfo.detail_address}}</text>
       </view>
     </view>
   </view>
@@ -25,15 +26,23 @@
         <view class='xian'></view>
         <view class='tit'>订单信息</view>
       </view>
-      <view class='wait'>待发货</view>
+      <block wx:if="{{msg.order_state==0}}">
+        <view class='wait'>待发货</view>
+      </block>
+      <block wx:if="{{msg.order_state==1}}">
+        <view class='wait'>已发货</view>
+      </block>
+      <block wx:if="{{msg.order_state==2}}">
+        <view class='wait'>已收货</view>
+      </block>
     </view>
     <view class='dis dbh'>
       <image src='../../imgs/orderMes.png' class='icon'></image>
-      <view class='font mgf'>订单编号：2018082905</view>
+      <view class='font mgf'>订单编号：{{msg.order_sn}}</view>
     </view>
     <view class='dis dbh'>
       <image src='../../imgs/time.png' class='icon'></image>
-      <view class='font mgf'>下单时间：2018-08-21 09:09:09</view>
+      <view class='font mgf'>下单时间：{{msg.timeline}}</view>
     </view>
   </view>
   <view class='receiver commodity'>
@@ -43,14 +52,14 @@
     </view>
     <view class='dis'>
       <view>
-        <image src='../../imgs/cpu.png' class='img'></image>
+        <image src='{{msg.photo}}' class='img'></image>
       </view>
       <view>
-        <view class='font'>{{detail.intro}}</view>
-        <view class='through'>原价{{detail.yprice}}</view>
+        <view class='font'>{{msg.title}}</view>
+        <view class='through'>原价{{msg.price}}</view>
         <view>
           <image src='../../imgs/rb.png' class='rb'></image>
-          <text class='price'>{{detail.price}}</text>
+          <text class='price'>{{msg.currency}}</text>
         </view>
       </view>
     </view>

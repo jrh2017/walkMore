@@ -55,7 +55,9 @@
 .font {
   font-size: 28rpx;
 }
-
+.lan{
+  color:#47A7FE;
+}
 .unit {
   font-size: 24rpx;
 }
@@ -163,7 +165,6 @@
   top: 18rpx;
   margin: 20rpx 0 8rpx 0;
   transform: translate(-50%, -50%);
-  margin-left: 75%;
 }
 
 .yuan {
@@ -201,7 +202,7 @@
 
 .dream {
   width: 336rpx;
-  height: 160rpx;
+  min-height: 160rpx;
   background: #fff;
   margin-top: 20rpx;
   border-radius: 10rpx;
@@ -222,7 +223,7 @@
 
 .intro {
   width: 690rpx;
-  height: 240rpx;
+  min-height: 240rpx;
   position: relative;
   margin-top: 30rpx;
 }
@@ -258,6 +259,6 @@
 }
 
 .lef {
-  margin-left: 30rpx;
+  margin:0 0 22rpx 30rpx;
   width:628rpx;
 }
