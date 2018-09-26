@@ -6,7 +6,12 @@
   position: relative;
   margin-top: 30rpx;
 }
-
+.mf{
+  padding-left:4rpx;
+}
+.mfs{
+  padding-left:8rpx;
+}
 .abs {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -98,7 +103,6 @@
 }
 
 .ruh {
-  font-weight: bold;
   left: 50%;
   z-index: 10;
 }
@@ -135,7 +139,7 @@
   width: 630rpx;
   margin-left: 30rpx;
   border-bottom: 1rpx solid #e6e6e6;
-  padding: 26rpx 0 20rpx 0;
+  padding:16rpx 0;
 }
 
 .xian {
@@ -150,6 +154,7 @@
   color: #47a7fe;
   font-size: 48rpx;
   font-weight: bold;
+  margin-bottom:6rpx;
 }
 
 .progress {
@@ -176,8 +181,11 @@
   margin-left: 140rpx;
   position: relative;
   bottom: 20rpx;
+  box-shadow:0px 4rpx 6rpx 0px rgba(71,167,254,0.3);
 }
-
+.bgcor{
+  background:#CCC;
+}
 .first {
   margin-left: 157rpx;
 }
@@ -197,7 +205,7 @@
 .mu {
   width: 100%;
   text-align: center;
-  margin-top: 10rpx;
+  margin-top: 20rpx;
 }
 
 .dream {
@@ -207,10 +215,6 @@
   margin-top: 20rpx;
   border-radius: 10rpx;
   box-shadow: 0px 6rpx 10rpx 0px rgba(71, 167, 254, 0.1);
-}
-
-.mp {
-  margin-top: 16rpx;
 }
 
 .kacl {
@@ -236,13 +240,13 @@
 
 .your {
   left: 50%;
-  top: 60rpx;
+  top: 40rpx;
 }
 
 .detail {
   width: 560rpx;
   left: 50%;
-  top: 150rpx;
+  top: 126rpx;
 }
 
 .hotPower {

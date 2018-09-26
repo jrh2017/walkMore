@@ -1,32 +1,15 @@
 //app.js
 App({
   onLaunch: function(options) {
-    // const updateManager = wx.getUpdateManager()
-    // updateManager.onCheckForUpdate(function (res) {
-    //   // 请求完新版本信息的回调
-    //   console.log(res.hasUpdate)
-    // })
+    var that = this;
+    wx.checkSession({
+      success: function(res) {
 
-    // updateManager.onUpdateReady(function () {
-    //   wx.showModal({
-    //     title: '更新提示',
-    //     content: '新版本已经准备好，是否重启应用？',
-    //     success: function (res) {
-    //       if (res.confirm) {
-    //         // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-    //         updateManager.applyUpdate()
-    //       }
-    //     }
-    //   })
-
-    // })
-
-    // updateManager.onUpdateFailed(function () {
-    //   // 新的版本下载失败
-    //  throw Error("新的版本下载失败");
-    // })
-
-    // this.globalData.scene = options.scene;
+      },
+      fail: function(res) {
+        that.onLogin();
+      }
+    })
   },
   onShow: function(options) {
     this.globalData.scene = options.scene;
@@ -37,7 +20,7 @@ App({
       success(res) {
         if (!res.authSetting['scope.werun']) {
           that.globalData.isOpenWXRun = false;
-        } else{
+        } else {
           if (!wx.getStorageSync('session')) {
             that.globalData.isOpenWXRun = false;
           } else {
@@ -46,20 +29,19 @@ App({
                 wx.request({
                   url: that.globalData.base_url + '/wxrun',
                   data: {
-                    encryptedData: encodeURIComponent(res.encryptedData),
-                    iv: encodeURIComponent(res.iv),
-                    session: wx.getStorageSync('session')
+                    encryptedData: res.encryptedData,
+                    iv: res.iv,
+                    session: wx.getStorageSync('session'),
+                    openid: wx.getStorageSync('openid'),
                   },
                   method: 'GET',
                   header: {
                     'content-type': 'application/json'
                   },
                   success: function(res) {
-                    console.log(res)
                     if (res.data.status == 1) {
                       that.globalData.isOpenWXRun = true;
                       that.globalData.wxRunData = res.data;
-                      typeof cb == "function" && cb(res.data);
                     } else {
                       that.globalData.isOpenWXRun = false;
                       wx.login({
@@ -71,8 +53,8 @@ App({
                                 url: that.globalData.base_url + '/login',
                                 data: {
                                   code: res.code,
-                                  encryptedData: encodeURIComponent(res_user.encryptedData),
-                                  iv: encodeURIComponent(res_user.iv)
+                                  encryptedData: res_user.encryptedData,
+                                  iv: res_user.iv
                                 },
                                 method: 'GET',
                                 header: {
@@ -82,8 +64,6 @@ App({
                                   that.globalData.userInfo = res.data.userinfo;
                                   wx.setStorageSync('session', res.data.hash);
                                   wx.setStorageSync('openid', res.data.openid);
-                                  typeof cb == "function" && cb(that.globalData.userInfo)
-                                  //that.onRun();
                                 }
                               })
                             },
@@ -102,168 +82,135 @@ App({
       }
     })
   },
-  onLogin: function(cb) {
+  onLogins: function(cb) {
     var that = this;
-    wx.checkSession({
-      success: function(res) {
-        if (wx.getStorageSync('openid')) {
-          that.onRefresh(cb);
-        } else {
-          wx.login({
-            success: res => {
-              if (res.code) {
-                wx.getUserInfo({
-                  withCredentials: true,
-                  success: function(res_user) {
-                    wx.request({
-                      url: that.globalData.base_url + '/login',
-                      data: {
-                        code: res.code,
-                        encryptedData: res_user.encryptedData,
-                        iv: res_user.iv
-                      },
-                      method: 'GET',
-                      header: {
-                        'content-type': 'application/json'
-                      },
-                      success: function(res) {
-                        console.log(3, res)
-                        that.globalData.userInfo = res.data.userinfo;
-                        wx.setStorageSync('session', res.data.hash);
-                        wx.setStorageSync('openid', res.data.openid);
-                        typeof cb == "function" && cb(that.globalData.userInfo)
-                        //that.onRun();
-                      }
-                    })
-                  },
-                  fail: function(e) {
-                    typeof cb == "function" && cb(false)
-                    // wx.showModal({
-                    //   title: '警告1',
-                    //   content: '您拒绝了授权,将无法正常显示个人信息,点击确定重新获取授权。',
-                    //   success: function (res) {
-                    //     if (res.confirm) {
-                    //       that.toAuthorize(cb);
-                    //     } else if (res.cancel) {
-                    //       typeof cb == "function" && cb(false)
-                    //     }
-                    //   }
-                    // })
-                  }
-                })
-              } else {
-                console.log('获取用户登录态失败！' + res.errMsg)
-              }
-            },
-            fail: function(e) {
-              //  typeof cb == "function" && cb(false)
-              //  wx.showModal({
-              //    title: '警告',
-              //    content: '您拒绝了授权,将无法正常显示个人信息,点击确定重新获取授权。',
-              //    success: function (res) {
-              //      if (res.confirm) {
-              //        that.toAuthorize(cb);
-              //      } else if (res.cancel) {
-              //        typeof cb == "function" && cb(false)
-              //      }
-              //    }
-              //  })
-            }
-
-          })
-        }
-     
-      },
-      fail: function() {
-        wx.login({
-          success: res => {
-            if (res.code) {
-              wx.getUserInfo({
-                withCredentials: true,
-                success: function(res_user) {
-                  wx.request({
-                    url: that.globalData.base_url + '/login',
-                    data: {
-                      code: res.code,
-                      encryptedData: res_user.encryptedData,
-                      iv: res_user.iv
-                    },
-                    method: 'GET',
-                    header: {
-                      'content-type': 'application/json'
-                    },
-                    success: function(res) {
-                      console.log('fail',res)
-                      that.globalData.userInfo = res.data.userinfo;
-                      wx.setStorageSync('session', res.data.hash);
-                      wx.setStorageSync('openid', res.data.openid);
-                      // that.onRun();
-                      typeof cb == "function" && cb(that.globalData.userInfo)
-                    }
-                  })
+    wx.login({
+      success: res => {
+        if (res.code) {
+          wx.getUserInfo({
+            withCredentials: true,
+            success: function(res_user) {
+              wx.request({
+                url: that.globalData.base_url + '/login',
+                data: {
+                  scene_value: 1,
+                  code: res.code,
+                  encryptedData: res_user.encryptedData,
+                  iv: res_user.iv
                 },
-                fail: function(e) {
-                  typeof cb == "function" && cb(false)
-                  // wx.showModal({
-                  //   title: '警告111111',
-                  //   content: '您拒绝了授权,将无法正常显示个人信息,点击确定重新获取授权。',
-                  //   success: function (res) {
-                  //     if (res.confirm) {
-                  //       that.toAuthorize(cb);
-                  //     } else if (res.cancel){
-                  //       typeof cb == "function" && cb(false)
-                  //     }
-                  //   }
-                  // })
+                method: 'GET',
+                header: {
+                  'content-type': 'application/json'
+                },
+                success: function(res) {
+                  that.globalData.userInfo = res.data.userinfo;
+                  wx.setStorageSync('nickname', res.data.userinfo.nickname);
+                  wx.setStorageSync('session', res.data.hash);
+                  wx.setStorageSync('openid', res.data.openid);
                 }
               })
-            } else {
-              // typeof cb == "function" && cb(false)
-              // wx.showModal({
-              //   title: '警告',
-              //   content: '您拒绝了授权,将无法正常显示个人信息,点击确定重新获取授权。',
-              //   success: function (res) {
-              //     if (res.confirm) {
-              //       that.toAuthorize(cb);
-              //     } else if (res.cancel) {
-              //       typeof cb == "function" && cb(false)
-              //     }
-              //   }
-              // })
-            }
-          }
-        })
-      }
+            },
+          })
+        } else {
+          console.log('获取用户登录态失败！' + res.errMsg)
+        }
+      },
     })
 
-
+  },
+  onLogin: function(cb) {
+    var that = this;
+    if (wx.getStorageSync('openid')) {
+      that.onRefresh(cb);
+    } else {
+      wx.login({
+        success: res => {
+          if (res.code) {
+            wx.getUserInfo({
+              withCredentials: true,
+              success: function(res_user) {
+                wx.request({
+                  url: that.globalData.base_url + '/login',
+                  data: {
+                    scene_value: 0,
+                    code: res.code,
+                    encryptedData: res_user.encryptedData,
+                    iv: res_user.iv
+                  },
+                  method: 'GET',
+                  header: {
+                    'content-type': 'application/json'
+                  },
+                  success: function(res) {
+                    console.log(3, res)
+                    that.globalData.userInfo = res.data.userinfo;
+                    wx.setStorageSync('nickname', res.data.userinfo.nickname);
+                    wx.setStorageSync('session', res.data.hash);
+                    wx.setStorageSync('openid', res.data.openid);
+                  }
+                })
+              },
+            })
+          } else {
+            console.log('获取用户登录态失败！' + res.errMsg)
+          }
+        },
+      })
+    }
   },
   onRefresh: function(cb) {
     var that = this;
     wx.checkSession({
       success: function(res) {
         //that.onRun();
-        if (!that.globalData.userInfo) {
-          if (wx.getStorageSync('openid')) {
-            wx.request({
-              url: that.globalData.base_url + '/login_info',
-              data: {
-                openid: wx.getStorageSync('openid'),
-              },
-              method: 'GET',
-              header: {
-                'content-type': 'application/json'
-              },
-              success: function(res) {
-                that.globalData.userInfo = res.data.userinfo;
-                typeof cb == "function" && cb(that.globalData.userInfo)
-              }
-            })
-          } else {
-            that.onLogin(cb);
-          }
+        if (wx.getStorageSync('openid')) {
+          wx.request({
+            url: that.globalData.base_url + '/login_info',
+            data: {
+              scene_value: 0,
+              openid: wx.getStorageSync('openid'),
+            },
+            method: 'GET',
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function(res) {
+              that.globalData.userInfo = res.data.userinfo;
+            }
+          })
         } else {
-          typeof cb == "function" && cb(that.globalData.userInfo)
+          that.onLogin(cb);
+        }
+
+      },
+      fail: function(res) {
+        that.onLogin(cb);
+      },
+    })
+
+  },
+  onRefreshs: function(cb) {
+    var that = this;
+    wx.checkSession({
+      success: function(res) {
+        //that.onRun();
+        if (wx.getStorageSync('openid')) {
+          wx.request({
+            url: that.globalData.base_url + '/login_info',
+            data: {
+              scene_value: 1,
+              openid: wx.getStorageSync('openid'),
+            },
+            method: 'GET',
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function(res) {
+              that.globalData.userInfo = res.data.userinfo;
+            }
+          })
+        } else {
+          that.onLogin(cb);
         }
       },
       fail: function(res) {

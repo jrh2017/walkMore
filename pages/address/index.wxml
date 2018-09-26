@@ -17,7 +17,7 @@
       </view>
       <view class='mgs'>
         <image src='../../imgs/add.png' class='icon left'></image>
-        <text class='font cor con pos'>{{msg.address}}</text>
+        <text class='font cor con pos btom' >{{msg.address}}</text>
         <text class='font cor con new posi'>{{msg.detail_address}}</text>
       </view>
     </view>

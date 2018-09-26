@@ -13,10 +13,10 @@
         <image src='../../imgs/orderDe.png' class='orderDe'></image>
         <view class='dispo pos'>
           <view class='number'>订单编号：{{item.order_sn}}</view>
-          <block wx:if='{{item.order_state==1}}'>
+          <block wx:if='{{item.order_state==0}}'>
             <view class='state'>待发货</view>
           </block>
-          <block wx:if='{{item.order_state==0}}'>
+          <block wx:if='{{item.order_state==1}}'>
             <view class='dis ' bindtap='logistics' data-id="{{item.id}}">
               <view class='aa'>已发货</view>
               <view class='duan'></view>

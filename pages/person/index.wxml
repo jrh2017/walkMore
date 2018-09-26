@@ -35,8 +35,8 @@
           </view>
         </view>
       </picker>
-      <picker bindchange="pickHeight" name='height' value='{{userInfo.height}}' range="{{heightArr}}" hidden='{{stype==1}}'>
-        <view class="section">
+      <picker bindchange="pickHeight" name='height' value='{{userInfo.height-120}}' range="{{heightArr}}">
+        <view class="section" hidden='{{stype==1}}'>
           <view class='wrapper'>
             <view>
               <image src='../../imgs/height.png' class='icon mr'></image>
@@ -49,8 +49,8 @@
           </view>
         </view>
       </picker>
-      <picker bindchange="pickWeight" name='weight' value='{{userInfo.weight}}' range="{{weightArr}}" hidden='{{stype==1||stype==3}}'>
-        <view class="section bor">
+      <picker bindchange="pickWeight" name='weight' value='{{userInfo.weight-30}}' range="{{weightArr}}">
+        <view class="section bor" hidden='{{stype==1||stype==3}}'>
           <view class='wrapper'>
             <view>
               <image src='../../imgs/weight.png' class='icon mr'></image>
@@ -64,6 +64,6 @@
         </view>
       </picker>
     </view>
-    <button form-type="submit" class='primary db' plain='true' disabled="{{disabled}}">重新测评</button>
+    <button form-type="submit" class='primary db' plain='true' hover-class='none'>重新测评</button>
   </form>
 </view>

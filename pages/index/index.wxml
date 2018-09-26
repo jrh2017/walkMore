@@ -2,14 +2,14 @@
 <view class='container'>
   <view class='header'>
     <view class='dis'>
-      <button class='btnAnalysis' plain='true' open-type="getUserInfo" bindgetuserinfo="goHeat">
+      <button class='btnAnalysis' plain='true' hover-class='none' open-type="getUserInfo" bindgetuserinfo="goHeat">
         <view class='rlb cor'>
           <image src='../../imgs/rb.png' class='rb'></image>
           <text>{{money}}</text>
         </view>
       </button>
-      <button class='btnAnalysis sos' plain='true' open-type="getUserInfo" bindgetuserinfo="analysis">
-        <view class='diss' style='margin-left:22rpx'>
+      <button class='btnAnalysis sos {{look?"":"gao"}}' plain='true' open-type="getUserInfo" hover-class='none' bindgetuserinfo="analysis">
+        <view class='diss' style='padding:8rpx 0 0 23rpx'>
           <image src='../../imgs/jkcp.png' class='jkcp'></image>
           <view class='cor size analysis'>健康测评</view>
         </view>
@@ -17,18 +17,31 @@
       </button>
     </view>
     <view class='fg'>
-      <button class='btnAnalysis qd abs' plain='true' open-type="getUserInfo" bindgetuserinfo="lingqu" hidden='{{is_new==1}}'>
-        <image src='../../imgs/qd.png' class='qd'></image>
-      </button>
       <image src='../../imgs/main.png' class='main abs'></image>
       <view class='useStep abs size cor'>可兑换步数</view>
       <view class='num abs cor'>{{step}}</view>
       <view class='clear abs size'>每日24点清零</view>
+      <button class='btnAnalysis qd abs' plain='true' open-type="getUserInfo" bindgetuserinfo="lingqu" hidden='{{is_new}}'>
+        <image src='../../imgs/qd.png' class='qd'></image>
+      </button>
     </view>
     <button open-type="getUserInfo" bindgetuserinfo="exchange" plain='true' class='btnClick clickDh primary' hover-class='none'>点击兑换热力币</button>
-    <button class='btnAnalysis sign' plain='true' open-type="getUserInfo" bindgetuserinfo="goSign">
-      <view class='signIn'>签到</view>
-    </button>
+    <block wx:if='{{isHaveopenid}}'>
+      <form bindsubmit='goSignForm' report-submit='true'>
+        <button class='btnAnalysis sign' plain='true' form-type='submit'>
+          <view class='signIn'>
+            <text class='qdsign'>签到</text>
+          </view>
+        </button>
+      </form>
+    </block>
+    <block wx:else>
+      <button class='btnAnalysis sign' plain='true' open-type="getUserInfo" bindgetuserinfo="goSign">
+        <view class='signIn'>
+          <text class='qdsign'>签到</text>
+        </view>
+      </button>
+    </block>
     <view class='yq cor'>每邀请一位新用户即可获赠5枚热力币</view>
     <view class='xian'></view>
     <view class='friend'>
@@ -75,12 +88,12 @@
     </view>
     <view wx:for="{{goods}}" wx:key="{{index}}" data-index="{{index}}">
       <view class='wareDetail'>
-        <image src='{{item.photo}}' class='goods' catchtap='onDetail' data-id="{{item.goods_id}}"></image>
+        <image src='{{item.photo}}' lazy-load='true' class='goods' catchtap='onDetail' lazy-load='true' data-id="{{item.goods_id}}"></image>
         <view style='margin:32rpx 0 0 30rpx;'>
           <view class='size cor'>{{item.title}}</view>
           <view class='only'>剩余{{item.num}}件</view>
-          <view style='padding:45rpx 0 20rpx 0;'>
-            <image src='../../imgs/rb.png' class='rb'></image>
+          <view style='padding:45rpx 0 16rpx 0;'>
+            <image src='../../imgs/rb.png' class='rb' lazy-load='true'></image>
             <text class='price'>{{item.currency}}</text>
             <text class='yprice'>原价￥{{item.price}}</text>
           </view>
@@ -102,13 +115,13 @@
         </view>
         <view class='disDia'>
           <view>
-            <image src='{{goods_detail.photo}}' class='comm'></image>
+            <image src='{{goods_detail.photo}}' class='comm' lazy-load='true'></image>
           </view>
           <view style='margin-top:50rpx;'>
             <view class='introDialog cor'>{{goods_detail.title}}</view>
             <view style='margin-top:90rpx;'>
               <image src='../../imgs/rb.png' class='rb'></image>
-              <text class='price'>{{goods_detail.price}}</text>
+              <text class='price'>{{goods_detail.currency}}</text>
             </view>
           </view>
         </view>
@@ -120,13 +133,13 @@
           </view>
         </view>
         <view>
-          <button open-type='share' class='btnYq cor'>邀请好友赚取热力币</button>
+          <button open-type='share' class='btnYq cor' plain='true' hover-class='none'>邀请好友赚取热力币</button>
         </view>
       </view>
       <image src='../../imgs/delete.png' class='delete' bindtap='hideHandle'></image>
     </view>
-    <view class="dialog" hidden="{{measure}}" catchtouchmove="ture">
-      <view class="mask" bindtap='hideHandle'></view>
+    <view class="dialog" wx:if="{{clicked}}" hidden="{{measure}}" catchtouchmove="ture">
+      <view class="mask" bindtap='wsMessage'></view>
       <view class="condition">
         <view class='title'>
           <image src='../../imgs/title.png' class='title'></image>
@@ -139,27 +152,27 @@
                 <view class='duan'></view>
                 <view class='cor size'>体重</view>
               </view>
-              <view class='kg'>500kg</view>
+              <view class='kg'>{{result.weight}}kg</view>
             </view>
             <image src='../../imgs/weightBg.png' class='ka'></image>
           </view>
-          <view class='relati'>
+          <view class='relati' wx:if='{{result.type_id==1}}'>
             <view class='ding'>
               <view class='diss'>
                 <view class='duan'></view>
                 <view class='cor size'>身高</view>
               </view>
-              <view class='kg'>190cm</view>
+              <view class='kg'>{{result.height}}cm</view>
             </view>
             <image src='../../imgs/heightBg.png' class='ka'></image>
           </view>
           <view class='btnYq cor ws' bindtap='wsMessage'>健康测评</view>
         </view>
       </view>
-      <image src='../../imgs/delete.png' class='delete wsde' bindtap='hideHandle'></image>
+      <image src='../../imgs/delete.png' class='delete wsde {{result.type_id==1?"":"xc"}}' bindtap='wsMessage'></image>
     </view>
-    <view class="dialog" hidden="{{zanwu}}" catchtouchmove="ture">
-      <view class="mask" bindtap='hideHandle'></view>
+    <view class="dialog"  wx:if="{{clim}}" hidden="{{zanwu}}" catchtouchmove="ture">
+      <view class="mask" bindtap='wsMessage'></view>
       <view class="condition">
         <view class='title'>
           <image src='../../imgs/title.png' class='title'></image>
@@ -169,11 +182,11 @@
         <view class='cor size wu'>暂无称重结果</view>
         <view class='btnYq cor ws' style='margin-bottom:40rpx;' bindtap='wsMessage'>健康测评</view>
       </view>
-      <image src='../../imgs/delete.png' class='delete wude' bindtap='hideHandle'></image>
+      <image src='../../imgs/delete.png' class='delete wude' bindtap='wsMessage'></image>
     </view>
     <view class="dialog" hidden="{{perMessage}}" catchtouchmove="ture">
       <view class="mask" bindtap='hideHandle'></view>
-      <view class="condition">
+      <view class="condition" style='top:47%;'>
         <view class='title'>
           <image src='../../imgs/title.png' class='title'></image>
           <view class='abs cor tit'>完善信息</view>
@@ -186,14 +199,14 @@
                   <view class='duan'></view>
                   <view class='cor size'>体重</view>
                 </view>
-                <picker bindchange="pickWeight" name='weight' class='pick' value='{{userInfo.weight}}' range="{{weightArr}}">
-                  <block wx:if="{{userInfo.weight>0}}">
-                    <view class='kg'>{{userInfo.weight}}kg</view>
-                  </block>
-                  <block wx:else>
+                <block wx:if="{{userInfo.weight>0}}">
+                  <view class='kg'>{{userInfo.weight}}kg</view>
+                </block>
+                <block wx:else>
+                  <picker bindchange="pickWeight" name='weight' class='pick' value='{{userInfo.weight}}' range="{{weightArr}}">
                     <view class='place mts'>请输入你的体重</view>
-                  </block>
-                </picker>
+                  </picker>
+                </block>
               </view>
               <image src='../../imgs/weightBg.png' class='ka'></image>
             </view>
@@ -203,14 +216,14 @@
                   <view class='duan'></view>
                   <view class='cor size'>身高</view>
                 </view>
-                <picker bindchange="pickHeight" name='height' class='pick' value='{{userInfo.height}}' range="{{heightArr}}">
-                  <block wx:if="{{userInfo.height>0}}">
-                    <view class='kg'>{{userInfo.height}}cm</view>
-                  </block>
-                  <block wx:else>
+                <block wx:if="{{userInfo.height>0}}">
+                  <view class='kg'>{{userInfo.height}}cm</view>
+                </block>
+                <block wx:else>
+                  <picker bindchange="pickHeight" name='height' class='pick' value='{{userInfo.height}}' range="{{heightArr}}">
                     <view class='place mts'>请输入你的身高</view>
-                  </block>
-                </picker>
+                  </picker>
+                </block>
               </view>
               <image src='../../imgs/heightBg.png' class='ka'></image>
             </view>
@@ -251,11 +264,11 @@
               </view>
               <image src='../../imgs/ageBg.png' class='ka'></image>
             </view>
-            <button class='btnYq cor ckjk' plain='true' form-type="submit">查看健康测评</button>
+            <button class='btnYq cor ckjk' plain='true' form-type="submit" hover-class='none'>查看健康测评</button>
           </view>
         </form>
       </view>
-      <image src='../../imgs/delete.png' class='delete jkcp' bindtap='hideHandle'></image>
+      <image src='../../imgs/delete.png' class='delete jkcps' bindtap='hideHandle'></image>
     </view>
     <view class="dialog" hidden="{{register}}" catchtouchmove="ture">
       <view class="mask" bindtap='hideHandle'></view>
@@ -279,7 +292,7 @@
         </view>
       </view>
     </view>
-    <view class='noMore'>
+    <view class='noMore' hidden='{{noMore}}'>
       <text class='line'></text>
       <text class='none'>没有更多了</text>
       <text class='line'></text>

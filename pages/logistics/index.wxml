@@ -29,7 +29,9 @@
       <view class='xian'></view>
       <view class='tit'>物流信息</view>
     </view>
-    <view class='line' wx:for="{{order}}" wx:key="{{index}}"></view>
+    <label wx:for="{{top}}" wx:key="{{index}}" data-index='{{index}}'>
+      <view class='line' style='top:{{item}}rpx'></view>
+    </label>
     <view class='detail' wx:for="{{order}}" wx:key='{{index}}' data-index='{{index}}'>
       <view class='display'>
         <view class='round {{index==0?"cor":""}}'></view>

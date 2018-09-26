@@ -9,7 +9,7 @@
 
 .font {
   font-size: 28rpx;
-  color: #999;
+  color: #333;
 }
 
 .com {
@@ -19,6 +19,7 @@
   border-radius: 40rpx;
   text-align: center;
   margin-top:300rpx;
+  box-shadow:0px 6rpx 10rpx 0px rgba(71,167,254,0.1);
 }
 
 .letter {
@@ -64,7 +65,7 @@
 }
 .pos{
   position: relative;
-  bottom:6rpx;
+  bottom:8rpx;
 }
 .posi{
   position: relative;
@@ -86,5 +87,9 @@
   bottom:150rpx;
 }
 .new{
-  padding-left:87rpx;
+  padding:12rpx 0 0 87rpx;
+  width:550rpx;
+}
+.btom{
+  bottom:10rpx;
 }

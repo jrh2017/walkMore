@@ -5,7 +5,7 @@
   <view class='what'>热力币是在“走多多”通过每日运动步数兑换的虚拟货币，可以购买内设礼品，热币越多，可以兑换的礼品就越多！</view>
   <view class='rela'>
     <view class='xianOne'></view>
-    <image class='head' src='../../imgs/two.png'></image>
+    <image class='head' src='../../imgs/two.png' style='width:280rpx;'></image>
     <view class='dis'>
       <view class='round'></view>
       <view class='tit'>步数兑换</view>
@@ -49,6 +49,6 @@
   </view>
   <view class='dis'>
     <view class='star foot' style='width:23rpx;height:23rpx;'>*</view>
-    <view class='detail mg foot last'>最终解释权由“走多多”官方所有。</view>
+    <view class='detail mg foot last'>最终解释权归“走多多”官方所有。</view>
   </view>
 </view>

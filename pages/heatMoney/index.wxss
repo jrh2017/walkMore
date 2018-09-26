@@ -55,6 +55,7 @@
   position: relative;
   bottom: 54rpx;
   margin-bottom: 30rpx;
+  box-shadow:0px 6rpx 10rpx 0px rgba(71,167,254,0.1);
 }
 
 .date {
@@ -107,7 +108,8 @@
 .string {
   display: inline-block;
   width: 80rpx;
-  border: 2rpx solid #CCC;
+  height:2rpx;
+  background:#ccc;
   border-radius: 1rpx;
   vertical-align: middle;
 }

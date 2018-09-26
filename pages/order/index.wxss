@@ -94,7 +94,7 @@
   height:400rpx;
   background:#FBE64D;
   position: absolute;
-  left:30rpx;
+  left:31rpx;
 }
 .mgf{
   margin-left:100rpx;
@@ -109,6 +109,7 @@
   height:24rpx;
   background:#47A7FE;
   margin:0 10rpx;
+  border-radius: 2rpx;
 }
 
 .orderBg{

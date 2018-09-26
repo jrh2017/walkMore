@@ -13,19 +13,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    wx.request({
-      url: app.globalData.base_url + '/more_friends',
-      data: {
-        openid: wx.getStorageSync('openid')
-      },
-      success: function (res) {
-        console.log(res)
-        that.setData({
-          friendList: res.data.res,
-        })
-      }
-    })
+
   },
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
@@ -37,20 +25,33 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
- 
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
+    var that = this;
+    wx.request({
+      url: app.globalData.base_url + '/more_friends',
+      data: {
+        openid: wx.getStorageSync('openid')
+      },
+      success: function (res) {
+        that.setData({
+          friendList: res.data.res,
+        })
+      }
+    })
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-  
-  }
+  onShareAppMessage: function (res) {
+    var openid = wx.getStorageSync('openid')
+    var nickname = wx.getStorageSync('nickname')
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+    }
+    return {
+      title: `${nickname}邀请你用步数免费换礼物，速来！先到先得！`,
+      imageUrl: '../../imgs/share.png',
+      path: '/pages/index/index?openid=' + openid
+    }
+  },
 })

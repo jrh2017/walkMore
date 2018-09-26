@@ -16,7 +16,7 @@
       </view>
       <view class='yprice'>原价￥{{goods.price}}</view>
     </view>
-    <view wx:if="{{openid}}">
+    <view wx:if="{{isHaveopenid}}">
       <button open-type='share' plain='true' class='free'>
         邀请好友免费兑换
       </button>
@@ -46,17 +46,21 @@
       </view>
     </view>
   </view>
+  <view wx:for="{{goods.content}}" wx:key="{{index}}">
+    <image src='{{item}}' class='item'></image>
+  </view>
+  <view class='ditu'></view>
   <block wx:if="{{button_state==0}}">
-    <button class='freeDh noEnough' open-type='share' plain='true'>热力币不足，邀请好友得热力币</button>
+    <button class='freeDh noEnough' open-type='share' plain='true' hover-class='none'>热力币不足，邀请好友得热力币</button>
   </block>
   <block wx:if="{{button_state==1}}">
-    <view class='primary freeDh' bindtap='freExchange'>免费兑换商品</view>
+    <button class='primary freeDh' open-type='getUserInfo' plain='true' bindgetuserinfo='freExchange' hover-class='none'>免费兑换商品</button>
   </block>
   <block wx:if="{{button_state==2}}">
     <view class='freeDh once'>每位用户仅可兑换1次</view>
   </block>
-  <view class='dikuang {{addinfo_state==0?"smdi":""}}' hidden='{{foot}}' catchtouchmove="ture">
-    <view class="mask"></view>
+  <view class='dikuang {{addinfo_state==0?"smdi":"animation"}}' hidden='{{foot}}' catchtouchmove="ture">
+    <view class="mask" bindtap='hideFoot'></view>
     <view class='header'>
       <text class='line'></text>
       <text class='center'>确认兑换商品</text>
@@ -76,7 +80,7 @@
         </view>
       </view>
     </view>
-    <view wx:if="{{addinfo_state==1}}">
+    <view wx:if="{{addinfo_state==1}}" bindtap='editAddress'>
       <view class='mg'>
         <image src='../../imgs/name.png' class='icon left'></image>
         <text class='font cor pos'>{{addinfo.name}}</text>
@@ -90,8 +94,10 @@
       </view>
     </view>
     <view wx:else>
-      <view class='please' bindtap='goAdd'>您还没有填写收货地址，请点击填写</view>
+      <view class='please' bindtap='editAddress'>您还没有填写收货地址，请点击填写</view>
     </view>
-    <view class='primary freeDh' bindtap='affirm'>确认</view>
+    <form bindsubmit='affirm' report-submit='true'>
+      <button class='primary freeDh' hover-class='none' plain='true' form-type='submit'>立即兑换</button>
+    </form>
   </view>
 </view>

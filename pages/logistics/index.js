@@ -8,6 +8,7 @@ Page({
   data: {
     order:'',
     LogisticCode:'',
+    top:'',
   },
 
   /**
@@ -28,6 +29,7 @@ Page({
           state:res.data.State,
           LogisticCode: res.data.LogisticCode,
           ShipperCode: res.data.ShipperCode,
+          top:res.data.top,
         })
       }
     })

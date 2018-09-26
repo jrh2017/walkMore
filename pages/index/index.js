@@ -6,7 +6,7 @@ const ageArr = [],
 for (let i = 1; i < 101; i++) {
   ageArr.push(i)
 }
-for (let i = 100; i < 220; i++) {
+for (let i = 120; i < 220; i++) {
   heightArr.push(i)
 }
 for (let i = 30; i < 180; i++) {
@@ -29,13 +29,12 @@ Page({
     register: true,
     measure: true,
     zanwu: true,
-    look: true,
+    look: false,
     perMessage: true,
-    haveAdd: false,
     isHaveopenid: '',
-    openid:'',
+    openid: '',
     result: '',
-    is_new: '',
+    is_new: true,
     page: 1,
     haveMore: true,
     count_day: '',
@@ -46,6 +45,10 @@ Page({
     ageArr: ageArr,
     heightArr: heightArr,
     weightArr: weightArr,
+    scene_value: '',
+    noMore: true,
+    clicked: true,
+    clim: true,
   },
 
   /**
@@ -61,26 +64,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    var that = this;
     if (options.openid) {
-      if (wx.getStorageSync('openid')){
-        var openid = options.openid
-        wx.request({
-          url: app.globalData.base_url + '/invite_friends',
-          data: {
-            openid: openid,
-            hy_openid: wx.getStorageSync('openid')
-          },
-          success: function (res) {
-            
-          }
-        })
-      }else{
-        console.log('好友没授权')
-      }
-    }else{
-      console.log('没有好友')
+      that.setData({
+        openid:options.openid
+      })
     }
-   
   },
 
   /**
@@ -89,12 +78,30 @@ Page({
   onShow: function() {
     var that = this;
     if (wx.getStorageSync('openid')) {
-      var openid = wx.getStorageSync('openid');
+      app.onRun(function(res) {
+        if (res.data) {
+          that.getStepRecord(res.data);
+        }
+      })
+      var openids = wx.getStorageSync('openid');
       that.setData({
         isHaveopenid: true
       })
+      if(that.data.openid){
+        var openid = that.data.openid
+        wx.request({
+          url: app.globalData.base_url + '/invite_friends',
+          data: {
+            openid: openid,
+            hy_openid: wx.getStorageSync('openid')
+          },
+          success: function (res) { }
+        })
+      }else{
+        console.log('没有获取到你的openid')
+      }
     } else {
-      var openid = 0;
+      var openids = 0;
       that.setData({
         isHaveopenid: false
       })
@@ -102,19 +109,38 @@ Page({
     wx.request({
       url: app.globalData.base_url + '/home_content',
       data: {
-        openid: openid
+        openid: openids
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         that.setData({
           goods: res.data.goods,
           friendArr: res.data.hy_img,
           result: res.data.result,
           money: res.data.currency,
+          scene_value: res.data.scene_value,
+          haveMore: true,
+          noMore: true,
+          page: 1,
         })
-        if (res.data.state_type == 1) {
+        if (res.data.scene_value == 1) {
+          if (res.data.result.type_id == 2) {
+            that.setData({
+              zanwu: false,
+            })
+          } else {
+            that.setData({
+              measure: false,
+            })
+          }
+        }
+        if (res.data.is_new == 1) {
           that.setData({
-            is_new: res.data.is_new,
+            is_new: true,
+          })
+        } else {
+          that.setData({
+            is_new: false,
           })
         }
       }
@@ -128,10 +154,10 @@ Page({
       if (that.data.haveMore) {
         // 请求下一页数据
         page++;
-        that.data.page = page;
-        wx.showLoading({
-          title: '加载中',
-        })
+        that.data.page = page
+        // wx.showLoading({
+        //   title: '加载中',
+        // })
         wx.request({
           url: app.globalData.base_url + '/down_goods_list',
           data: {
@@ -143,23 +169,31 @@ Page({
             'content-type': 'application/json'
           },
           success: function(res) {
-            console.log(res)
-            var goods = that.data.goods.concat(res.data.goods);
+            that.data.goods = that.data.goods.concat(res.data.goods);
             that.setData({
-              goods: goods,
+              goods: that.data.goods,
               haveMore: res.data.more,
             })
+            if (res.data.more) {
+              that.setData({
+                noMore: true,
+              })
+            } else {
+              that.setData({
+                noMore: false,
+              })
+            }
           }
         })
       } else {
-        wx.showToast({
-          title: '数据加载完毕',
-          icon: 'success',
-          duration: 1500,
-        })
+        // wx.showToast({
+        //   title: '数据加载完毕',
+        //   icon: 'success',
+        //   duration: 1500,
+        // })
       }
     } else {
-      console.log('没授权')
+      // console.log('没授权')
     }
   },
   analysis: function(e) {
@@ -175,10 +209,10 @@ Page({
           'content-type': 'application/json'
         },
         success: function(res) {
-          console.log(res)
           var id = res.data.res.test_log_id;
           that.setData({
-            test_log_id: id
+            test_log_id: id,
+            look: false,
           })
           if (res.data.state == 1) {
             wx.navigateTo({
@@ -190,54 +224,52 @@ Page({
               perMessage: false,
             })
           }
-
         }
       })
-
     } else {
-      app.onLogin();
+      app.onLogin(function(res) {
+        if (res) {
+          that.onShow();
+        }
+      });
       return;
     }
-    this.setData({
-      look: false,
-    })
   },
   authorizeNow: function(e) {
-    app.onLogin();
-    if (e.detail.errMsg == "getUserInfo:ok") {
-      this.setData({
-        openid: true,
-      })
-    }
+    var that = this;
+    app.onLogin(function(res) {
+      if (res) {
+        that.onShow();
+        that.setData({
+          openid: true,
+        })
+      }
+    });
+  },
+  goSignForm: function(e) {
+    var that = this;
+    wx.request({
+      url: app.globalData.base_url + '/sign',
+      data: {
+        openid: wx.getStorageSync('openid')
+      },
+      success: function(res) {
+        that.setData({
+          register: false,
+          week: res.data.res,
+          count_day: res.data.count_day,
+        })
+        that.onShow();
+      }
+    })
   },
   goSign: function(e) {
     var that = this;
-    if (wx.getStorageSync('openid')) {
-      wx.request({
-        url: app.globalData.base_url + '/sign',
-        data: {
-          openid: wx.getStorageSync('openid')
-        },
-        success: function(res) {
-          console.log(res)
-          that.setData({
-            week: res.data.res,
-            count_day: res.data.count_day,
-          })
-        }
-      })
-      this.setData({
-        register: false
-      })
-    } else {
-      app.onLogin();
-      if (e.detail.errMsg == "getUserInfo:ok") {
-        this.setData({
-          register: false,
-        })
+    app.onLogin(function(res) {
+      if (res) {
+        that.onShow();
       }
-    }
-
+    });
   },
   goHeat: function(e) {
     if (wx.getStorageSync('openid')) {
@@ -245,14 +277,14 @@ Page({
         url: '/pages/heatMoney/index',
       })
     } else {
-      app.onLogin();
-      if (e.detail.errMsg == "getUserInfo:ok") {
-        wx.navigateTo({
-          url: '/pages/heatMoney/index',
-        })
-      }
+      app.onLogin(function(res) {
+        if (res) {
+          wx.navigateTo({
+            url: '/pages/heatMoney/index',
+          })
+        }
+      });
     }
-
   },
   onDetail: function(e) {
     var id = e.currentTarget.dataset.id;
@@ -278,30 +310,55 @@ Page({
       wx.getSetting({
         success(res) {
           if (res.authSetting['scope.werun']) {
-            wx.showModal({
-              title: '提示',
-              content: '花费19969步兑换19.67个热力币',
-              success: function(res) {
-                if (res.confirm) {
-                  setTimeout(function() {
-                    while (step > 0) {
-                      step -= 100;
-                      that.setData({
-                        step: step
-                      })
-                      if (step <= 0) {
-                        that.setData({
-                          step: 0
-                        })
-                        return
+            var step = that.data.step;
+            var money = (step / 1000).toFixed(2);
+            if (step < 1000) {
+              wx.showModal({
+                title: '提示',
+                content: '步数低于1000步无法兑换热力币',
+                showCancel: false,
+              })
+            } else {
+              wx.showModal({
+                title: '兑换提示',
+                content: `花费${step}步兑换${money}个热力币`,
+                success: function(res) {
+                  if (res.confirm) {
+                    wx.request({
+                      url: app.globalData.base_url + '/exchange',
+                      data: {
+                        step_num: step,
+                        openid: wx.getStorageSync('openid')
+                      },
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/json'
+                      },
+                      success: function(res) {
+                        setTimeout(function() {
+                          while (step > 0) {
+                            step -= 100;
+                            that.setData({
+                              step: step
+                            })
+                            if (step <= 0) {
+                              that.setData({
+                                step: 0
+                              })
+                              return
+                            }
+                          }
+                        }, 1000);
                       }
-                    }
-                  }, 1000);
-                } else if (res.cancel) {
-                  return
+                    })
+
+                  } else if (res.cancel) {
+                    return
+                  }
                 }
-              }
-            })
+              })
+            }
+
           } else {
             wx.getWeRunData({
               fail: function(rs) {
@@ -320,12 +377,9 @@ Page({
                             success: (res) => {
                               if (res.authSetting['scope.werun']) {
                                 app.onRun(function(res) {
-                                  console.log(22, res)
-                                  that.setData({
-                                    isOpenWXRun: app.globalData.isOpenWXRun
-                                  })
                                   that.getStepRecord(res.data);
                                 })
+                                that.onShow();
                               }
                             }
                           })
@@ -339,11 +393,7 @@ Page({
                 wx.getWeRunData({
                   success(res) {
                     app.onRun(function(res) {
-                      console.log(11, res)
-                      that.setData({
-                        isOpenWXRun: app.globalData.isOpenWXRun
-                      })
-
+                      that.getStepRecord(res.data);
                     })
                   }
                 });
@@ -353,32 +403,54 @@ Page({
         }
       })
     } else {
-      app.onLogin();
+      app.onLogin(function(res) {
+        if (res) {
+          that.onShow();
+        }
+      });
     }
 
   },
+  getStepRecord: function(runData) {
+    var that = this;
+    var runData = app.globalData.wxRunData;
+    if (runData == '') {
+      var count = 0;
+    } else {
+      var count = runData.data;
+    }
+    that.setData({
+      step: count
+    })
+  },
   lingqu: function(e) {
     const that = this;
-    wx.request({
-      url: app.globalData.base_url + '/is_new',
-      data: {
-        openid: wx.getStorageSync('openid')
-      },
-      success: function(res) {
-        wx.showModal({
-          title: '提示',
-          content: '领取成功',
-          showCancel: false,
-          success: function(res) {
-            if (res.confirm) {
-              that.setData({
-                is_new: 1
-              })
+    if (wx.getStorageSync('openid')) {
+      wx.request({
+        url: app.globalData.base_url + '/is_new',
+        data: {
+          openid: wx.getStorageSync('openid')
+        },
+        success: function(res) {
+          wx.showModal({
+            title: '提示',
+            content: '恭喜您成功领取5热力币！',
+            showCancel: false,
+            success: function(res) {
+              if (res.confirm) {
+                that.onShow();
+              }
             }
-          }
-        })
-      }
-    })
+          })
+        }
+      })
+    } else {
+      app.onLogin(function(res) {
+        if (res) {
+          that.onShow();
+        }
+      })
+    }
 
   },
   goChange: function(e) {
@@ -399,22 +471,21 @@ Page({
             })
           } else {
             wx.navigateTo({
-              url: '/pages/detail/index',
+              url: '/pages/detail/index?id=' + id,
             })
           }
         }
       })
 
     } else {
-      app.onLogin();
+      app.onLogin(function(res) {
+        if (res) {
+          that.onShow();
+        }
+      });
     }
   },
-  wsMessage: function() {
-    this.setData({
-      measure: true,
-      zanwu: true,
-    })
-  },
+
   pickGender: function(e) {
     this.setData({
       [`userInfo.gender`]: Number.parseInt(e.detail.value) + 1
@@ -427,7 +498,7 @@ Page({
   },
   pickHeight: function(e) {
     this.setData({
-      [`userInfo.height`]: Number.parseInt(e.detail.value) + 100
+      [`userInfo.height`]: Number.parseInt(e.detail.value) + 120
     })
   },
   pickWeight: function(e) {
@@ -438,17 +509,33 @@ Page({
   wsResult: function(e) {
     var that = this;
     var userInfo = that.data.userInfo;
-    if (userInfo.gender > 0) {
-      var gender = userInfo.gender;
+    var gender = null;
+    if (e.detail.value.gender > 0) {
+      gender = e.detail.value.gender + 1;
+    } else if (userInfo.gender > 0) {
+      gender = userInfo.gender;
     } else {
-      var gender = e.detail.value.gender + 1;
+      gender = ""
     }
-    gender = gender === 1 ? "男" : "女";
+    var height = null;
+    if (e.detail.value.height > 0) {
+      height = e.detail.value.height;
+    } else if (userInfo.height > 0) {
+      height = userInfo.height;
+    } else {
+      height = ""
+    }
+    var weight = null;
+    if (e.detail.value.weight > 0) {
+      weight = e.detail.value.weight;
+    } else if (userInfo.weight > 0) {
+      weight = userInfo.weight;
+    } else {
+      weight = ""
+    }
     let age = e.detail.value.age;
-    let height = e.detail.value.height;
-    let weight = e.detail.value.weight;
     let mes = "";
-    if (weight === "") {
+    if (weight === "" || weight == 0) {
       mes = "体重"
       wx.showModal({
         title: '信息不完整',
@@ -459,7 +546,7 @@ Page({
       })
       return
     }
-    if (height === "") {
+    if (height === "" || height == 0) {
       mes = "身高"
       wx.showModal({
         title: '信息不完整',
@@ -481,7 +568,7 @@ Page({
       })
       return
     }
-    if (age === "") {
+    if (age === "" || age == 0) {
       mes = "年龄"
       wx.showModal({
         title: '信息不完整',
@@ -492,12 +579,14 @@ Page({
       })
       return
     }
-
+    gender = gender == 1 ? "男" : "女";
     var id = that.data.test_log_id;
+    var type_id = that.data.result.type_id;
     wx.request({
       url: app.globalData.base_url + '/save_info',
       data: {
         gender: gender,
+        type_id: type_id,
         test_log_id: id,
         age: age,
         height: height,
@@ -508,8 +597,19 @@ Page({
         wx.navigateTo({
           url: '/pages/analysis/index?id=' + id,
         })
+        that.setData({
+          perMessage: true,
+        })
       }
-
+    })
+  },
+  wsMessage: function() {
+    this.setData({
+      measure: true,
+      zanwu: true,
+      look: true,
+      clicked: false,
+      clim: false,
     })
   },
   hideHandle: function() {
@@ -517,15 +617,22 @@ Page({
     that.setData({
       noEnough: true,
       register: true,
-      measure: true,
       perMessage: true,
-      zanwu: true,
     })
   },
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function(res) {
+    var openid = wx.getStorageSync('openid')
+    var nickname = wx.getStorageSync('nickname')
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+    }
+    return {
+      title: `${nickname}邀请你用步数免费换礼物，速来！先到先得！`,
+      imageUrl: '../../imgs/share.png',
+      path: '/pages/index/index?openid=' + openid
+    }
   },
 })

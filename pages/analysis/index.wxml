@@ -7,7 +7,7 @@
       <block wx:if="{{userInfo.gender==1}}">
         <image src='../../imgs/nan.png' class='gender abs'></image>
       </block>
-      <block wx:else>
+      <block wx:if="{{userInfo.gender==2}}">
         <image src='../../imgs/nv.png' class='gender abs'></image>
       </block>
     </view>
@@ -17,21 +17,21 @@
         <view class='font cor'>年龄</view>
         <view class=''>
           <text class='num cor'>{{userInfo.age}}</text>
-          <text class='unit cor'>岁</text>
+          <text class='unit cor mf'>岁</text>
         </view>
       </view>
       <view class='flex'>
         <view class='font cor'>体重</view>
         <view class=''>
           <text class='num cor'>{{userInfo.weight}}</text>
-          <text class='unit cor'>kg</text>
+          <text class='unit cor mf'>kg</text>
         </view>
       </view>
       <view class='flex'>
         <view class='font cor'>身高</view>
         <view class=''>
           <text class='num cor'>{{userInfo.height}}</text>
-          <text class='unit cor'>cm</text>
+          <text class='unit cor mf'>cm</text>
         </view>
       </view>
     </view>
@@ -55,10 +55,10 @@
         <view class='yuan first'>
           <view class='dian cor font'>19</view>
         </view>
-        <view class='yuan'>
+        <view class='yuan {{analysisData.body.bmi>19?"":"bgcor" }}'>
           <view class='dian cor font'>24</view>
         </view>
-        <view class='yuan'>
+        <view class='yuan {{analysisData.body.bmi>24?"":"bgcor"}}'>
           <view class='dian cor font'>28</view>
         </view>
       </view>
@@ -85,11 +85,11 @@
           <view class='dian cor font' wx:if="{{userInfo.gender==1}}">10</view>
           <view class='dian cor font' wx:if="{{userInfo.gender==2}}">15</view>
         </view>
-        <view class='yuan'>
+        <view class='yuan {{analysisData.body.tz>25?"":"bgcor"}}'>
           <view class='dian cor font' wx:if="{{userInfo.gender==1}}">15</view>
           <view class='dian cor font' wx:if="{{userInfo.gender==2}}">20</view>
         </view>
-        <view class='yuan'>
+        <view class='yuan {{analysisData.body.tz>50?"":"bgcor"}}'>
           <view class='dian cor font' wx:if="{{userInfo.gender==1}}">20</view>
           <view class='dian cor font' wx:if="{{userInfo.gender==2}}">25</view>
         </view>
@@ -112,11 +112,11 @@
         </view>
         <view class='mt'>
           <text class='shu'>{{analysisData.body.bmr}}</text>
-          <text class='six color'>kcal</text>
+          <text class='six color mfs'>kcal</text>
         </view>
       </view>
     </view>
-    <view class='dream' style='margin-left:18rpx;'>
+    <view class='dream' style='margin-left:20rpx;'>
       <view class='kacl'>
         <view class='dis'>
           <view class='xian'></view>
@@ -124,12 +124,12 @@
         </view>
         <view class='mt'>
           <text class='shu'>{{analysisData.body.dreamWeight}}</text>
-          <text class='six color'>kg</text>
+          <text class='six color mfs'>kg</text>
         </view>
       </view>
     </view>
   </view>
-  <view class='mu mp unit color'>注：不适用于孕妇或运动员</view>
+
   <view class='intro'>
     <image src='../../imgs/tzBg.png' class='tzBg'></image>
     <view class='cor six abs your'>{{analysisData.body.title}}</view>
@@ -160,7 +160,7 @@
   <view class='hotPower' style='margin-bottom:60rpx;min-height:350rpx'>
     <view class='bmi dis'>
       <view class='xian'></view>
-      <view class='ti cor'>燃脂心率：：</view>
+      <view class='ti cor'>燃脂心率：</view>
       <view class='shu'>{{analysisData.sport.countOne}}~{{analysisData.sport.countTwo}}</view>
       <view class='color font' style='margin-left:6rpx;'>次/分钟</view>
     </view>

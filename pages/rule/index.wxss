@@ -18,18 +18,18 @@ image{
 }
 .what{
   width:648rpx;
-  margin:26rpx 0 46rpx 50rpx;
+  margin:16rpx 0 36rpx 54rpx;
 }
 .tit{
   color:#333;
-  margin:15rpx 0 4rpx 0;
+  margin:6rpx 0 4rpx 0;
 }
 .step{
   width:602rpx;
   margin-left:94rpx;
 }
 .detail{
-  width:620rpx;
+  width:610rpx;
   margin-left:94rpx;
 }
 .dis{
@@ -41,13 +41,13 @@ image{
   height:24rpx;
   background:#FBE64D;
   border-radius: 50%;
-  margin:8rpx 10rpx 0 60rpx;
+  margin:1rpx 10rpx 0 60rpx;
   z-index: 10;
 }
 .xianOne{
   background:#E6E6E6;
   width:1rpx;
-  height:468rpx;
+  height:384rpx;
   position:absolute;
   bottom:92rpx;
   left:72rpx;
@@ -57,13 +57,14 @@ image{
   align-items: flex-start;
 }
 .mg{
-  margin:20rpx 0 0 -2rpx;
+  margin:10rpx 0 0 -2rpx;
 }
 .bom{
-  margin-top:29rpx;
+  margin-top:18rpx;
+  margin-right:15rpx;
 }
 .star{
-  margin:9rpx 10rpx 70rpx 60rpx;
+  margin:9rpx 14rpx 70rpx 60rpx;
   font-size:48rpx;
 }
 .foot{
@@ -76,6 +77,6 @@ image{
   position: relative;
 }
 .two{
-  height:340rpx;
-  bottom:33rpx;
+  height:260rpx;
+  bottom:16rpx;
 }

@@ -44,8 +44,13 @@ Page({
           today_currency: res.data.today_currency,
           state: res.data.state,
           day: res.data.res,
-          haveMore:res.data.more,
+        
         })
+        if(res.data.state==1){
+          that.setData({
+            haveMore: res.data.more
+          })
+        }
       }
     })
   },
@@ -58,9 +63,6 @@ Page({
       // 请求下一页数据
       page++;
       that.data.page = page;
-      wx.showLoading({
-        title: '加载中',
-      })
       wx.request({
         url: app.globalData.base_url + '/down_currency_list',
         data: {
@@ -81,18 +83,22 @@ Page({
         }
       })
     } else {
-      wx.showToast({
-        title: '数据加载完毕',
-        icon: 'success',
-        duration: 1500,
-      })
     }
 
   },
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
-  }
+  onShareAppMessage: function (res) {
+    var openid = wx.getStorageSync('openid')
+    var nickname = wx.getStorageSync('nickname')
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+    }
+    return {
+      title: `${nickname}邀请你用步数免费换礼物，速来！先到先得！`,
+      imageUrl: '../../imgs/share.png',
+      path: '/pages/index/index?openid=' + openid
+    }
+  },
 })

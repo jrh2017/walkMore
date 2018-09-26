@@ -1,21 +1,22 @@
 <!--pages/heatMoney/index.wxml-->
 <view class='container'>
-  <block wx:if="{{state==1}}">
-    <view class='head'>
-      <image src='../../imgs/rlbBg.png' class='rlbBg'></image>
-      <view class='dis current'>
-        <view class='flex'>
-          <view class='tit'>当前热力币</view>
-          <view class='num'>{{total_currency}}</view>
-        </view>
-        <view class='xian'></view>
-        <view class='flex'>
-          <view class='tit'>今日获得热力币</view>
-          <view class='num'>{{today_currency}}</view>
-        </view>
+
+  <view class='head'>
+    <image src='../../imgs/rlbBg.png' class='rlbBg'></image>
+    <view class='dis current'>
+      <view class='flex'>
+        <view class='tit'>当前热力币</view>
+        <view class='num'>{{total_currency}}</view>
+      </view>
+      <view class='xian'></view>
+      <view class='flex'>
+        <view class='tit'>今日获得热力币</view>
+        <view class='num'>{{today_currency}}</view>
       </view>
     </view>
-    <button open-type='share' class='primary btnYq' plain='true'>邀请好友得热力币</button>
+  </view>
+  <button open-type='share' class='primary btnYq' plain='true' hover-class='none'>邀请好友得热力币</button>
+  <block wx:if="{{state==1}}">
     <view class='date' wx:for="{{day}}" wx:key="{{index}}" data-index="{{index}}">
       <view class='dis'>
         <view class='line'></view>
@@ -43,21 +44,6 @@
     </view>
   </block>
   <block wx:else>
-    <view class='head'>
-      <image src='../../imgs/rlbBg.png' class='rlbBg'></image>
-      <view class='dis current'>
-        <view class='flex'>
-          <view class='tit'>当前热力币</view>
-          <view class='num'>{{total_currency}}</view>
-        </view>
-        <view class='xian'></view>
-        <view class='flex'>
-          <view class='tit'>今日获得热力币</view>
-          <view class='num'>{{today_currency}}</view>
-        </view>
-      </view>
-    </view>
-     <button open-type='share' class='primary btnYq' plain='true'>邀请好友得热力币</button>
     <image src='../../imgs/moneyBg.png' class='moneyBg'></image>
     <view class='yige'>暂无兑换记录</view>
   </block>

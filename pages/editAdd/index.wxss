@@ -68,10 +68,15 @@ picker{
   line-height: 80rpx;
   border-radius: 40rpx;
   margin-top:40rpx;
+  box-shadow:0px 6rpx 10rpx 0px rgba(71,167,254,0.1);
 }
 .cancel{
   margin-top:30rpx;
   background:#DCE1E6;
   color:#999;
   text-align: center;
+}
+.ad{
+  position: relative;
+  bottom:10rpx;
 }

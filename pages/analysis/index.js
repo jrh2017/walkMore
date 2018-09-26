@@ -21,6 +21,7 @@ Page({
         title:'',
         color:'',
         tz:'',
+        yuan:'',
       },
       eat: {
         calorie: 1000,
