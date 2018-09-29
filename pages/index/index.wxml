@@ -24,24 +24,20 @@
       <button class='btnAnalysis qd abs' plain='true' open-type="getUserInfo" bindgetuserinfo="lingqu" hidden='{{is_new}}'>
         <image src='../../imgs/qd.png' class='qd'></image>
       </button>
+      <block wx:if='{{isHaveopenid}}'>
+        <form bindsubmit='goSignForm' report-submit='true'>
+          <button class='btnAnalysis abs sign' plain='true' form-type='submit' hidden='{{is_sign}}'>
+            <image src='../../imgs/sign.png' class='sign'></image>
+          </button>
+        </form>
+      </block>
+      <block wx:else>
+        <button class='btnAnalysis abs sign' plain='true' open-type="getUserInfo" bindgetuserinfo="authorizeNow">
+          <image src='../../imgs/sign.png' class='sign'></image>
+        </button>
+      </block>
     </view>
     <button open-type="getUserInfo" bindgetuserinfo="exchange" plain='true' class='btnClick clickDh primary' hover-class='none'>点击兑换热力币</button>
-    <block wx:if='{{isHaveopenid}}'>
-      <form bindsubmit='goSignForm' report-submit='true'>
-        <button class='btnAnalysis sign' plain='true' form-type='submit'>
-          <view class='signIn'>
-            <text class='qdsign'>签到</text>
-          </view>
-        </button>
-      </form>
-    </block>
-    <block wx:else>
-      <button class='btnAnalysis sign' plain='true' open-type="getUserInfo" bindgetuserinfo="goSign">
-        <view class='signIn'>
-          <text class='qdsign'>签到</text>
-        </view>
-      </button>
-    </block>
     <view class='yq cor'>每邀请一位新用户即可获赠5枚热力币</view>
     <view class='xian'></view>
     <view class='friend'>
@@ -171,7 +167,7 @@
       </view>
       <image src='../../imgs/delete.png' class='delete wsde {{result.type_id==1?"":"xc"}}' bindtap='wsMessage'></image>
     </view>
-    <view class="dialog"  wx:if="{{clim}}" hidden="{{zanwu}}" catchtouchmove="ture">
+    <view class="dialog" wx:if="{{clim}}" hidden="{{zanwu}}" catchtouchmove="ture">
       <view class="mask" bindtap='wsMessage'></view>
       <view class="condition">
         <view class='title'>
@@ -281,9 +277,9 @@
           <view class='week'>
             <view wx:for="{{week}}" wx:key="{{index}}" data-index="{{index}}">
               <view class='size days'>{{item.week}}</view>
-              <view class='jiabi {{item.text=="未签到"?"gray":item.text=="?"?"bai":""}}'>
-                <image src='../../imgs/rbig.png' class='rbig'></image>
-                <view class='days jia'>{{item.text}}</view>
+              <view class='jiabi {{item.state==1?"yellow":""}} {{index==week.length-1?"jiakuan":""}}'>
+                <image src='{{item.img}}' class='rbig {{index==week.length-1?"rwidh":""}}'></image>
+                <view class='jia {{index==week.length-1?"wen":""}}'>{{item.text}}</view>
               </view>
             </view>
           </view>

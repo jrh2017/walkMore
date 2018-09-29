@@ -1,4 +1,5 @@
 // pages/rule/index.js
+// const Page = require('../../utils/ald-stat.js').Page;
 Page({
 
   /**

@@ -2,33 +2,25 @@
 <view class='container'>
   <block wx:if="{{state==1}}">
     <label wx:for="{{top}}" wx:key="{{index}}" data-index='{{index}}'>
-      <view class='xian' style='top:{{item}}rpx'></view>
+      <view class='xian {{order[index].order_state==1?"xc":order[index].order_state==2?"xc":""}}' style='top:{{item}}rpx'></view>
     </label>
     <view class='order' wx:for="{{order}}" wx:key="{{index}}" data-index="{{index}}">
       <view class='dis'>
         <view class='yuan'></view>
         <view class='date'>{{item.timeline}}</view>
       </view>
-      <view class='temp'>
+      <view class='temp '>
         <image src='../../imgs/orderDe.png' class='orderDe'></image>
         <view class='dispo pos'>
-          <view class='number'>订单编号：{{item.order_sn}}</view>
+          <view class='number size'>订单编号：{{item.order_sn}}</view>
           <block wx:if='{{item.order_state==0}}'>
-            <view class='state'>待发货</view>
+            <view class='state size'>待发货</view>
           </block>
           <block wx:if='{{item.order_state==1}}'>
-            <view class='dis ' bindtap='logistics' data-id="{{item.id}}">
-              <view class='aa'>已发货</view>
-              <view class='duan'></view>
-              <view class='aa'>快递详情</view>
-            </view>
+           <view class='state size'>已发货</view>
           </block>
           <block wx:if='{{item.order_state==2}}'>
-            <view class='dis'  bindtap='logistics' data-id="{{item.id}}">
-              <view class='aa'>已收货</view>
-              <view class='duan'></view>
-              <view class='aa'>快递详情</view>
-            </view>
+            <view class='state size'>已收货</view>
           </block>
         </view>
         <view>
@@ -41,11 +33,16 @@
           <text class='yprice'>原价￥{{item.price}}</text>
         </view>
       </view>
+      <view class='dis copy' wx:if="{{item.order_state==1||item.order_state==2}}">
+        <view class='cor size company'>{{company}}：</view>
+        <view class='cor size'>{{orderNumber}}</view>
+        <view class='state size cop' bindtap='copyText' data-text="{{orderNumber}}">复制查询</view>
+      </view>
     </view>
     <view class='kong'></view>
   </block>
   <block wx:else>
     <image src='../../imgs/orderBg.png' class='orderBg'></image>
-    <view class='zan'>暂无订单详情</view>
+    <view class='zan size'>暂无订单详情</view>
   </block>
 </view>

@@ -1,6 +1,6 @@
 <!--pages/detail/index.wxml-->
 <view class='container'>
-  <image src='{{goods.imgs}}' class='detailBg'></image>
+  <image src='{{goods.imgs}}' class='detailBg' lazy-load='true'></image>
   <view class='diss'>
     <view class='buju'>
       <view class='primary postage'>包邮</view>
@@ -47,7 +47,7 @@
     </view>
   </view>
   <view wx:for="{{goods.content}}" wx:key="{{index}}">
-    <image src='{{item}}' class='item'></image>
+    <image src='{{item}}' class='item'  lazy-load='true'></image>
   </view>
   <view class='ditu'></view>
   <block wx:if="{{button_state==0}}">
@@ -69,7 +69,7 @@
     </view>
     <view class='dis'>
       <view>
-        <image src='{{goods.imgs}}' class='img'></image>
+        <image src='{{goods.imgs}}' class='img'  lazy-load='true'></image>
       </view>
       <view>
         <view class='introduce'>{{goods.title}}</view>

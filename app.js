@@ -1,4 +1,5 @@
 //app.js
+// const App = require('./utils/ald-stat.js').App;
 App({
   onLaunch: function(options) {
     var that = this;
@@ -42,6 +43,7 @@ App({
                     if (res.data.status == 1) {
                       that.globalData.isOpenWXRun = true;
                       that.globalData.wxRunData = res.data;
+                      typeof cb == "function" && cb(res.data);
                     } else {
                       that.globalData.isOpenWXRun = false;
                       wx.login({
@@ -64,6 +66,7 @@ App({
                                   that.globalData.userInfo = res.data.userinfo;
                                   wx.setStorageSync('session', res.data.hash);
                                   wx.setStorageSync('openid', res.data.openid);
+                                  typeof cb == "function" && cb(res.data);
                                 }
                               })
                             },
@@ -107,6 +110,7 @@ App({
                   wx.setStorageSync('nickname', res.data.userinfo.nickname);
                   wx.setStorageSync('session', res.data.hash);
                   wx.setStorageSync('openid', res.data.openid);
+                  typeof cb == "function" && cb(res.data);
                 }
               })
             },
@@ -147,6 +151,7 @@ App({
                     wx.setStorageSync('nickname', res.data.userinfo.nickname);
                     wx.setStorageSync('session', res.data.hash);
                     wx.setStorageSync('openid', res.data.openid);
+                    typeof cb == "function" && cb(res.data);
                   }
                 })
               },
@@ -162,26 +167,29 @@ App({
     var that = this;
     wx.checkSession({
       success: function(res) {
-        //that.onRun();
-        if (wx.getStorageSync('openid')) {
-          wx.request({
-            url: that.globalData.base_url + '/login_info',
-            data: {
-              scene_value: 0,
-              openid: wx.getStorageSync('openid'),
-            },
-            method: 'GET',
-            header: {
-              'content-type': 'application/json'
-            },
-            success: function(res) {
-              that.globalData.userInfo = res.data.userinfo;
-            }
-          })
+        if (!that.globalData.userInfo) {
+          if (wx.getStorageSync('openid')) {
+            wx.request({
+              url: that.globalData.base_url + '/login_info',
+              data: {
+                scene_value: 0,
+                openid: wx.getStorageSync('openid'),
+              },
+              method: 'GET',
+              header: {
+                'content-type': 'application/json'
+              },
+              success: function(res) {
+                that.globalData.userInfo = res.data.userinfo;
+                typeof cb == "function" && cb(that.globalData.userInfo)
+              }
+            })
+          } else {
+            that.onLogin(cb);
+          }
         } else {
-          that.onLogin(cb);
+          typeof cb == "function" && cb(that.globalData.userInfo)
         }
-
       },
       fail: function(res) {
         that.onLogin(cb);
@@ -189,35 +197,38 @@ App({
     })
 
   },
-  onRefreshs: function(cb) {
+  onRefreshs: function (cb) {
     var that = this;
     wx.checkSession({
-      success: function(res) {
-        //that.onRun();
-        if (wx.getStorageSync('openid')) {
-          wx.request({
-            url: that.globalData.base_url + '/login_info',
-            data: {
-              scene_value: 1,
-              openid: wx.getStorageSync('openid'),
-            },
-            method: 'GET',
-            header: {
-              'content-type': 'application/json'
-            },
-            success: function(res) {
-              that.globalData.userInfo = res.data.userinfo;
-            }
-          })
+      success: function (res) {
+        if (!that.globalData.userInfo) {
+          if (wx.getStorageSync('openid')) {
+            wx.request({
+              url: that.globalData.base_url + '/login_info',
+              data: {
+                scene_value: 1,
+                openid: wx.getStorageSync('openid'),
+              },
+              method: 'GET',
+              header: {
+                'content-type': 'application/json'
+              },
+              success: function (res) {
+                that.globalData.userInfo = res.data.userinfo;
+                typeof cb == "function" && cb(that.globalData.userInfo)
+              }
+            })
+          } else {
+            that.onLogin(cb);
+          }
         } else {
-          that.onLogin(cb);
+          typeof cb == "function" && cb(that.globalData.userInfo)
         }
       },
-      fail: function(res) {
+      fail: function (res) {
         that.onLogin(cb);
       },
     })
-
   },
   globalData: {
     base_url: "https://www.mnancheng.com/admin/wechat",

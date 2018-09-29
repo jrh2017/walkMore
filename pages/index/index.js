@@ -1,4 +1,5 @@
 // pages/index/index.js
+// const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 const ageArr = [],
   heightArr = [],
@@ -35,6 +36,7 @@ Page({
     openid: '',
     result: '',
     is_new: true,
+    is_sign: true,
     page: 1,
     haveMore: true,
     count_day: '',
@@ -67,7 +69,7 @@ Page({
     var that = this;
     if (options.openid) {
       that.setData({
-        openid:options.openid
+        openid: options.openid
       })
     }
   },
@@ -87,7 +89,7 @@ Page({
       that.setData({
         isHaveopenid: true
       })
-      if(that.data.openid){
+      if (that.data.openid) {
         var openid = that.data.openid
         wx.request({
           url: app.globalData.base_url + '/invite_friends',
@@ -95,9 +97,9 @@ Page({
             openid: openid,
             hy_openid: wx.getStorageSync('openid')
           },
-          success: function (res) { }
+          success: function(res) {}
         })
-      }else{
+      } else {
         console.log('没有获取到你的openid')
       }
     } else {
@@ -122,6 +124,7 @@ Page({
           haveMore: true,
           noMore: true,
           page: 1,
+          is_sign: res.data.is_sign,
         })
         if (res.data.scene_value == 1) {
           if (res.data.result.type_id == 2) {
@@ -169,6 +172,7 @@ Page({
             'content-type': 'application/json'
           },
           success: function(res) {
+            console.log(res)
             that.data.goods = that.data.goods.concat(res.data.goods);
             that.setData({
               goods: that.data.goods,
@@ -240,9 +244,6 @@ Page({
     app.onLogin(function(res) {
       if (res) {
         that.onShow();
-        that.setData({
-          openid: true,
-        })
       }
     });
   },
@@ -262,14 +263,6 @@ Page({
         that.onShow();
       }
     })
-  },
-  goSign: function(e) {
-    var that = this;
-    app.onLogin(function(res) {
-      if (res) {
-        that.onShow();
-      }
-    });
   },
   goHeat: function(e) {
     if (wx.getStorageSync('openid')) {
@@ -337,7 +330,7 @@ Page({
                       success: function(res) {
                         setTimeout(function() {
                           while (step > 0) {
-                            step -= 100;
+                            step -= 50;
                             that.setData({
                               step: step
                             })
@@ -348,7 +341,8 @@ Page({
                               return
                             }
                           }
-                        }, 1000);
+                        }, 1500);
+                        that.onShow();
                       }
                     })
 
@@ -409,12 +403,11 @@ Page({
         }
       });
     }
-
   },
   getStepRecord: function(runData) {
     var that = this;
     var runData = app.globalData.wxRunData;
-    if (runData == '') {
+    if (runData == '' ||runData ==null) {
       var count = 0;
     } else {
       var count = runData.data;

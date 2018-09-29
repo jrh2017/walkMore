@@ -1,4 +1,5 @@
 // pages/order/index.js
+// const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 Page({
 
@@ -9,6 +10,8 @@ Page({
     top:'',
     state:'',
     order:'',
+    company:'顺丰快递',
+    orderNumber: '10235201123132124',
   },
 
   /**
@@ -17,8 +20,20 @@ Page({
   onLoad: function (options) {
   
   },
-
-
+  copyText: function (e) {
+    wx.setClipboardData({
+      data: e.currentTarget.dataset.text,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: '复制成功'
+            })
+          }
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -41,12 +56,6 @@ Page({
           })
         }
       }
-    })
-  },
-  logistics:function(e){
-    var orderId = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '/pages/logistics/index?orderId='+orderId,
     })
   },
 })

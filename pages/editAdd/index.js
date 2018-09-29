@@ -1,4 +1,5 @@
 // pages/editAdd/index.js
+// const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 Page({
 
@@ -56,7 +57,7 @@ Page({
     var that = this;
     var region = null;
     if (e.detail.value.region!="") {
-      region = e.detail.value.region.toString();
+      region = e.detail.value.region.join(',');
     } else if (that.data.region) {
       region = that.data.region;
     } else {

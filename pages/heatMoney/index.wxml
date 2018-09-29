@@ -1,6 +1,5 @@
 <!--pages/heatMoney/index.wxml-->
 <view class='container'>
-
   <view class='head'>
     <image src='../../imgs/rlbBg.png' class='rlbBg'></image>
     <view class='dis current'>
