@@ -25,7 +25,7 @@
       </view>
       <view class='phone'>
         <image class='icon ad' src='../../imgs/ad.png'></image>
-        <textarea class='adInput' placeholder='请输入详细地址' placeholder-style='color:#B3B3B3' value='{{detailAddress}}' name='detailAddress' bindconfirm='detailAddress'></textarea>
+        <textarea class='adInput' placeholder='请输入详细地址' placeholder-style='color:#B3B3B3' maxlength='38' value='{{detailAddress}}' name='detailAddress' bindconfirm='detailAddress'></textarea>
       </view>
       <view class='intro'>请确认收货信息无误，如因地址或手机号码填写错误，导致无法收到商品，走多多不会补寄商品。</view>
     </view>

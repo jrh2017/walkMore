@@ -64,14 +64,14 @@
                 <view class='duan'></view>
                 <view class='cor size'>体重</view>
               </view>
-              <picker bindchange="pickWeight" name='weight' class='pick' value='{{userInfo.weight}}' range="{{weightArr}}">
-                <block wx:if="{{userInfo.weight>0}}">
-                  <view class='kg'>{{userInfo.weight}}kg</view>
-                </block>
-                <block wx:else>
+              <block wx:if="{{userInfo.weight>0}}">
+                <view class='kg'>{{userInfo.weight}}kg</view>
+              </block>
+              <block wx:else>
+                <picker bindchange="pickWeight" name='weight' class='pick' value='{{userInfo.weight}}' range="{{weightArr}}">
                   <view class='place mts'>请输入你的体重</view>
-                </block>
-              </picker>
+                </picker>
+              </block>
             </view>
             <image src='../../imgs/weightBg.png' class='ka'></image>
           </view>
@@ -81,14 +81,14 @@
                 <view class='duan'></view>
                 <view class='cor size'>身高</view>
               </view>
-              <picker bindchange="pickHeight" name='height' class='pick' value='{{userInfo.height}}' range="{{heightArr}}">
-                <block wx:if="{{userInfo.height>0}}">
-                  <view class='kg'>{{userInfo.height}}cm</view>
-                </block>
-                <block wx:else>
+              <block wx:if="{{userInfo.height>0}}">
+                <view class='kg'>{{userInfo.height}}cm</view>
+              </block>
+              <block wx:else>
+                <picker bindchange="pickHeight" name='height' class='pick' value='{{userInfo.height}}' range="{{heightArr}}">
                   <view class='place mts'>请输入你的身高</view>
-                </block>
-              </picker>
+                </picker>
+              </block>
             </view>
             <image src='../../imgs/heightBg.png' class='ka'></image>
           </view>
@@ -129,10 +129,10 @@
             </view>
             <image src='../../imgs/ageBg.png' class='ka'></image>
           </view>
-          <button class='btnYq cor ckjk' plain='true' form-type="submit">查看健康测评</button>
+          <button class='btnYq cor ckjk' plain='true' form-type="submit" hover-class='none'>查看健康测评</button>
         </view>
       </form>
     </view>
-    <image src='../../imgs/delete.png' class='delete jkcp' bindtap='hideHandle'></image>
+    <image src='../../imgs/delete.png' class='delete jkcps' bindtap='hideHandle'></image>
   </view>
 </view>

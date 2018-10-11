@@ -15,6 +15,7 @@ Page({
     goods: '',
     addinfo: '',
     isHaveopenid: '',
+    disabled:false,
   },
 
   /**
@@ -99,14 +100,18 @@ Page({
     })
   },
   affirm: function(e) {
-    console.log(e.detail.formId)
     var that = this;
+    var form_id = e.detail.formId;
     var goods_id = that.data.goods_id;
     var addinfo_state = that.data.addinfo_state;
     if (addinfo_state == 1) {
+      that.setData({
+        disabled: true,
+      })
       wx.request({
         url: app.globalData.base_url + '/duihuan_goods',
         data: {
+          form_id: form_id,
           goods_id: goods_id,
           openid: wx.getStorageSync('openid')
         },
@@ -150,7 +155,7 @@ Page({
       // 来自页面内转发按钮
     }
     return {
-      title: `微信步数，居然可免费兑换${title}，你也来吧！`,
+      title: `微信步数，居然可以免费兑换${title}，你也来吧！`,
       imageUrl: '../../imgs/share.png',
       path: '/pages/index/index?openid=' + openid
     }

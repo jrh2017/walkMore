@@ -66,6 +66,7 @@ App({
                                   that.globalData.userInfo = res.data.userinfo;
                                   wx.setStorageSync('session', res.data.hash);
                                   wx.setStorageSync('openid', res.data.openid);
+                                  wx.setStorageSync('open_id', res.data.open_id);
                                   typeof cb == "function" && cb(res.data);
                                 }
                               })
@@ -110,6 +111,7 @@ App({
                   wx.setStorageSync('nickname', res.data.userinfo.nickname);
                   wx.setStorageSync('session', res.data.hash);
                   wx.setStorageSync('openid', res.data.openid);
+                  wx.setStorageSync('open_id', res.data.open_id);
                   typeof cb == "function" && cb(res.data);
                 }
               })
@@ -124,7 +126,7 @@ App({
   },
   onLogin: function(cb) {
     var that = this;
-    if (wx.getStorageSync('openid')) {
+    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id')) {
       that.onRefresh(cb);
     } else {
       wx.login({
@@ -151,6 +153,7 @@ App({
                     wx.setStorageSync('nickname', res.data.userinfo.nickname);
                     wx.setStorageSync('session', res.data.hash);
                     wx.setStorageSync('openid', res.data.openid);
+                    wx.setStorageSync('open_id', res.data.open_id);
                     typeof cb == "function" && cb(res.data);
                   }
                 })
@@ -195,7 +198,6 @@ App({
         that.onLogin(cb);
       },
     })
-
   },
   onRefreshs: function (cb) {
     var that = this;

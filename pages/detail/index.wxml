@@ -97,7 +97,7 @@
       <view class='please' bindtap='editAddress'>您还没有填写收货地址，请点击填写</view>
     </view>
     <form bindsubmit='affirm' report-submit='true'>
-      <button class='primary freeDh' hover-class='none' plain='true' form-type='submit'>立即兑换</button>
+      <button class='primary freeDh' hover-class='none' plain='true' form-type='submit' disabled='{{disabled}}'>立即兑换</button>
     </form>
   </view>
 </view>

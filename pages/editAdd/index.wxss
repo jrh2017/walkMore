@@ -29,7 +29,7 @@ input,textarea,picker{
 }
 picker{
   margin-left:10rpx;
-  height:60rpx;
+  min-height:60rpx;
 }
 .name{
   width:240rpx;
@@ -78,5 +78,5 @@ picker{
 }
 .ad{
   position: relative;
-  bottom:10rpx;
+  bottom:12rpx;
 }

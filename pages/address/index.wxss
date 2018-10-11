@@ -28,7 +28,7 @@
 
 .message {
   width: calc(100% - 60rpx);
-  height: 236rpx;
+  min-height: 236rpx;
   margin-top: 30rpx;
   background: #fff;
   border-radius: 10rpx;

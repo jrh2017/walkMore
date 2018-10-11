@@ -10,8 +10,6 @@ Page({
     top:'',
     state:'',
     order:'',
-    company:'顺丰快递',
-    orderNumber: '10235201123132124',
   },
 
   /**

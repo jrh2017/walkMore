@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isHaveShow: '',
+    isHaveShow:true,
   },
 
   /**
@@ -16,7 +16,7 @@ Page({
   onLoad: function(options) {
     var that = this;
     if (app.globalData.scene === 1017) {
-      if (wx.getStorageSync('openid')) {
+      if (wx.getStorageSync('openid') && wx.getStorageSync('open_id')) {
         app.onRefreshs(function(res) {
           if (res) {
             wx.switchTab({
@@ -30,9 +30,6 @@ Page({
         })
       }
     } else {
-      if (wx.getStorageSync('openid')) {
-        app.onRefresh()
-      }
       that.setData({
         isHaveShow: false,
       })

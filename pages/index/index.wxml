@@ -8,12 +8,12 @@
           <text>{{money}}</text>
         </view>
       </button>
-      <button class='btnAnalysis sos {{look?"":"gao"}}' plain='true' open-type="getUserInfo" hover-class='none' bindgetuserinfo="analysis">
+      <button class='btnAnalysis sos ' plain='true' open-type="getUserInfo" hover-class='none' bindgetuserinfo="analysis">
         <view class='diss' style='padding:8rpx 0 0 23rpx'>
           <image src='../../imgs/jkcp.png' class='jkcp'></image>
           <view class='cor size analysis'>健康测评</view>
         </view>
-        <image src='../../imgs/look.png' class='look' wx:if="{{look}}"></image>
+        <!-- <image src='../../imgs/look.png' class='look' wx:if="{{look}}"></image>   上边button按钮用到的{{look?"":"gao"}}-->
       </button>
     </view>
     <view class='fg'>
@@ -21,9 +21,12 @@
       <view class='useStep abs size cor'>可兑换步数</view>
       <view class='num abs cor'>{{step}}</view>
       <view class='clear abs size'>每日24点清零</view>
-      <button class='btnAnalysis qd abs' plain='true' open-type="getUserInfo" bindgetuserinfo="lingqu" hidden='{{is_new}}'>
-        <image src='../../imgs/qd.png' class='qd'></image>
+      <button class='btnAnalysis qd abs' plain='true' open-type="getUserInfo" disabled='{{disab}}' bindgetuserinfo="lingqu" hidden='{{is_new}}'>
+        <image src='../../imgs/qd.png' class='qds'></image>
       </button>
+      <view class='btnAnalysis qd abs rule' bindtap='rule' hidden='{{is_rule}}'>
+        <image src='../../imgs/rules.png' class='qds'></image>
+      </view>
       <block wx:if='{{isHaveopenid}}'>
         <form bindsubmit='goSignForm' report-submit='true'>
           <button class='btnAnalysis abs sign' plain='true' form-type='submit' hidden='{{is_sign}}'>
@@ -37,7 +40,7 @@
         </button>
       </block>
     </view>
-    <button open-type="getUserInfo" bindgetuserinfo="exchange" plain='true' class='btnClick clickDh primary' hover-class='none'>点击兑换热力币</button>
+    <button open-type="getUserInfo" bindgetuserinfo="exchange" plain='true' class='btnClick clickDh primary' hover-class='none'>{{ isOpenWXRun? '点击兑换热力币': '开启微信运动步数' }}</button>
     <view class='yq cor'>每邀请一位新用户即可获赠5枚热力币</view>
     <view class='xian'></view>
     <view class='friend'>
@@ -162,7 +165,7 @@
             </view>
             <image src='../../imgs/heightBg.png' class='ka'></image>
           </view>
-          <view class='btnYq cor ws' bindtap='wsMessage'>健康测评</view>
+          <view class='btnYq cor ws' bindtap='wsMessage'>步数免费兑换礼品</view>
         </view>
       </view>
       <image src='../../imgs/delete.png' class='delete wsde {{result.type_id==1?"":"xc"}}' bindtap='wsMessage'></image>
@@ -176,7 +179,7 @@
         </view>
         <image src='../../imgs/zanwu.png' class='zanwu'></image>
         <view class='cor size wu'>暂无称重结果</view>
-        <view class='btnYq cor ws' style='margin-bottom:40rpx;' bindtap='wsMessage'>健康测评</view>
+        <view class='btnYq cor ws' style='margin-bottom:40rpx;' bindtap='wsMessage'>步数免费兑换礼品</view>
       </view>
       <image src='../../imgs/delete.png' class='delete wude' bindtap='wsMessage'></image>
     </view>
@@ -285,6 +288,37 @@
           </view>
           <view class='qdqd' bindtap='hideHandle'>确定</view>
           <view class='dbsm'>以周为周期，累计签到奖励币数为当周签到天数</view>
+        </view>
+      </view>
+    </view>
+    <!-- 提示1 -->
+    <view class="dialog" hidden="{{third}}" catchtouchmove="ture">
+      <view class="mask"></view>
+      <view class="conditionOne">
+        <image src='../../imgs/first.png' class='one' bindtap='tishiThree'></image>
+        <view class='click'>
+          <view>点击这里</view>
+          <view class='clickCon'>可以查看热力币明细哦</view>
+        </view>
+      </view>
+    </view>
+    <view class="dialog" wx:if='{{clickFirst}}' hidden="{{first}}" catchtouchmove="ture">
+      <view class="mask"></view>
+      <view class="conditionOne second">
+        <image src='../../imgs/second.png' class='two' bindtap='tishiOne'></image>
+        <view class='click abf'>
+          <view>点击这里</view>
+          <view class='clickCon'>步数可以兑换热力币哦</view>
+        </view>
+      </view>
+    </view>
+    <view class="dialog" hidden="{{second}}" catchtouchmove="ture">
+      <view class="mask"></view>
+      <view class="conditionOne third">
+        <image src='../../imgs/third.png' class='three' bindtap='tishiTwo'></image>
+        <view class='click abf rr'>
+          <view>点击邀请好友</view>
+          <view class='clickCon'>邀请成功即得热力币</view>
         </view>
       </view>
     </view>
