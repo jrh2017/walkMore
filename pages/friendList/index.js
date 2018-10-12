@@ -50,9 +50,9 @@ Page({
       // 来自页面内转发按钮
     }
     return {
-      title: `${nickname}邀请你用步数免费换礼物，速来！先到先得！`,
+      title: `${nickname}邀请你用步数免费换礼物，数量有限！先到先得！`,
       imageUrl: '../../imgs/share.png',
-      path: '/pages/index/index?openid=' + openid
+      path: '/pages/login/index?openid=' + openid
     }
   },
 })

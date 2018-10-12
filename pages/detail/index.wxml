@@ -13,6 +13,7 @@
       <view>
         <image src='../../imgs/rb.png' class='rb'></image>
         <text class='price'>{{goods.currency}}</text>
+        <text class='price' style='padding-left:6rpx;'>热力币</text>
       </view>
       <view class='yprice'>原价￥{{goods.price}}</view>
     </view>

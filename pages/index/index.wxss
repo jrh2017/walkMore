@@ -31,7 +31,7 @@
 .rb {
   width: 28rpx;
   height: 36rpx;
-  padding-right: 10rpx;
+  padding-right:6rpx;
   position: relative;
   top: 6rpx;
 }
@@ -289,7 +289,7 @@
 .goods {
   width: 240rpx;
   height: 240rpx;
-  margin: 30rpx;
+  margin: 30rpx 18rpx 30rpx 30rpx;
 }
 
 .only {
@@ -307,7 +307,7 @@
   font-size: 24rpx;
   color: #b3b3b3;
   text-decoration: line-through;
-  padding-left: 20rpx;
+  padding-left: 18rpx;
 }
 
 .change {
@@ -633,7 +633,7 @@
 }
 
 .wsde {
-  bottom: 120rpx;
+  bottom: 80rpx;
 }
 
 .jkcps {
@@ -677,7 +677,7 @@
 }
 
 .xc {
-  bottom: 188rpx;
+  bottom: 176rpx;
 }
 
 .rwidh {
@@ -711,6 +711,8 @@
 .one {
   width: 176rpx;
   height: 128rpx;
+  left:92rpx;
+  top:-8rpx;
 }
 
 .two {
@@ -753,4 +755,11 @@
 .rr{
   right:180rpx;
   bottom:12rpx;
+}
+.pdf{
+  padding-left:6rpx;
+}
+.oneF{
+  right:0;
+  bottom:-58rpx;
 }

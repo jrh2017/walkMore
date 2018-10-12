@@ -15,6 +15,6 @@
 }
 .need{
   color:#333;
-  font-size:28rpx;
+  font-size:32rpx;
   margin:96rpx 0 40rpx 0;
 }

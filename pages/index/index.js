@@ -1,5 +1,4 @@
 // pages/index/index.js
-// const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 const ageArr = [],
   heightArr = [],
@@ -52,7 +51,7 @@ Page({
     noMore: true,
     clicked: true,
     clim: true,
-    isOpenWXRun: true,
+    isOpenWXRun: false,
     disab: false,
     first: true,
     second: true,
@@ -80,6 +79,7 @@ Page({
         openid: options.openid
       })
     }
+  
   },
 
   /**
@@ -221,9 +221,12 @@ Page({
   },
   tishiThree: function(e) {
     var that = this;
+    var form_id = e.detail.formId;
     wx.request({
       url: app.globalData.base_url + '/tishi',
       data: {
+        form_id: form_id,
+        open_id: wx.getStorageSync('open_id'),
         openid: wx.getStorageSync('openid')
       },
       method: 'GET',
@@ -541,8 +544,8 @@ Page({
             disab: true,
           })
           wx.showModal({
-            title: '领取成功',
-            content: '恭喜您成功领取5热力币！',
+            title: '领币成功',
+            content: '恭喜您成功领取5热力币，多走步数可兑换更多热力币！',
             showCancel: false,
             success: function(res) {
               if (res.confirm) {
@@ -739,9 +742,9 @@ Page({
       // 来自页面内转发按钮
     }
     return {
-      title: `${nickname}邀请你用步数免费换礼物，速来！先到先得！`,
+      title: `${nickname}邀请你用步数免费换礼物，数量有限，先到先得！`,
       imageUrl: '../../imgs/share.png',
-      path: '/pages/index/index?openid=' + openid
+      path: '/pages/login/index?openid=' + openid
     }
   },
 })

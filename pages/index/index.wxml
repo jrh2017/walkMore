@@ -21,12 +21,10 @@
       <view class='useStep abs size cor'>可兑换步数</view>
       <view class='num abs cor'>{{step}}</view>
       <view class='clear abs size'>每日24点清零</view>
-      <button class='btnAnalysis qd abs' plain='true' open-type="getUserInfo" disabled='{{disab}}' bindgetuserinfo="lingqu" hidden='{{is_new}}'>
+      <button class='btnAnalysis qd abs rule' plain='true' open-type="getUserInfo" disabled='{{disab}}' bindgetuserinfo="lingqu" hidden='{{is_new}}'>
         <image src='../../imgs/qd.png' class='qds'></image>
       </button>
-      <view class='btnAnalysis qd abs rule' bindtap='rule' hidden='{{is_rule}}'>
-        <image src='../../imgs/rules.png' class='qds'></image>
-      </view>
+      <image src='../../imgs/rules.png' class='qd abs qds' bindtap='rule' hidden='{{is_rule}}'></image>
       <block wx:if='{{isHaveopenid}}'>
         <form bindsubmit='goSignForm' report-submit='true'>
           <button class='btnAnalysis abs sign' plain='true' form-type='submit' hidden='{{is_sign}}'>
@@ -88,12 +86,13 @@
     <view wx:for="{{goods}}" wx:key="{{index}}" data-index="{{index}}">
       <view class='wareDetail'>
         <image src='{{item.photo}}' lazy-load='true' class='goods' catchtap='onDetail' lazy-load='true' data-id="{{item.goods_id}}"></image>
-        <view style='margin:32rpx 0 0 30rpx;'>
+        <view style='margin:32rpx 0 0 10rpx;'>
           <view class='size cor'>{{item.title}}</view>
           <view class='only'>剩余{{item.num}}件</view>
           <view style='padding:45rpx 0 16rpx 0;'>
             <image src='../../imgs/rb.png' class='rb' lazy-load='true'></image>
             <text class='price'>{{item.currency}}</text>
+            <text class='price pdf'>热力币</text>
             <text class='yprice'>原价￥{{item.price}}</text>
           </view>
           <block wx:if="{{item.state==0}}">
@@ -110,7 +109,7 @@
       <view class="condition">
         <view class='title'>
           <image src='../../imgs/title.png' class='title'></image>
-          <view class='abs cor tit'>热力币不足</view>
+          <view class='abs cor tit' style='font-weight:bold'>热力币不足</view>
         </view>
         <view class='disDia'>
           <view>
@@ -121,14 +120,16 @@
             <view style='margin-top:90rpx;'>
               <image src='../../imgs/rb.png' class='rb'></image>
               <text class='price'>{{goods_detail.currency}}</text>
+              <text class='price pdf'>热力币</text>
             </view>
           </view>
         </view>
         <view class='dis myRlb'>
           <view class='cor introDialog'>我的热力币</view>
-          <view>
+          <view style='margin-right:108rpx'>
             <image src='../../imgs/rb.png' class='rb'></image>
             <text class='cor size'>{{money}}</text>
+            <text class='cor size pdf'>热力币</text>
           </view>
         </view>
         <view>
@@ -165,7 +166,7 @@
             </view>
             <image src='../../imgs/heightBg.png' class='ka'></image>
           </view>
-          <view class='btnYq cor ws' bindtap='wsMessage'>步数免费兑换礼品</view>
+          <view class='btnYq cor ws' bindtap='wsMessage'>步数换礼，立即领取</view>
         </view>
       </view>
       <image src='../../imgs/delete.png' class='delete wsde {{result.type_id==1?"":"xc"}}' bindtap='wsMessage'></image>
@@ -179,7 +180,7 @@
         </view>
         <image src='../../imgs/zanwu.png' class='zanwu'></image>
         <view class='cor size wu'>暂无称重结果</view>
-        <view class='btnYq cor ws' style='margin-bottom:40rpx;' bindtap='wsMessage'>步数免费兑换礼品</view>
+        <view class='btnYq cor ws' style='margin-bottom:40rpx;' bindtap='wsMessage'>步数换礼，立即领取</view>
       </view>
       <image src='../../imgs/delete.png' class='delete wude' bindtap='wsMessage'></image>
     </view>
@@ -295,8 +296,12 @@
     <view class="dialog" hidden="{{third}}" catchtouchmove="ture">
       <view class="mask"></view>
       <view class="conditionOne">
-        <image src='../../imgs/first.png' class='one' bindtap='tishiThree'></image>
-        <view class='click'>
+        <form bindsubmit='tishiThree' report-submit='true'>
+          <button class='btnAnalysis abs one' plain='true' form-type='submit'>
+            <image src='../../imgs/first.png' class='one'></image>
+          </button>
+        </form>
+        <view class='click abf oneF'>
           <view>点击这里</view>
           <view class='clickCon'>可以查看热力币明细哦</view>
         </view>

@@ -60,6 +60,7 @@
         <view>
           <image src='../../imgs/rb.png' class='rb'></image>
           <text class='price'>{{msg.currency}}</text>
+          <text class='price' style='padding-left:6rpx;'>热力币</text>
         </view>
       </view>
     </view>

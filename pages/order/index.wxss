@@ -78,7 +78,9 @@
 .price {
   color: #47a7fe;
   font-size: 32rpx;
-  padding-right: 16rpx;
+}
+.ppd{
+   padding:0 16rpx 0 6rpx;
 }
 
 .yprice {

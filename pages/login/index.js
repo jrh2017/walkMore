@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isHaveShow:true,
+    isHaveShow:false,
   },
 
   /**
@@ -30,12 +30,21 @@ Page({
         })
       }
     } else {
+      if (wx.getStorageSync('openid')) {
+        app.onRefresh(function(res){
+          wx.switchTab({
+            url: '/pages/index/index',
+          })
+        })
+      }else{
+        wx.switchTab({
+          url: '/pages/index/index',
+        })
+      }
       that.setData({
         isHaveShow: false,
       })
-      wx.switchTab({
-        url: '/pages/index/index',
-      })
+   
     }
   },
 

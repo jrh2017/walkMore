@@ -170,28 +170,24 @@ App({
     var that = this;
     wx.checkSession({
       success: function(res) {
-        if (!that.globalData.userInfo) {
-          if (wx.getStorageSync('openid')) {
-            wx.request({
-              url: that.globalData.base_url + '/login_info',
-              data: {
-                scene_value: 0,
-                openid: wx.getStorageSync('openid'),
-              },
-              method: 'GET',
-              header: {
-                'content-type': 'application/json'
-              },
-              success: function(res) {
-                that.globalData.userInfo = res.data.userinfo;
-                typeof cb == "function" && cb(that.globalData.userInfo)
-              }
-            })
-          } else {
-            that.onLogin(cb);
-          }
+        if (wx.getStorageSync('openid')) {
+          wx.request({
+            url: that.globalData.base_url + '/login_info',
+            data: {
+              scene_value: 0,
+              openid: wx.getStorageSync('openid'),
+            },
+            method: 'GET',
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function(res) {
+              that.globalData.userInfo = res.data.userinfo;
+              typeof cb == "function" && cb(that.globalData.userInfo)
+            }
+          })
         } else {
-          typeof cb == "function" && cb(that.globalData.userInfo)
+          that.onLogin(cb);
         }
       },
       fail: function(res) {
@@ -199,36 +195,32 @@ App({
       },
     })
   },
-  onRefreshs: function (cb) {
+  onRefreshs: function(cb) {
     var that = this;
     wx.checkSession({
-      success: function (res) {
-        if (!that.globalData.userInfo) {
-          if (wx.getStorageSync('openid')) {
-            wx.request({
-              url: that.globalData.base_url + '/login_info',
-              data: {
-                scene_value: 1,
-                openid: wx.getStorageSync('openid'),
-              },
-              method: 'GET',
-              header: {
-                'content-type': 'application/json'
-              },
-              success: function (res) {
-                that.globalData.userInfo = res.data.userinfo;
-                typeof cb == "function" && cb(that.globalData.userInfo)
-              }
-            })
-          } else {
-            that.onLogin(cb);
-          }
+      success: function(res) {
+        if (wx.getStorageSync('openid')) {
+          wx.request({
+            url: that.globalData.base_url + '/login_info',
+            data: {
+              scene_value: 1,
+              openid: wx.getStorageSync('openid'),
+            },
+            method: 'GET',
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function(res) {
+              that.globalData.userInfo = res.data.userinfo;
+              typeof cb == "function" && cb(that.globalData.userInfo)
+            }
+          })
         } else {
-          typeof cb == "function" && cb(that.globalData.userInfo)
+          that.onLogins(cb);
         }
       },
-      fail: function (res) {
-        that.onLogin(cb);
+      fail: function(res) {
+        that.onLogins(cb);
       },
     })
   },

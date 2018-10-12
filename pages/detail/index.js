@@ -60,18 +60,27 @@ Page({
         console.log(res)
         that.setData({
           goods: res.data.goods,
-          addinfo: res.data.addinfo,
-          addinfo_state: res.data.addinfo_state,
           button_state: res.data.button_state,
         })
+        if (res.data.state == 1) {
+          that.setData({
+            addinfo: res.data.addinfo,
+            addinfo_state: res.data.addinfo_state,
+          })
+        }
       }
     })
   },
   authorizeNow: function(e) {
-    app.onLogin();
+    var that=this;
+    app.onLogin(function (res) {
+      if (res) {
+        that.onShow()
+      }
+    });
     if (e.detail.errMsg == "getUserInfo:ok") {
-      this.setData({
-        openid: true,
+      that.setData({
+        isHaveopenid: true,
       })
     }
   },
@@ -91,7 +100,12 @@ Page({
         })
       }
     } else {
-      app.onLogin();
+      app.onLogin(function (res) {
+        if (res) {
+          that.onShow()
+        }
+      });
+     
     }
   },
   editAddress: function(e) {
@@ -147,17 +161,16 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function(res) {
-    var that=this;
-    var openid = wx.getStorageSync('openid');
-    var title=that.data.goods.title;
+  onShareAppMessage: function (res) {
+    var openid = wx.getStorageSync('openid')
+    var nickname = wx.getStorageSync('nickname')
     if (res.from === 'button') {
       // 来自页面内转发按钮
     }
     return {
-      title: `微信步数，居然可以免费兑换${title}，你也来吧！`,
+      title: `${nickname}邀请你用步数免费换礼物，数量有限，先到先得！`,
       imageUrl: '../../imgs/share.png',
-      path: '/pages/index/index?openid=' + openid
+      path: '/pages/login/index?openid=' + openid
     }
-  }
+  },
 })
