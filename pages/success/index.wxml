@@ -56,9 +56,9 @@
       </view>
       <view>
         <view class='font'>{{msg.title}}</view>
-        <view class='through'>原价{{msg.price}}</view>
+        <view class='through'>原价￥{{msg.price}}</view>
         <view>
-          <image src='../../imgs/rb.png' class='rb'></image>
+          <image src='../../imgs/rlbSm.png' class='rb'></image>
           <text class='price'>{{msg.currency}}</text>
           <text class='price' style='padding-left:6rpx;'>热力币</text>
         </view>

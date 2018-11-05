@@ -1,5 +1,5 @@
 // pages/address/index.js
-// const Page = require('../../utils/ald-stat.js').Page;
+const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 Page({
 
@@ -47,9 +47,4 @@ Page({
       url: '/pages/editAdd/index',
     })
   },
-  goEdit:function(){
-    wx.navigateTo({
-      url: '/pages/editAdd/index',
-    })
-  }
 })

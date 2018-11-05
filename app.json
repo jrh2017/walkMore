@@ -13,8 +13,8 @@
     "pages/rule/index",
     "pages/set/index",
     "pages/editAdd/index",
-    "pages/logistics/index",
-    "pages/person/index"
+    "pages/person/index",
+    "pages/record/index"
   ],
   "window": {
     "backgroundTextStyle": "dark",

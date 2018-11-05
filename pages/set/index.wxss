@@ -1,4 +1,5 @@
 /* pages/set/index.wxss */
+@import '../../css/common.wxss';
 .temp{
   width:calc(100% - 60rpx);
   height:230rpx;
@@ -39,8 +40,8 @@
   margin:0 50rpx 0 30rpx;
 }
 .ico{
-  border-left:2rpx solid #E5E5E5;
-  padding-left:50rpx;
+  border-left:2rpx solid #E5E5E5 !important;
+  padding-left:46rpx;
 }
 .already{
   color:#CCC;
@@ -64,4 +65,15 @@
   border-radius: 0;
   margin:0;
   padding:0
+}
+.open{
+  height:130rpx;
+}
+.open[plain]{
+  border-radius: 0;
+  margin:0;
+}
+.posi{
+  position: relative;
+  bottom:40rpx;
 }

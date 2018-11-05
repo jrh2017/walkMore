@@ -1,5 +1,5 @@
 // pages/editAdd/index.js
-// const Page = require('../../utils/ald-stat.js').Page;
+const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 Page({
 

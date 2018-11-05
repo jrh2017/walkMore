@@ -8,7 +8,7 @@
   </block>
   <block wx:else>
     <view class='message'>
-      <image class='icon edit' src='../../imgs/edit.png' bindtap='goEdit'></image>
+      <image class='icon edit' src='../../imgs/edit.png' bindtap='editAddress'></image>
       <view class='mg'>
         <image src='../../imgs/name.png' class='icon left'></image>
         <text class='font cor pos'>{{msg.name}}</text>

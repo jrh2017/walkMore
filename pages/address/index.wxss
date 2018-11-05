@@ -38,7 +38,7 @@
 
 .edit{
   float: right;
-  margin:16rpx;
+  margin:20rpx;
 }
 .cor{
   color:#333;
@@ -69,7 +69,7 @@
 }
 .posi{
   position: relative;
-  bottom:20rpx;
+  bottom:10rpx;
 }
 .dikuang{
   width:630rpx;
@@ -88,7 +88,7 @@
 }
 .new{
   padding:12rpx 0 0 87rpx;
-  width:550rpx;
+  width:520rpx;
 }
 .btom{
   bottom:10rpx;

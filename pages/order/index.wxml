@@ -28,7 +28,7 @@
         </view>
         <view class='pos tit'>{{item.title}}</view>
         <view class='pos jiage'>
-          <image src='../../imgs/rb.png' class='rb'></image>
+          <image src='../../imgs/rlbSm.png' class='rb'></image>
           <text class='price'>{{item.currency}}</text>
           <text class='price ppd'>热力币</text>
           <text class='yprice'>原价￥{{item.price}}</text>

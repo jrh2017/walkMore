@@ -1,6 +1,7 @@
 <!--pages/analysis/index.wxml-->
 <view class='container'>
   <view class='head'>
+    <view class='abs record' bindtap='hisRecord'>称重记录</view>
     <image src='../../imgs/bi.png' class='bi abs' bindtap='edit'></image>
     <view>
       <image src='{{userInfo.avatarUrl}}' class='ava abs'></image>

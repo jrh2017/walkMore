@@ -1,5 +1,5 @@
 // pages/friendList/index.js
-// const Page = require('../../utils/ald-stat.js').Page;
+const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 Page({
 
@@ -52,7 +52,7 @@ Page({
     return {
       title: `${nickname}邀请你用步数免费换礼物，数量有限！先到先得！`,
       imageUrl: '../../imgs/share.png',
-      path: '/pages/login/index?openid=' + openid
+      path: '/pages/index/index?openid=' + openid
     }
   },
 })

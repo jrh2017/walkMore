@@ -4,7 +4,7 @@
     <image src='../../imgs/myBg.png' class='myBg'></image>
     <open-data type="userAvatarUrl" class='ava abs'></open-data>
     <open-data type="userNickName" class='nickname abs'></open-data>
-    <view class='addUp abs'>累计签到{{days}}天</view>
+    <view class='addUp abs'>本周累计签到{{days}}天</view>
   </view>
   <view class='manage'>
     <view class='temp'>
@@ -135,4 +135,5 @@
     </view>
     <image src='../../imgs/delete.png' class='delete jkcps' bindtap='hideHandle'></image>
   </view>
+  <ad unit-id="adunit-de8f5735f3bc5f4e" class='ad'></ad>
 </view>

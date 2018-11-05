@@ -6,6 +6,7 @@
   position: relative;
   margin-top: 30rpx;
 }
+
 .mf{
   padding-left:4rpx;
 }
@@ -16,7 +17,13 @@
   position: absolute;
   transform: translate(-50%, -50%);
 }
-
+.record{
+  font-size:24rpx;
+  color:#000;
+  opacity: 0.6;
+  top:50rpx;
+  left:96rpx;
+}
 .anaBg {
   width: 690rpx;
   height: 300rpx;

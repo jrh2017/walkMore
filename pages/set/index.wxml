@@ -36,10 +36,10 @@
       </view>
     </block>
     <block wx:else>
-      <view class='ico' bindtap='goRun'>
+      <button class='ico open' plain='true' open-type="openSetting" bindopensetting="goRun">
         <image src='../../imgs/gosq.png' class='icon'></image>
-        <view class='size noready'>去授权</view>
-      </view>
+        <view class='size noready posi'>去授权</view>
+      </button>
     </block>
   </view>
 </view>

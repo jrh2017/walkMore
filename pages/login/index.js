@@ -1,5 +1,5 @@
 // pages/login/index.js
-// const Page = require('../../utils/ald-stat.js').Page;
+const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 Page({
 
@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isHaveShow:false,
+    isHaveShow: false,
   },
 
   /**
@@ -15,8 +15,11 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    if (app.globalData.scene === 1017) {
+    if (app.globalData.scene === 1035) {
       if (wx.getStorageSync('openid') && wx.getStorageSync('open_id')) {
+        wx.showLoading({
+          title: '正在获取中',
+        })
         app.onRefreshs(function(res) {
           if (res) {
             wx.switchTab({
@@ -30,21 +33,12 @@ Page({
         })
       }
     } else {
-      if (wx.getStorageSync('openid')) {
-        app.onRefresh(function(res){
-          wx.switchTab({
-            url: '/pages/index/index',
-          })
-        })
-      }else{
-        wx.switchTab({
-          url: '/pages/index/index',
-        })
-      }
-      that.setData({
-        isHaveShow: false,
+      wx.showLoading({
+        title: '正在获取中',
       })
-   
+      wx.switchTab({
+        url: '/pages/index/index',
+      })
     }
   },
 
@@ -56,8 +50,12 @@ Page({
 
   },
   authorizeNow: function(e) {
+    wx.showLoading({
+      title: '授权中',
+    })
     app.onLogins(function(res) {
       if (res) {
+        wx.hideLoading();
         wx.switchTab({
           url: '/pages/index/index',
         })

@@ -1,5 +1,6 @@
 // pages/heatMoney/index.js
-// const Page = require('../../utils/ald-stat.js').Page;
+const Page = require('../../utils/ald-stat.js').Page;
+const index = require('../index/index.js');
 const app = getApp();
 Page({
 
@@ -19,7 +20,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    
   },
 
   /**
@@ -39,13 +40,11 @@ Page({
         'content-type': 'application/json'
       },
       success: function(res) {
-        console.log(res)
         that.setData({
           total_currency: res.data.total_currency,
           today_currency: res.data.today_currency,
           state: res.data.state,
           day: res.data.res,
-        
         })
         if(res.data.state==1){
           that.setData({
@@ -84,6 +83,7 @@ Page({
         }
       })
     } else {
+      console.log('没有更多商品')
     }
 
   },
@@ -97,7 +97,7 @@ Page({
       // 来自页面内转发按钮
     }
     return {
-      title: `${nickname}邀请你用步数免费换礼物，速来！先到先得！`,
+      title: `${nickname}邀请你用步数免费换礼物，数量有限！先到先得！`,
       imageUrl: '../../imgs/share.png',
       path: '/pages/index/index?openid=' + openid
     }

@@ -11,7 +11,7 @@
   <view class='diss'>
     <view class='buju'>
       <view>
-        <image src='../../imgs/rb.png' class='rb'></image>
+        <image src='../../imgs/rlbSm.png' class='rb'></image>
         <text class='price'>{{goods.currency}}</text>
         <text class='price' style='padding-left:6rpx;'>热力币</text>
       </view>
@@ -47,9 +47,39 @@
       </view>
     </view>
   </view>
-  <view wx:for="{{goods.content}}" wx:key="{{index}}">
-    <image src='{{item}}' class='item'  lazy-load='true'></image>
+  <view class='tab' bindtap='tabHandle'>
+    <view class='mgb' style='margin-left:12rpx'>
+      <image src='../../imgs/{{curIndex === 0? "dh": "ndh"}}.png' class='icon pos'></image>
+      <text class='tabBtn {{curIndex === 0? "": "choosed"}}' data-index='{{0}}'> 兑换记录</text>
+    </view>
+    <view class='jx'></view>
+    <view class='mgb' style='margin-right:12rpx;'>
+      <image src='../../imgs/{{curIndex === 1? "jl": "njl"}}.png' class='icon pos'></image>
+      <text class='tabBtn {{curIndex === 1? "": "choosed"}}' data-index='{{1}}'> 商品详情</text>
+    </view>
   </view>
+  <view hidden='{{curIndex !== 0}}' style='margin-bottom:40rpx'>
+    <block wx:if='{{record}}'>
+      <view class='record' wx:for="{{record}}" wx:key='{{index}}' data-index='{{index}}'>
+        <view class='recoed_detail {{record.length-1===index?"border":""}}'>
+          <view>
+            <image src='{{item.avatarUrl}}' class='ava'></image>
+            <text class='name'>{{item.name}}</text>
+          </view>
+          <view class='timeline'>{{item.timeline}}</view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class='nojl'>暂无兑换记录</view>
+    </block>
+  </view>
+  <view hidden='{{curIndex !== 1}}' style='margin-bottom:40rpx'>
+    <view class=' {{index===0?"mgTop":""}}' wx:for="{{content}}" wx:key="{{index}}">
+      <image src='{{item}}' class='item' mode='widthFix' lazy-load='true'></image>
+    </view>
+  </view>
+
   <view class='ditu'></view>
   <block wx:if="{{button_state==0}}">
     <button class='freeDh noEnough' open-type='share' plain='true' hover-class='none'>热力币不足，邀请好友得热力币</button>
@@ -60,7 +90,7 @@
   <block wx:if="{{button_state==2}}">
     <view class='freeDh once'>每位用户仅可兑换1次</view>
   </block>
-  <view class='dikuang {{addinfo_state==0?"smdi":"animation"}}' hidden='{{foot}}' catchtouchmove="ture">
+  <view class='dikuang {{addinfo_state==1?"animation":address==""?"smdi":"animation"}}' hidden='{{foot}}' catchtouchmove="ture">
     <view class="mask" bindtap='hideFoot'></view>
     <view class='header'>
       <text class='line'></text>
@@ -70,32 +100,49 @@
     </view>
     <view class='dis'>
       <view>
-        <image src='{{goods.imgs}}' class='img'  lazy-load='true'></image>
+        <image src='{{goods.photo}}' class='img' lazy-load='true'></image>
       </view>
       <view>
         <view class='introduce'>{{goods.title}}</view>
-        <view class='through'>原价{{goods.price}}</view>
+        <view class='through'>原价￥{{goods.price}}</view>
         <view>
-          <image src='../../imgs/rb.png' class='rb'></image>
+          <image src='../../imgs/rlbSm.png' class='rb'></image>
           <text class='price'>{{goods.currency}}</text>
         </view>
       </view>
     </view>
-    <view wx:if="{{addinfo_state==1}}" bindtap='editAddress'>
+    <view wx:if="{{addinfo_state==1}}" >
       <view class='mg'>
-        <image src='../../imgs/name.png' class='icon left'></image>
-        <text class='font cor pos'>{{addinfo.name}}</text>
-        <image src='../../imgs/phone.png' class='icon long'></image>
-        <text class='font cor pos'>{{addinfo.phone}}</text>
+        <image src='../../imgs/name.png' class='icon left six'></image>
+        <text class='font cor pos'>{{addinfo.userName}}</text>
+        <image src='../../imgs/phone.png' class='icon long six'></image>
+        <text class='font cor pos'>{{addinfo.telNumber}}</text>
       </view>
       <view class='mgs'>
-        <image src='../../imgs/add.png' class='icon left'></image>
+        <image src='../../imgs/add.png' class='icon left six'></image>
         <text class='font cor con pos'>{{addinfo.address}}</text>
-        <text class='font cor con new posi'>{{addinfo.detail_address}}</text>
+        <text class='font cor con new posi'>{{addinfo.detailInfo}}</text>
+         <text class='xiugai posi' bindtap='goAddress'>修改地址</text>
+      </view>
+    </view>
+    <view wx:elif="{{address}}" >
+      <view class='mg'>
+        <image src='../../imgs/name.png' class='icon left six'></image>
+        <text class='font cor pos'>{{address.userName}}</text>
+        <image src='../../imgs/phone.png' class='icon long six'></image>
+        <text class='font cor pos'>{{address.telNumber}}</text>
+      </view>
+      <view class='mgs'>
+        <image src='../../imgs/add.png' class='icon left six'></image>
+        <text class='font cor con pos'>{{address.provinceName}}{{address.cityName}}{{address.countyName}}</text>
+        <text class='font cor con new posi'>{{address.detailInfo}}</text>
+        <text class='xiugai posi' bindtap='goAddress'>修改地址</text>
       </view>
     </view>
     <view wx:else>
-      <view class='please' bindtap='editAddress'>您还没有填写收货地址，请点击填写</view>
+      <view class='please' bindtap='editAddress'>您还没有填写收货地址，
+        <text class='xiugai'>请点击获取</text>
+      </view>
     </view>
     <form bindsubmit='affirm' report-submit='true'>
       <button class='primary freeDh' hover-class='none' plain='true' form-type='submit' disabled='{{disabled}}'>立即兑换</button>

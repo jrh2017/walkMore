@@ -1,5 +1,5 @@
 // pages/set/index.js
-// const Page = require('../../utils/ald-stat.js').Page;
+const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 Page({
 
@@ -72,7 +72,7 @@ Page({
         fail: function(rs) {
           wx.showModal({
             title: '提示',
-            content: '微信运动授权失败，无法统计运动步数，请重新授权！',
+            content: '微信运动授权未开启，无法统计运动步数，请重新授权！',
             // showCancel: false,
             success: function(re) {
               if (re.confirm) {

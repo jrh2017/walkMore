@@ -1,5 +1,5 @@
 // pages/my/index.js
-// const Page = require('../../utils/ald-stat.js').Page;
+const Page = require('../../utils/ald-stat.js').Page;
 const app = getApp();
 const ageArr = [],
   heightArr = [],
@@ -212,20 +212,17 @@ Page({
       return
     }
     gender = gender == 1 ? "男" : "女";
-    var id = that.data.test_log_id;
-    var type_id = that.data.type_id;
     wx.request({
-      url: app.globalData.base_url + '/save_info',
+      url: app.globalData.base_url + '/save_info2',
       data: {
         gender: gender,
-        type_id: type_id,
-        test_log_id: id,
         age: age,
         height: height,
         weight: weight,
         openid: wx.getStorageSync('openid')
       },
       success: function(res) {
+        let id=that.data.id;
         wx.navigateTo({
           url: '/pages/analysis/index?id=' + id,
         })

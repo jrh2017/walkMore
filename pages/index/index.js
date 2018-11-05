@@ -1,5 +1,9 @@
 // pages/index/index.js
+const Page = require('../../utils/ald-stat.js').Page;
+// const common = require('../../utils/common.js');
 const app = getApp();
+const innerAudioContext = wx.createInnerAudioContext();
+
 const ageArr = [],
   heightArr = [],
   weightArr = []
@@ -29,6 +33,10 @@ Page({
     register: true,
     measure: true,
     zanwu: true,
+    share: true,
+    shouquan: true,
+    shouIndex: true,
+    shareFriend: true,
     // look: false,
     perMessage: true,
     isHaveopenid: '',
@@ -51,13 +59,19 @@ Page({
     noMore: true,
     clicked: true,
     clim: true,
-    isOpenWXRun: false,
+    isOpenWXRun: true,
     disab: false,
     first: true,
     second: true,
     third: true,
     is_tishi: '',
-    clickFirst:true,
+    relibi: '',
+    dhcg: false,
+    is_dh: '',
+    compose: false,
+    uid: '',
+    windowHeight: '',
+    windowWidth: '',
   },
 
   /**
@@ -79,21 +93,31 @@ Page({
         openid: options.openid
       })
     }
-  
+    if (options.scene) {
+      that.setData({
+        uid: options.scene
+      })
+    }
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function(res) {
+  onShow: function() {
     var that = this;
-    if (wx.getStorageSync('openid')) {
+    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id') != 0) {
       app.onRun(function(res) {
-        if (res.data) {
-          that.setData({
-            isOpenWXRun: app.globalData.isOpenWXRun
-          })
+        that.setData({
+          isOpenWXRun: app.globalData.isOpenWXRun
+        })
+        if (res == undefined) {
+          console.log('获取运动步数失败')
+        } else {
           that.getStepRecord(res.data);
+          that.setData({
+            is_dh: res.is_dh
+          })
         }
       })
       var openids = wx.getStorageSync('openid');
@@ -110,12 +134,21 @@ Page({
           },
           success: function(res) {}
         })
-      } else {
-        console.log('没有获取到你的openid')
+      } else if (that.data.uid) {
+        var uid = that.data.uid;
+        wx.request({
+          url: app.globalData.base_url + '/code_friends',
+          data: {
+            uid: uid,
+            hy_openid: wx.getStorageSync('openid')
+          },
+          success: function(res) {}
+        })
       }
     } else {
       var openids = 0;
       that.setData({
+        shouquan: false,
         isHaveopenid: false
       })
     }
@@ -151,9 +184,14 @@ Page({
         } else {
           if (that.data.is_tishi == 0) {
             that.setData({
-              first: false,
+              second: false,
             })
           }
+        }
+        if (!res.data.is_sign) {
+          that.setData({
+            relibi: res.data.relibi
+          })
         }
         if (res.data.is_new == 1) {
           that.setData({
@@ -196,8 +234,15 @@ Page({
         that.onShow()
         if (that.data.scene_value == 1) {
           if (that.data.is_tishi == 0) {
+            console.log(123)
             that.setData({
-              first: false,
+              third: false,
+            })
+          }
+        } else {
+          if (that.data.is_tishi == 0) {
+            that.setData({
+              second: false,
             })
           }
         }
@@ -207,16 +252,15 @@ Page({
   tishiOne: function(e) {
     var that = this;
     that.setData({
-      first: true,
-      second: false,
-      clickFirst:false,
+      third: true,
+      first: false,
     })
   },
   tishiTwo: function(e) {
     var that = this;
     that.setData({
       second: true,
-      third: false,
+      first: false,
     })
   },
   tishiThree: function(e) {
@@ -226,7 +270,6 @@ Page({
       url: app.globalData.base_url + '/tishi',
       data: {
         form_id: form_id,
-        open_id: wx.getStorageSync('open_id'),
         openid: wx.getStorageSync('openid')
       },
       method: 'GET',
@@ -235,12 +278,13 @@ Page({
       },
       success: function(res) {
         that.setData({
-          third: true,
+          first: true,
         })
       }
     })
 
   },
+
   // 上拉触底事件，请求记录数据
   onReachBottom: function() {
     const that = this
@@ -293,9 +337,13 @@ Page({
       // })
     }
   },
+  music: function() {
+    innerAudioContext.src = 'https://www.mnancheng.com/Public/home/bj_music.mp3'
+    innerAudioContext.play()
+  },
   analysis: function(e) {
     var that = this;
-    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id')) {
+    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id') != 0) {
       wx.request({
         url: app.globalData.base_url + '/see_test_info',
         data: {
@@ -335,6 +383,10 @@ Page({
     var that = this;
     app.onLogin(function(res) {
       if (res) {
+        that.setData({
+          shouquan: true,
+          shouIndex: false,
+        })
         that.sportSQ();
       }
     });
@@ -352,6 +404,7 @@ Page({
         openid: wx.getStorageSync('openid')
       },
       success: function(res) {
+        console.log(res)
         that.setData({
           week: res.data.res,
           count_day: res.data.count_day,
@@ -360,6 +413,7 @@ Page({
           that.setData({
             register: false,
           })
+          that.music();
           that.onShow();
         }
       }
@@ -367,7 +421,7 @@ Page({
   },
   goHeat: function(e) {
     var that = this;
-    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id')) {
+    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id') != 0) {
       wx.navigateTo({
         url: '/pages/heatMoney/index',
       })
@@ -396,30 +450,73 @@ Page({
       url: '/pages/address/index',
     })
   },
+  goRun: function(e) {
+    var that = this;
+    wx.getWeRunData({
+      fail: function(rs) {
+        wx.showModal({
+          title: '提示',
+          content: '微信运动授权未开启，无法统计运动步数，请重新授权！',
+          success: function(re) {
+            if (re.confirm) {
+              wx.openSetting({
+                success: (res) => {
+                  if (res.authSetting['scope.werun']) {
+                    app.onRun(function(res) {
+                      console.log(res, app.globalData.isOpenWXRun)
+                      that.setData({
+                        isOpenWXRun: app.globalData.isOpenWXRun
+                      })
+                      that.getStepRecord(res.data);
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
+      },
+      success: function(res) {
+        app.onRun(function(res) {
+          that.setData({
+            isOpenWXRun: app.globalData.isOpenWXRun
+          })
+          that.getStepRecord(res.data);
+        })
+      }
+    })
+  },
+
   exchange: function(e) {
     const that = this
+    var form_id = e.detail.formId;
     var step = that.data.step;
-    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id')) {
-      wx.getSetting({
-        success(res) {
-          if (res.authSetting['scope.werun']) {
-            var step = that.data.step;
-            var money = (step / 1000).toFixed(2);
-            if (step < 1000) {
-              wx.showModal({
-                // title: '兑换失败',
-                content: '可兑换步数低于1000无法兑换热力币，多走些步数再来兑换吧',
-                showCancel: false,
-              })
-            } else {
+    var is_dh = that.data.is_dh;
+    wx.getSetting({
+      success(res) {
+        if (res.authSetting['scope.werun']) {
+          var step = that.data.step;
+          var money = (step / 5000).toFixed(2);
+          if (step < 1000) {
+            wx.showModal({
+              // title: '兑换失败',
+              content: '可兑换步数低于1000无法兑换热力币，多走些步数再来兑换吧',
+              showCancel: false,
+            })
+          } else {
+            if (is_dh == 1) {
               wx.showModal({
                 title: '热力币兑换',
                 content: `你将消耗${step}步，兑换${money}个热力币，确认兑换？`,
                 success: function(res) {
                   if (res.confirm) {
+                    that.setData({
+                      dhcg: true,
+                    })
                     wx.request({
                       url: app.globalData.base_url + '/exchange',
                       data: {
+                        form_id: form_id,
                         step_num: step,
                         openid: wx.getStorageSync('openid')
                       },
@@ -434,15 +531,20 @@ Page({
                             that.setData({
                               step: step
                             })
-                            if (step <= 0) {
+                            if (step <= 50) {
+                              that.music();
                               that.setData({
-                                step: 0
+                                step: 0,
+                                share: false,
+                                dhcg: false,
                               })
+                              if (!that.data.share) {
+                                that.onShow();
+                              }
                               return
                             }
                           }
-                        }, 1500);
-                        that.onShow();
+                        }, 0);
                       }
                     })
                   } else if (res.cancel) {
@@ -450,75 +552,35 @@ Page({
                   }
                 }
               })
+            } else {
+              wx.showModal({
+                content: '今日步数兑换已达上限，明天再兑换吧',
+                showCancel: false,
+              })
             }
-          } else {
-            wx.getWeRunData({
-              fail: function(rs) {
-                // wx.getSetting({
-                //   success(r) {
-                wx.showModal({
-                  title: '提示',
-                  content: '微信运动授权失败，无法统计运动步数，请重新授权！',
-                  // showCancel: false,
-                  success: function(re) {
-                    if (re.confirm) {
-                      wx.openSetting({
-                        success: (res) => {
-                          if (res.authSetting['scope.werun']) {
-                            app.onRun(function(res) {
-                              console.log(res, app.globalData.isOpenWXRun)
-                              that.setData({
-                                isOpenWXRun: app.globalData.isOpenWXRun
-                              })
-                              that.getStepRecord(res.data);
-                            })
-                            that.onShow();
-                          }
-                        }
-                      })
-                    }
-                  }
-                })
-                //   }
-                // })
-              },
-              success: function(res) {
-                // wx.getWeRunData({
-                //   success(res) {
-                app.onRun(function(res) {
-                  that.setData({
-                    isOpenWXRun: app.globalData.isOpenWXRun
-                  })
-                  that.getStepRecord(res.data);
-                })
-                // }
-                // });
-              }
-            })
           }
+        } else {
+          that.setData({
+            isOpenWXRun: false,
+          })
         }
-      })
-    } else {
-      app.onLogin(function(res) {
-        if (res) {
-          that.sportSQ();
-        }
-      });
-    }
+      }
+    })
   },
   getStepRecord: function(runData) {
     var that = this;
     var runData = app.globalData.wxRunData;
-    if (runData == '' || runData == null) {
-      var count = 0;
-    } else {
+    if (runData) {
       var count = runData.data;
+    } else {
+      var count = 0;
     }
     that.setData({
       step: count
     })
   },
   rule: function(e) {
+    var that = this
     wx.request({
       url: app.globalData.base_url + '/rule_explain',
       data: {
@@ -533,7 +595,8 @@ Page({
   },
   lingqu: function(e) {
     const that = this;
-    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id')) {
+    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id') != 0) {
+      that.music();
       wx.request({
         url: app.globalData.base_url + '/is_new',
         data: {
@@ -542,6 +605,7 @@ Page({
         success: function(res) {
           that.setData({
             disab: true,
+            is_new: true,
           })
           wx.showModal({
             title: '领币成功',
@@ -566,7 +630,7 @@ Page({
   goChange: function(e) {
     var that = this;
     var id = e.currentTarget.dataset.id;
-    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id')) {
+    if (wx.getStorageSync('openid') && wx.getStorageSync('open_id') != 0) {
       wx.request({
         url: app.globalData.base_url + '/goods_tk',
         data: {
@@ -617,7 +681,7 @@ Page({
     })
   },
   wsResult: function(e) {
-    var that = this;
+    let that = this;
     var userInfo = that.data.userInfo;
     var gender = null;
     if (e.detail.value.gender > 0) {
@@ -690,20 +754,17 @@ Page({
       return
     }
     gender = gender == 1 ? "男" : "女";
-    var id = that.data.test_log_id;
-    var type_id = that.data.result.type_id;
     wx.request({
-      url: app.globalData.base_url + '/save_info',
+      url: app.globalData.base_url + '/save_info2',
       data: {
         gender: gender,
-        type_id: type_id,
-        test_log_id: id,
         age: age,
         height: height,
         weight: weight,
         openid: wx.getStorageSync('openid')
       },
       success: function(res) {
+        let id = res.data.id;
         wx.navigateTo({
           url: '/pages/analysis/index?id=' + id,
         })
@@ -713,16 +774,166 @@ Page({
       }
     })
   },
-  wsMessage: function() {
+  wsMessage: function(e) {
     var that = this;
-    that.setData({
-      measure: true,
-      zanwu: true,
-      // look: true,
-      clicked: false,
-      clim: false,
+    var form_id = e.detail.formId;
+    wx.request({
+      url: app.globalData.base_url + '/tishi2',
+      data: {
+        form_id: form_id,
+        openid: wx.getStorageSync('openid')
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function(res) {
+        that.setData({
+          measure: true,
+          zanwu: true,
+          clicked: false,
+          clim: false,
+        })
+      }
     })
     that.sportSQ();
+  },
+  openShare: function() {
+    const that = this
+    that.setData({
+      shareFriend: false,
+    })
+  },
+  // shouquanxx: function() {
+  //   var that = this;
+
+  //   wx.request({
+  //     url: app.globalData.base_url + '/code_img',
+  //     data: {
+  //       openid: wx.getStorageSync('openid')
+  //     },
+  //     success: function(res) {
+  //       wx.showLoading({
+  //         title: '生成中',
+  //       })
+  //       wx.downloadFile({
+  //         url: res.data.price,
+  //         success: function(res) {
+  //           var src = res.tempFilePath
+  //           wx.getImageInfo({
+  //             src: src,
+  //             success: function(res) {
+  //               wx.getSystemInfo({
+  //                 success: function (res) {
+  //                   that.setData({
+  //                     windowHeight: res.screenHeight * 2,
+  //                     windowWidth: res.screenWidth * 2
+  //                   })
+  //                   const windowWidth = res.screenWidth
+  //                   const windowHeight = res.screenHeight
+  //                   const ctx = wx.createCanvasContext('shareCanvas')
+  //                   // 底图
+  //                   ctx.drawImage('../../imgs/sss.png', 0, 0, windowWidth, windowHeight)
+  //                   const qrImgSize = 123
+  //                   ctx.drawImage(src, (windowWidth - 123) / 2, windowHeight - 179, qrImgSize, qrImgSize)
+  //                   // 播放按钮
+  //                   ctx.stroke()
+  //                   ctx.draw()
+  //                   setTimeout(function () {
+  //                     wx.canvasToTempFilePath({
+  //                       canvasId: 'shareCanvas',
+  //                       success: function (res) {
+  //                         wx.uploadFile({
+  //                           url: app.globalData.base_url + '/upload_img',
+  //                           filePath: res.tempFilePath,
+  //                           name: 'file',
+  //                           header: {
+  //                             "Content-Type": "multipart/form-data",
+  //                             'accept': 'application/json',
+  //                           },
+  //                           success: function (res) {
+  //                             console.log(res)
+  //                             var imgUrl = res.data;
+  //                             wx.getImageInfo({
+  //                               src: imgUrl,
+  //                               success: function (ret) {
+  //                                 var path = ret.path;
+  //                                 wx.hideLoading();
+  //                                 wx.saveImageToPhotosAlbum({
+  //                                   filePath: path,
+  //                                   success(result) {
+  //                                     wx.showModal({
+  //                                       title: '提示',
+  //                                       content: '已保存邀请图片至相册，可以分享了',
+  //                                       showCancel: false,
+  //                                     })
+  //                                     that.setData({
+  //                                       shareFriend: true,
+  //                                     })
+  //                                   }
+  //                                 })
+  //                               }
+  //                             })
+  //                             that.setData({
+  //                               compose: true,
+  //                             })
+  //                           }
+  //                         })
+  //                       }
+  //                     })
+  //                   }, 500)
+
+  //                 }
+  //               })
+         
+  //             }
+  //           })
+  //         }
+  //       })
+  //     }
+  //   })
+  // },
+  // shareGroup: function() {
+  //   var that = this;
+  //   wx.getSetting({
+  //     success(res) {
+  //       if (!res.authSetting['scope.writePhotosAlbum']) {
+  //         wx.authorize({
+  //           scope: 'scope.writePhotosAlbum',
+  //           success() {
+  //             that.shouquanxx();
+  //           },
+  //           fail() {
+  //             wx.showModal({
+  //               title: '提示',
+  //               content: '授权失败，不能保存到手机相册',
+  //               success: function(re) {
+  //                 if (re.confirm) {
+  //                   wx.openSetting({
+  //                     success: (res) => {
+  //                       if (res.authSetting['scope.writePhotosAlbum']) {
+  //                         that.shouquanxx();
+  //                       }
+  //                     }
+  //                   })
+  //                 }
+  //               }
+  //             })
+  //           }
+  //         })
+  //       } else {
+  //         that.shouquanxx();
+  //       }
+  //     },
+
+  //   })
+  // },
+  shouquan: function() {
+    var that = this;
+    that.setData({
+      shouquan: true,
+      shouIndex: false,
+    })
   },
   hideHandle: function() {
     var that = this;
@@ -730,12 +941,18 @@ Page({
       noEnough: true,
       register: true,
       perMessage: true,
+      share: true,
+      shareFriend: true,
     })
   },
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function(res) {
+    var that = this;
+    that.setData({
+      share: true,
+    })
     var openid = wx.getStorageSync('openid')
     var nickname = wx.getStorageSync('nickname')
     if (res.from === 'button') {
@@ -744,7 +961,7 @@ Page({
     return {
       title: `${nickname}邀请你用步数免费换礼物，数量有限，先到先得！`,
       imageUrl: '../../imgs/share.png',
-      path: '/pages/login/index?openid=' + openid
+      path: '/pages/index/index?openid=' + openid
     }
   },
 })
