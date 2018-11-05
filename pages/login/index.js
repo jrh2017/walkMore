@@ -50,10 +50,10 @@ Page({
 
   },
   authorizeNow: function(e) {
-    wx.showLoading({
-      title: '授权中',
-    })
     app.onLogins(function(res) {
+      wx.showLoading({
+        title: '授权中',
+      })
       if (res) {
         wx.hideLoading();
         wx.switchTab({

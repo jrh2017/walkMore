@@ -181,7 +181,7 @@
     </view>
   </view>
   <view class="dialog" wx:if="{{clicked}}" hidden="{{measure}}" catchtouchmove="ture">
-    <view class="mask"></view>
+    <view class="mask"  bindtap='hideHandle'></view>
     <view class="condition bgnone" style='top:40%'>
       <view class='relati'>
         <image src='../../imgs/cljg.png' class='cldk'></image>
@@ -215,7 +215,7 @@
     </view>
   </view>
   <view class="dialog" wx:if="{{clim}}" hidden="{{zanwu}}" catchtouchmove="ture">
-    <view class="mask"></view>
+    <view class="mask"  bindtap='hideHandle'></view>
     <view class="condition bgnone" style='top:40%'>
       <view class='relati'>
         <image src='../../imgs/zanwu.png' class='cldk'></image>

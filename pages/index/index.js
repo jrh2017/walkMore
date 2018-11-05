@@ -372,7 +372,11 @@ Page({
       })
     } else {
       app.onLogin(function(res) {
+        wx.showLoading({
+          title: '授权中',
+        })
         if (res) {
+          wx.hideLoading();
           that.sportSQ();
         }
       });
@@ -382,7 +386,11 @@ Page({
   authorizeNow: function(e) {
     var that = this;
     app.onLogin(function(res) {
+      wx.showLoading({
+        title: '授权中',
+      })
       if (res) {
+        wx.hideLoading();
         that.setData({
           shouquan: true,
           shouIndex: false,
@@ -427,7 +435,11 @@ Page({
       })
     } else {
       app.onLogin(function(res) {
+        wx.showLoading({
+          title: '授权中',
+        })
         if (res) {
+          wx.hideLoading();
           that.sportSQ();
         }
       });
@@ -621,7 +633,11 @@ Page({
       })
     } else {
       app.onLogin(function(res) {
+        wx.showLoading({
+          title: '授权中',
+        })
         if (res) {
+          wx.hideLoading();
           that.sportSQ();
         }
       })
@@ -653,7 +669,11 @@ Page({
 
     } else {
       app.onLogin(function(res) {
+        wx.showLoading({
+          title: '授权中',
+        })
         if (res) {
+          wx.hideLoading();
           that.sportSQ();
         }
       });
@@ -943,6 +963,8 @@ Page({
       perMessage: true,
       share: true,
       shareFriend: true,
+      zanwu:true,
+      measure:true,
     })
   },
   /**
